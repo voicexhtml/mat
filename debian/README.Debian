@@ -1,0 +1,7 @@
+Suggested and recommended packages
+==================================
+
+- audio formats support: python-mutagen
+- PDF support: python-cairo and python-poppler
+
+ -- intrigeri <intrigeri+debian@boum.org>, Mon, 15 Aug 2011 16:51:11 +0200

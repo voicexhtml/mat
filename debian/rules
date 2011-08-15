@@ -1,0 +1,7 @@
+#!/usr/bin/make -f
+
+PACKAGE = mat
+DESTDIR = $(CURDIR)/debian/$(PACKAGE)
+
+%:
+	dh $@ --with python2

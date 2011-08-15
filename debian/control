@@ -1,0 +1,40 @@
+Source: mat
+Section: python
+Priority: optional
+Maintainer: intrigeri <intrigeri+debian@boum.org>
+Build-Depends: debhelper (>= 7.0.50~), python (>= 2.6.6-3~)
+Build-Depends-Indep: python-distutils-extra
+Standards-Version: 3.9.1
+X-Python-Version: >= 2.6
+Homepage: https://gitweb.torproject.org/user/jvoisin/mat.git
+
+Package: mat
+Architecture: all
+Depends:
+ ${python:Depends},
+ ${misc:Depends},
+ python-hachoir-core,
+ python-hachoir-parser,
+Recommends:
+ python-cairo,
+ python-poppler,
+ python-mutagen
+Description: Metadata anonymisation toolkit
+ Metadata consist of information that characterizes data. Metadata are
+ used to provide documentation for data products. In essence, metadata
+ answer who, what, when, where, why, and how about every facet of the
+ data that are being documented.
+ .
+ Metadata within a file can tell a lot about you. Cameras record data
+ about when a picture was taken and what camera was used. Office
+ documents like pdf or Office automatically adds author and company
+ information to documents and spreadsheets.
+ .
+ Maybe you don't want to disclose those information on the web.
+ .
+ Mat only remove metadata from your files, it does not anonymise their
+ content, nor it can handle watermarking, steganography, or any too
+ custom metadata field/system.
+ .
+ If you really want to be anonym, use format that does not contain any
+ metadata, or better: use plain-text.
