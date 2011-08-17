@@ -1,7 +1,9 @@
-mat (0.1-1~1.gbp81ad60) UNRELEASED; urgency=low
+mat (0.1-1~2.gbp9e1e56) UNRELEASED; urgency=low
 
-  ** SNAPSHOT build @81ad60fd8e3bbb2f07da2a881f35d576c0a2a9d8 **
+  ** SNAPSHOT build @9e1e56e75fd710e03fd3e60b3ced3c5cdb3933c0 **
 
   * Initial release (Closes: #XXXXXX).
+  * Initial Debian packaging.
+  * New patch: actually install main programs.
 
- -- intrigeri <intrigeri+debian@boum.org>  Mon, 15 Aug 2011 16:53:17 +0200
+ -- Intri Geri <intrigeri+debian@boum.org>  Wed, 17 Aug 2011 17:15:51 +0200
