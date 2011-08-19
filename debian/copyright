@@ -9,7 +9,7 @@ Files: debian/*
 Copyright: © 2011 intrigeri <intrigeri+debian@boum.org>
 License: GPL-2
 
-Files: mat-gui.py
+Files: mat-gui
 Copyright: © 2006 Daniel J. Popowich
            © 2011 Julien Voisin <julien.voisin@dustri.org>
 License: GPL-2 and Expat
@@ -18,13 +18,13 @@ Files: mat/benconde/*
 Copyright: © XXX
 License: XXX
 
+Files: mat/pdfrw/*
+Copyright: © 2006-2009 Patrick Maupin, Austin, Texas
+License: Expat
+
 Files: mat/tarfile/*
 Copyright: © 2002 Lars Gustäbel <lars@gustaebel.de>
 License: Expat
-
-Files: mat/pdfrw/*
-Copyright: © 2006-2009 Patrick Maupin, Austin, Texas
-License: XXX
 
 License: GPL-2
  This program is free software; you can redistribute it and/or modify
