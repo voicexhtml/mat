@@ -54,6 +54,9 @@ class GUI:
         self.window.connect('destroy', gtk.main_quit)
         self.window.set_default_size(800, 600)
 
+        self.accelerator = gtk.AccelGroup()
+        self.window.add_accel_group(self.accelerator)
+
         vbox = gtk.VBox()
         self.window.add(vbox)
 
@@ -68,7 +71,7 @@ class GUI:
         self.liststore = gtk.ListStore(object, str, str, str)
 
         treeview = gtk.TreeView(model=self.liststore)
-        treeview.set_search_column(1)  # name column is searchable
+        treeview.set_search_column(1)  # the filename column is searchable
         treeview.set_rules_hint(True)  # alternate colors for rows
         treeview.set_rubber_banding(True)  # mouse selection
         self.add_columns(treeview)
@@ -133,16 +136,21 @@ data loss'))
             filename_column = gtk.CellRendererText()
             column = gtk.TreeViewColumn(j, filename_column, text=i + 1)
             column.set_sort_column_id(i + 1)
-            if i is 0:  # place tooltip on this column
+            column.set_resizable(True)  # column is resizeable
+            if i is 0:  # place cell-specific tooltip on this column
                 tips = TreeViewTooltips(column)
                 tips.add_view(treeview)
             treeview.append_column(column)
 
-    def create_menu_item(self, name, func, menu, pix):
+    def create_menu_item(self, name, func, menu, pix, shortcut):
         '''
             Create a MenuItem() like Preferences, Quit, Add, Clean, ...
         '''
         item = gtk.ImageMenuItem()
+        if shortcut :
+            key, mod = gtk.accelerator_parse(shortcut)
+            item.add_accelerator('activate', self.accelerator,
+                key, mod, gtk.ACCEL_VISIBLE)
         picture = gtk.Image()
         picture.set_from_stock(pix, gtk.ICON_SIZE_MENU)
         item.set_image(picture)
@@ -169,18 +177,22 @@ data loss'))
 
         file_menu = self.create_sub_menu(_('Files'), menubar)
         self.create_menu_item(_('Add files'), self.add_files, file_menu,
-            gtk.STOCK_ADD)
+            gtk.STOCK_ADD, '<Control>O')
         self.create_menu_item(_('Quit'), gtk.main_quit, file_menu,
-            gtk.STOCK_QUIT)
+            gtk.STOCK_QUIT, '<Control>Q')
 
         edit_menu = self.create_sub_menu(_('Edit'), menubar)
         self.create_menu_item(_('Clear the filelist'),
-            lambda x: self.liststore.clear(), edit_menu, gtk.STOCK_REMOVE)
+            lambda x: self.liststore.clear(), edit_menu, gtk.STOCK_REMOVE,
+            '<Control>L')
         self.create_menu_item(_('Preferences'), self.preferences, edit_menu,
-            gtk.STOCK_PREFERENCES)
+            gtk.STOCK_PREFERENCES, '<Control>P')
 
         process_menu = self.create_sub_menu(_('Process'), menubar)
         item = gtk.ImageMenuItem()
+        key, mod = gtk.accelerator_parse('<Control>L')
+        item.add_accelerator('activate', self.accelerator,
+            key, mod, gtk.ACCEL_VISIBLE)
         picture = gtk.Image()
         picture.set_from_stock(gtk.STOCK_PRINT_REPORT, gtk.ICON_SIZE_MENU)
         item.set_image(picture)
@@ -189,6 +201,9 @@ data loss'))
         process_menu.append(item)
 
         item = gtk.ImageMenuItem()
+        key, mod = gtk.accelerator_parse('<Control>S')
+        item.add_accelerator('activate', self.accelerator,
+            key, mod, gtk.ACCEL_VISIBLE)
         picture = gtk.Image()
         picture.set_from_stock(gtk.STOCK_PRINT_WARNING, gtk.ICON_SIZE_MENU)
         item.set_image(picture)
@@ -197,6 +212,9 @@ data loss'))
         process_menu.append(item)
 
         item = gtk.ImageMenuItem()
+        key, mod = gtk.accelerator_parse('<Control>h')
+        item.add_accelerator('activate', self.accelerator,
+            key, mod, gtk.ACCEL_VISIBLE)
         picture = gtk.Image()
         picture.set_from_stock(gtk.STOCK_FIND, gtk.ICON_SIZE_MENU)
         item.set_image(picture)
@@ -207,8 +225,9 @@ data loss'))
 
         help_menu = self.create_sub_menu(_('Help'), menubar)
         self.create_menu_item(_('Supported formats'), self.supported, help_menu,
-            gtk.STOCK_INFO)
-        self.create_menu_item(_('About'), self.about, help_menu, gtk.STOCK_ABOUT)
+            gtk.STOCK_INFO, False)
+        self.create_menu_item(_('About'), self.about, help_menu,
+                gtk.STOCK_ABOUT, False)
 
         return menubar
 
@@ -277,7 +296,7 @@ data loss'))
         w.set_website('https://gitweb.torproject.org/user/jvoisin/mat.git')
         w.set_website_label(_('Website'))
         w.set_authors(['Julien (jvoisin) Voisin', ])
-        w.set_program_name('Metadata Anonymistion Toolkit')
+        w.set_program_name('Metadata Anonymisation Toolkit')
         click = w.run()
         if click:
             w.destroy()
@@ -333,7 +352,7 @@ data loss'))
 
         icon = gtk.Image()
         icon.set_from_stock(gtk.STOCK_PREFERENCES, gtk.ICON_SIZE_DIALOG)
-        hbox.pack_start(icon, False, False, 0)
+        hbox.pack_start(icon, False, False, 20)
 
         table = gtk.Table(3, 2, False)  # nb rows, nb lines
         hbox.pack_start(table, True, True, 0)
@@ -356,7 +375,7 @@ cleaning'))
         add2archive.set_active(self.add2archive)
         add2archive.connect('toggled', self.invert, 'add2archive')
         add2archive.set_tooltip_text(_('Add non-supported (and so \
-non-anonymised) file to outputed archive'))
+non-anonymised) file to output archive'))
         table.attach(add2archive, 0, 1, 2, 3)
 
         hbox.show_all()
@@ -390,6 +409,7 @@ non-anonymised) file to outputed archive'))
             Check if selected elements are clean
         '''
         for line in iterator:  # for each file in selection
+            self.statusbar.push(0, _('Checking %s...') % self.liststore[line][1])
             if self.liststore[line][0].file.is_clean():
                 string = _('clean')
             else:
@@ -397,6 +417,7 @@ non-anonymised) file to outputed archive'))
             logging.info('%s is %s' % (self.liststore[line][1], string))
             self.liststore[line][3] = string
             yield True
+        self.statusbar.push(0, _('Ready'))
         yield False
 
     def mat_clean(self, iterator):
@@ -405,11 +426,13 @@ non-anonymised) file to outputed archive'))
         '''
         for line in iterator:  # for each file in selection
             logging.info('Cleaning %s' % self.liststore[line][1])
+            self.statusbar.push(0, _('Cleaning %s...') % self.liststore[line][1])
             if self.liststore[line][3] is not _('clean'):
                 if self.force or not self.liststore[line][0].file.is_clean():
                     self.liststore[line][0].file.remove_all()
             self.liststore[line][3] = _('clean')
             yield True
+        self.statusbat.push(0, _('Ready'))
         yield False
 
     def mat_clean_dirty(self, iterator):
@@ -417,12 +440,14 @@ non-anonymised) file to outputed archive'))
             Clean selected elements (ugly way)
         '''
         for line in iterator:  # for each file in selection
-            logging.info('Cleaning (lossy way) %s' % self.liststore[line][1])
+            logging.info(_('Cleaning (lossy way) %s') % self.liststore[line][1])
+            self.statusbar.push(0, _('Cleaning %s...') % self.liststore[line][1])
             if self.liststore[line][3] is not _('clean'):
                 if self.force or not self.liststore[line][0].file.is_clean():
                     self.liststore[line][0].file.remove_all_ugly()
             self.liststore[line][3] = _('clean')
             yield True
+        self.statusbar.push(0, _('Ready'))
         yield False
 
 
