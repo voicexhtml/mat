@@ -1,0 +1,45 @@
+From: intrigeri <intrigeri@boum.org>
+Date: Sun, 21 Aug 2011 16:20:44 +0200
+Subject: Don't use hyphen as minus sign in manpage.
+
+Quoting Lintian output:
+
+I: mat: hyphen-used-as-minus-sign usr/share/man/man1/mat-cli.1.gz:54
+N:
+N:    This manual page seems to contain a hyphen where a minus sign was
+N:    intended. By default, "-" chars are interpreted as hyphens (U+2010) by
+N:    groff, not as minus signs (U+002D). Since options to programs use minus
+N:    signs (U+002D), this means for example in UTF-8 locales that you cannot
+N:    cut and paste options, nor search for them easily. The Debian groff
+N:    package currently forces "-" to be interpreted as a minus sign due to
+N:    the number of manual pages with this problem, but this is a
+N:    Debian-specific modification and hopefully eventually can be removed.
+N:
+N:    "-" must be escaped ("\-") to be interpreted as minus. If you really
+N:    intend a hyphen (normally you don't), write it as "\(hy" to emphasise
+N:    that fact. See groff(7) and especially groff_char(7) for details, and
+N:    also the thread starting with
+N:    http://lists.debian.org/debian-devel/2003/debian-devel-200303/msg01481.h
+N:    tml
+---
+ mat-cli.1 |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/mat-cli.1 b/mat-cli.1
+index 3fa1f70..c99a51a 100644
+--- a/mat-cli.1
++++ b/mat-cli.1
+@@ -51,10 +51,10 @@ Display version and exit
+ 
+ .SH EXAMPLES
+ .TP
+-\fBcli.py --display\fR mydocument.pdf
++\fBcli.py \-\-display\fR mydocument.pdf
+ Display the mydocument.pdf's harmful metadata
+ .TP
+-\fBcli.py --check *.jpg\fR
++\fBcli.py \-\-check *.jpg\fR
+ Check all the jpg images from the current folder
+ 
+ 
+-- 

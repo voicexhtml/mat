@@ -1,0 +1,34 @@
+From: intrigeri <intrigeri@boum.org>
+Date: Sun, 21 Aug 2011 16:21:53 +0200
+Subject: Remove deprecated Encoding key in desktop file.
+
+Quoting Lintian output:
+
+I: mat: desktop-entry-contains-encoding-key usr/share/applications/mat.desktop:2 Encoding
+N:
+N:    The Encoding key is now deprecated by the FreeDesktop standard and all
+N:    strings are required to be encoded in UTF-8. This desktop entry
+N:    explicitly specifies an Encoding of UTF-8, which is harmless but no
+N:    longer necessary.
+N:
+N:    The desktop-file-validate tool in the desktop-file-utils package is
+N:    useful for checking the syntax of desktop entries.
+N:
+N:    Refer to
+N:    http://standards.freedesktop.org/desktop-entry-spec/1.0/apc.html for
+N:    details.
+---
+ mat.desktop |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
+
+diff --git a/mat.desktop b/mat.desktop
+index 4515c3f..73bc423 100644
+--- a/mat.desktop
++++ b/mat.desktop
+@@ -1,5 +1,4 @@
+ [Desktop Entry]
+-Encoding=UTF-8
+ Name=Metadata Anonymisation Toolkit
+ GenericName=Metadata Anonymisation Toolkit
+ Version=1.0
+-- 
