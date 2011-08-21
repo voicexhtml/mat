@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: intrigeri <intrigeri+debian@boum.org>
 Build-Depends: debhelper (>= 7.0.50~), python (>= 2.6.6-3~)
 Build-Depends-Indep: python-distutils-extra
-Standards-Version: 3.9.1
+Standards-Version: 3.9.2
 X-Python-Version: >= 2.6
 Homepage: https://gitweb.torproject.org/user/jvoisin/mat.git
 Vcs-Git: git://webmasters.boum.org/mat
@@ -33,8 +33,8 @@ Description: Metadata anonymisation toolkit
  .
  Maybe you don't want to disclose those information on the web.
  .
- Mat only remove metadata from your files, it does not anonymise their
- content, nor it can handle watermarking, steganography, or any too
+ Mat only removes metadata from your files, it does not anonymise their
+ content, nor can it handle watermarking, steganography, or any too
  custom metadata field/system.
  .
  If you really want to be anonym, use format that does not contain any

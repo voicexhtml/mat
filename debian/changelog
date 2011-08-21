@@ -1,8 +1,22 @@
-mat (0.1~1.git03f07b-1~bpo60+1) squeeze-backports; urgency=low
+mat (0.1~2.git54f665-1) unstable; urgency=low
 
-  * Rebuild for squeeze-backports.
+  * New upstream Git snapshot at commit 54f665:
+    - Fix manpage naming.
+    - Install the desktop file.
+    - Typo fixes in documentation.
+    - Warn for non-supported files
+    - Add a column for the state of the cleaned copy.
+    - Revert the atime/mtime feature (unsupported by ZIP).
+  * Install manpages.
+  * Drop patch 0001-Install-.desktop-file.patch (merged upstream).
+  * Bump standards version, no change required.
+  * Manpage and desktop file fixes - new patches:
+    - 0001-Cleanup-useless-and-repetitive-wording-in-the-manpag.patch
+    - 0002-Don-t-use-hyphen-as-minus-sign-in-manpage.patch
+    - 0003-Update-program-name-in-manpage.patch
+    - 0004-Remove-deprecated-Encoding-key-in-desktop-file.patch
 
- -- intrigeri <intrigeri+debian@boum.org>  Fri, 19 Aug 2011 18:13:10 +0200
+ -- intrigeri <intrigeri+debian@boum.org>  Sun, 21 Aug 2011 12:01:03 +0200
 
 mat (0.1~1.git03f07b-1) unstable; urgency=low
 

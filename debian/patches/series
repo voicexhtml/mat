@@ -1,1 +1,4 @@
-0001-Install-.desktop-file.patch
+0001-Cleanup-useless-and-repetitive-wording-in-the-manpag.patch
+0002-Don-t-use-hyphen-as-minus-sign-in-manpage.patch
+0003-Update-program-name-in-manpage.patch
+0004-Remove-deprecated-Encoding-key-in-desktop-file.patch
