@@ -1,0 +1,1034 @@
+From: intrigeri <intrigeri@boum.org>
+Date: Thu, 25 Aug 2011 00:31:00 +0200
+Subject: Remove embedded pdfrw copy.
+
+---
+ README                   |    2 +-
+ mat/pdfrw/__init__.py    |   14 ---
+ mat/pdfrw/pdfcompress.py |   57 -----------
+ mat/pdfrw/pdfobjects.py  |  183 ----------------------------------
+ mat/pdfrw/pdfreader.py   |  213 ---------------------------------------
+ mat/pdfrw/pdftokens.py   |  249 ----------------------------------------------
+ mat/pdfrw/pdfwriter.py   |  234 -------------------------------------------
+ setup.py                 |    2 +-
+ 8 files changed, 2 insertions(+), 952 deletions(-)
+ delete mode 100644 mat/pdfrw/__init__.py
+ delete mode 100644 mat/pdfrw/pdfcompress.py
+ delete mode 100644 mat/pdfrw/pdfobjects.py
+ delete mode 100644 mat/pdfrw/pdfreader.py
+ delete mode 100644 mat/pdfrw/pdftokens.py
+ delete mode 100644 mat/pdfrw/pdfwriter.py
+
+diff --git a/README b/README
+index d0473c2..f98ba03 100644
+--- a/README
++++ b/README
+@@ -27,7 +27,7 @@ DEPENDENCIES:
+ 
+ 
+ OPTIONALS DEPENDENCIES:
+-    python-poppler and python-cairo : for pdf support
++    python-poppler, pdfrw and python-cairo : for pdf support
+     python-mutagen : for massive audio format support
+ 
+ 
+diff --git a/mat/pdfrw/__init__.py b/mat/pdfrw/__init__.py
+deleted file mode 100644
+index 26e8c73..0000000
+--- a/mat/pdfrw/__init__.py
++++ /dev/null
+@@ -1,14 +0,0 @@
+-# A part of pdfrw (pdfrw.googlecode.com)
+-# Copyright (C) 2006-2009 Patrick Maupin, Austin, Texas
+-# MIT license -- See LICENSE.txt for details
+-
+-from pdfwriter import PdfWriter
+-from pdfreader import PdfReader
+-from pdfobjects import PdfObject, PdfName, PdfArray, PdfDict, IndirectPdfDict, PdfString
+-from pdftokens import PdfTokens
+-
+-# Add a tiny bit of compatibility to pyPdf
+-
+-PdfFileReader = PdfReader
+-PdfFileWriter = PdfWriter
+-
+diff --git a/mat/pdfrw/pdfcompress.py b/mat/pdfrw/pdfcompress.py
+deleted file mode 100644
+index 1c11970..0000000
+--- a/mat/pdfrw/pdfcompress.py
++++ /dev/null
+@@ -1,57 +0,0 @@
+-# A part of pdfrw (pdfrw.googlecode.com)
+-# Copyright (C) 2006-2009 Patrick Maupin, Austin, Texas
+-# MIT license -- See LICENSE.txt for details
+-
+-'''
+-Currently, this sad little file only knows how to decompress
+-using the flate (zlib) algorithm.  Maybe more later, but it's
+-not a priority for me...
+-'''
+-
+-from __future__ import generators
+-
+-try:
+-    set
+-except NameError:
+-    from sets import Set as set
+-
+-import zlib
+-from pdfobjects import PdfDict, PdfName
+-
+-
+-def streamobjects(mylist):
+-    for obj in mylist:
+-        if isinstance(obj, PdfDict) and obj.stream is not None:
+-            yield obj
+-
+-def uncompress(mylist, warnings=set()):
+-    flate = PdfName.FlateDecode
+-    for obj in streamobjects(mylist):
+-        ftype = obj.Filter
+-        if ftype is None:
+-            continue
+-        if isinstance(ftype, list) and len(ftype) == 1:
+-            # todo: multiple filters
+-            ftype = ftype[0]
+-        parms = obj.DecodeParms
+-        if ftype != flate or parms is not None:
+-            msg = 'Not decompressing: cannot use filter %s with parameters %s' % (repr(ftype), repr(parms))
+-            if msg not in warnings:
+-                warnings.add(msg)
+-                print msg
+-        else:
+-            obj.stream = zlib.decompress(obj.stream)
+-            obj.Filter = None
+-
+-def compress(mylist):
+-    flate = PdfName.FlateDecode
+-    for obj in streamobjects(mylist):
+-        ftype = obj.Filter
+-        if ftype is not None:
+-            continue
+-        oldstr = obj.stream
+-        newstr = zlib.compress(oldstr)
+-        if len(newstr) < len(oldstr) + 30:
+-            obj.stream = newstr
+-            obj.Filter = flate
+-            obj.DecodeParms = None
+diff --git a/mat/pdfrw/pdfobjects.py b/mat/pdfrw/pdfobjects.py
+deleted file mode 100644
+index 08ad825..0000000
+--- a/mat/pdfrw/pdfobjects.py
++++ /dev/null
+@@ -1,183 +0,0 @@
+-# A part of pdfrw (pdfrw.googlecode.com)
+-# Copyright (C) 2006-2009 Patrick Maupin, Austin, Texas
+-# MIT license -- See LICENSE.txt for details
+-
+-'''
+-Objects that can occur in PDF files.  The most important
+-objects are arrays and dicts.  Either of these can be
+-indirect or not, and dicts could have an associated
+-stream.
+-'''
+-from __future__ import generators
+-
+-try:
+-    set
+-except NameError:
+-    from sets import Set as set
+-
+-import re
+-
+-class PdfObject(str):
+-    indirect = False
+-
+-class PdfArray(list):
+-    indirect = False
+-
+-class PdfName(object):
+-    def __getattr__(self, name):
+-        return self(name)
+-    def __call__(self, name):
+-        return PdfObject('/' + name)
+-
+-PdfName = PdfName()
+-
+-class PdfString(str):
+-    indirect = False
+-    unescape_dict = {'\\b':'\b', '\\f':'\f', '\\n':'\n',
+-                     '\\r':'\r', '\\t':'\t',
+-                     '\\\r\n': '', '\\\r':'', '\\\n':'',
+-                     '\\\\':'\\', '\\':'',
+-                    }
+-    unescape_pattern = r'(\\b|\\f|\\n|\\r|\\t|\\\r\n|\\\r|\\\n|\\[0-9]+|\\)'
+-    unescape_func = re.compile(unescape_pattern).split
+-
+-    hex_pattern = '([a-fA-F0-9][a-fA-F0-9]|[a-fA-F0-9])'
+-    hex_func = re.compile(hex_pattern).split
+-
+-    hex_pattern2 = '([a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9]|[a-fA-F0-9][a-fA-F0-9]|[a-fA-F0-9])'
+-    hex_func2 = re.compile(hex_pattern2).split
+-
+-    hex_funcs = hex_func, hex_func2
+-
+-    indirect = False
+-
+-    def decode_regular(self, remap=chr):
+-        assert self[0] == '(' and self[-1] == ')'
+-        mylist = self.unescape_func(self[1:-1])
+-        result = []
+-        unescape = self.unescape_dict.get
+-        for chunk in mylist:
+-            chunk = unescape(chunk, chunk)
+-            if chunk.startswith('\\') and len(chunk) > 1:
+-                value = int(chunk[1:], 8)
+-                # FIXME: TODO: Handle unicode here
+-                if value > 127:
+-                    value = 127
+-                chunk = remap(value)
+-            if chunk:
+-                result.append(chunk)
+-        return ''.join(result)
+-
+-    def decode_hex(self, remap=chr, twobytes=False):
+-        data = ''.join(self.split())
+-        data = self.hex_funcs[twobytes](data)
+-        chars = data[1::2]
+-        other = data[0::2]
+-        assert other[0] == '<' and other[-1] == '>' and ''.join(other) == '<>', self
+-        return ''.join([remap(int(x, 16)) for x in chars])
+-
+-    def decode(self, remap=chr, twobytes=False):
+-        if self.startswith('('):
+-            return self.decode_regular(remap)
+-
+-        else:
+-            return self.decode_hex(remap, twobytes)
+-
+-    def encode(cls, source, usehex=False):
+-        assert not usehex, "Not supported yet"
+-        if isinstance(source, unicode):
+-            source = source.encode('utf-8')
+-        else:
+-            source = str(source)
+-        source = source.replace('\\', '\\\\')
+-        source = source.replace('(', '\\(')
+-        source = source.replace(')', '\\)')
+-        return cls('(' +source + ')')
+-    encode = classmethod(encode)
+-
+-class PdfDict(dict):
+-    indirect = False
+-    stream = None
+-
+-    _special = dict(indirect = ('indirect', False),
+-                    stream = ('stream', True),
+-                    _stream = ('stream', False),
+-                   )
+-
+-    def __setitem__(self, name, value):
+-        assert name.startswith('/'), name
+-        if value is not None:
+-            dict.__setitem__(self, name, value)
+-        elif name in self:
+-            del self[name]
+-
+-    def __init__(self, *args, **kw):
+-        if args:
+-            if len(args) == 1:
+-                args = args[0]
+-            self.update(args)
+-            if isinstance(args, PdfDict):
+-                self.indirect = args.indirect
+-                self._stream = args.stream
+-        for key, value in kw.iteritems():
+-            setattr(self, key, value)
+-
+-    def __getattr__(self, name):
+-        return self.get(PdfName(name))
+-
+-    def __setattr__(self, name, value):
+-        info = self._special.get(name)
+-        if info is None:
+-            self[PdfName(name)] = value
+-        else:
+-            name, setlen = info
+-            self.__dict__[name] = value
+-            if setlen:
+-                notnone = value is not None
+-                self.Length = notnone and PdfObject(len(value)) or None
+-
+-    def iteritems(self):
+-        for key, value in dict.iteritems(self):
+-            if value is not None:
+-                assert key.startswith('/'), (key, value)
+-                yield key, value
+-
+-    def inheritable(self):
+-        ''' Search through ancestors as needed for inheritable
+-            dictionary items
+-        '''
+-        class Search(object):
+-            def __init__(self, basedict):
+-                self.basedict = basedict
+-            def __getattr__(self, name):
+-                return self[name]
+-            def __getitem__(self, name):
+-                visited = set()
+-                mydict = self.basedict
+-                while 1:
+-                    value = getattr(mydict, name)
+-                    if value is not None:
+-                        return value
+-                    myid = id(mydict)
+-                    assert myid not in visited
+-                    visited.add(myid)
+-                    mydict = mydict.Parent
+-                    if mydict is None:
+-                        return
+-        return Search(self)
+-    inheritable = property(inheritable)
+-
+-    def private(self):
+-        ''' Allows setting private metadata for use in
+-            processing (not sent to PDF file)
+-        '''
+-        class Private(object):
+-            pass
+-
+-        result = Private()
+-        result.__dict__ = self.__dict__
+-        return result
+-    private = property(private)
+-
+-class IndirectPdfDict(PdfDict):
+-    indirect = True
+diff --git a/mat/pdfrw/pdfreader.py b/mat/pdfrw/pdfreader.py
+deleted file mode 100644
+index 6f57bea..0000000
+--- a/mat/pdfrw/pdfreader.py
++++ /dev/null
+@@ -1,213 +0,0 @@
+-# A part of pdfrw (pdfrw.googlecode.com)
+-# Copyright (C) 2006-2009 Patrick Maupin, Austin, Texas
+-# MIT license -- See LICENSE.txt for details
+-
+-'''
+-The PdfReader class reads an entire PDF file into memory and
+-parses the top-level container objects.  (It does not parse
+-into streams.)  The object subclasses PdfDict, and the
+-document pages are stored in a list in the pages attribute
+-of the object.
+-'''
+-
+-from pdftokens import PdfTokens
+-from pdfobjects import PdfDict, PdfArray, PdfName
+-from pdfcompress import uncompress
+-
+-class PdfReader(PdfDict):
+-
+-    class unresolved:
+-        # Used as a placeholder until we have an object.
+-        pass
+-
+-    def readindirect(self, objnum, gennum):
+-        ''' Read an indirect object.  If it has already
+-            been read, return it from the cache.
+-        '''
+-
+-        def setobj(obj):
+-            # Store the new object in the dictionary
+-            # once we have its value
+-            record[1] = obj
+-
+-        def ordinary(source, setobj, obj):
+-            # Deal with an ordinary (non-array, non-dict) object
+-            setobj(obj)
+-            return obj
+-
+-        fdata, objnum, gennum = self.fdata, int(objnum), int(gennum)
+-        record = self.indirect_objects[fdata, objnum, gennum]
+-        if record[1] is not self.unresolved:
+-            return record[1]
+-
+-        # Read the object header and validate it
+-        source = PdfTokens(fdata, record[0])
+-        objid = source.multiple(3)
+-        assert int(objid[0]) == objnum, objid
+-        assert int(objid[1]) == gennum, objid
+-        assert objid[2] == 'obj', objid
+-
+-        # Read the object, and call special code if it starts
+-        # an array or dictionary
+-        obj = source.next()
+-        obj = self.special.get(obj, ordinary)(source, setobj, obj)
+-        self.readstream(obj, source)
+-        obj.indirect = True
+-        return obj
+-
+-    def readstream(obj, source):
+-        ''' Read optional stream following a dictionary
+-            object.
+-        '''
+-        tok = source.next()
+-        if tok == 'endobj':
+-            return  # No stream
+-
+-        assert isinstance(obj, PdfDict)
+-        assert tok == 'stream', tok
+-        fdata = source.fdata
+-        floc = fdata.rindex(tok, 0, source.floc) + len(tok)
+-        ch = fdata[floc]
+-        if ch == '\r':
+-            floc += 1
+-            ch = fdata[floc]
+-        assert ch == '\n'
+-        startstream = floc + 1
+-        endstream = startstream + int(obj.Length)
+-        obj._stream = fdata[startstream:endstream]
+-        source = PdfTokens(fdata, endstream)
+-        endit = source.multiple(2)
+-        if endit != 'endstream endobj'.split():
+-            # /Length attribute is broken, try to read stream
+-            # anyway disregarding the specified value
+-            # TODO: issue warning here once we have some kind of
+-            # logging
+-            endstream = fdata.index('endstream', startstream)
+-            if fdata[endstream-2:endstream] == '\r\n':
+-                endstream -= 2
+-            elif fdata[endstream-1] in ['\n', '\r']:
+-                endstream -= 1
+-            source = PdfTokens(fdata, endstream)
+-            endit = source.multiple(2)
+-            assert endit == 'endstream endobj'.split()
+-            obj.Length = str(endstream-startstream)
+-            obj._stream = fdata[startstream:endstream]
+-    readstream = staticmethod(readstream)
+-
+-    def readarray(self, source, setobj=lambda x:None, original=None):
+-        special = self.special
+-        result = PdfArray()
+-        setobj(result)
+-
+-        for value in source:
+-            if value == ']':
+-                break
+-            if value in special:
+-                value = special[value](source)
+-            elif value == 'R':
+-                generation = result.pop()
+-                value = self.readindirect(result.pop(), generation)
+-            result.append(value)
+-        return result
+-
+-    def readdict(self, source, setobj=lambda x:None, original=None):
+-        special = self.special
+-        result = PdfDict()
+-        setobj(result)
+-
+-        tok = source.next()
+-        while tok != '>>':
+-            assert tok.startswith('/'), (tok, source.multiple(10))
+-            key = tok
+-            value = source.next()
+-            if value in special:
+-                value = special[value](source)
+-                tok = source.next()
+-            else:
+-                tok = source.next()
+-                if value.isdigit() and tok.isdigit():
+-                    assert source.next() == 'R'
+-                    value = self.readindirect(value, tok)
+-                    tok = source.next()
+-            result[key] = value
+-
+-        return result
+-
+-    def readxref(fdata):
+-        startloc = fdata.rindex('startxref')
+-        xrefinfo = list(PdfTokens(fdata, startloc, False))
+-        assert len(xrefinfo) == 3, xrefinfo
+-        assert xrefinfo[0] == 'startxref', xrefinfo[0]
+-        assert xrefinfo[1].isdigit(), xrefinfo[1]
+-        assert xrefinfo[2].rstrip() == '%%EOF', repr(xrefinfo[2])
+-        return startloc, PdfTokens(fdata, int(xrefinfo[1]))
+-    readxref = staticmethod(readxref)
+-
+-    def parsexref(self, source):
+-        tok = source.next()
+-        assert tok == 'xref', tok
+-        while 1:
+-            tok = source.next()
+-            if tok == 'trailer':
+-                break
+-            startobj = int(tok)
+-            for objnum in range(startobj, startobj + int(source.next())):
+-                offset = int(source.next())
+-                generation = int(source.next())
+-                if source.next() == 'n':
+-                    objid = self.fdata, objnum, generation
+-                    objval = [offset, self.unresolved]
+-                    self.indirect_objects.setdefault(objid, objval)
+-
+-    pagename = PdfName.Page
+-    pagesname = PdfName.Pages
+-
+-    def readpages(self, node):
+-        # PDFs can have arbitrarily nested Pages/Page
+-        # dictionary structures.
+-        if node.Type == self.pagename:
+-            return [node]
+-        assert node.Type == self.pagesname, node.Type
+-        result = []
+-        for node in node.Kids:
+-            result.extend(self.readpages(node))
+-        return result
+-
+-    def __init__(self, fname=None, fdata=None, decompress=True):
+-
+-        if fname is not None:
+-            assert fdata is None
+-            # Allow reading preexisting streams like pyPdf
+-            if hasattr(fname, 'read'):
+-                fdata = fname.read()
+-            else:
+-                f = open(fname, 'rb')
+-                fdata = f.read()
+-                f.close()
+-
+-        assert fdata is not None
+-        fdata = fdata.rstrip('\00')
+-        self.private.fdata = fdata
+-
+-        self.private.indirect_objects = {}
+-        self.private.special = {'<<': self.readdict, '[': self.readarray}
+-
+-        startloc, source = self.readxref(fdata)
+-        self.parsexref(source)
+-        assert source.next() == '<<'
+-        self.update(self.readdict(source))
+-        assert source.next() == 'startxref' and source.floc > startloc
+-        self.private.pages = self.readpages(self.Root.Pages)
+-        if decompress:
+-            self.uncompress()
+-
+-        # For compatibility with pyPdf
+-        self.private.numPages = len(self.pages)
+-
+-
+-    # For compatibility with pyPdf
+-    def getPage(self, pagenum):
+-        return self.pages[pagenum]
+-
+-    def uncompress(self):
+-        uncompress([x[1] for x in self.indirect_objects.itervalues()])
+diff --git a/mat/pdfrw/pdftokens.py b/mat/pdfrw/pdftokens.py
+deleted file mode 100644
+index 04bd559..0000000
+--- a/mat/pdfrw/pdftokens.py
++++ /dev/null
+@@ -1,249 +0,0 @@
+-# A part of pdfrw (pdfrw.googlecode.com)
+-# Copyright (C) 2006-2009 Patrick Maupin, Austin, Texas
+-# MIT license -- See LICENSE.txt for details
+-
+-'''
+-A tokenizer for PDF streams.
+-
+-In general, documentation used was "PDF reference",
+-sixth edition, for PDF version 1.7, dated November 2006.
+-
+-'''
+-
+-from __future__ import generators
+-
+-try:
+-    set
+-except NameError:
+-    from sets import Set as set
+-
+-import re
+-from pdfobjects import PdfString, PdfObject
+-
+-class _PrimitiveTokens(object):
+-
+-    # Table 3.1, page 50 of reference, defines whitespace
+-    whitespaceset = set('\x00\t\n\f\r ')
+-
+-
+-    # Text on page 50 defines delimiter characters
+-    delimiterset = set('()<>{}[]/%')
+-
+-    # Coalesce contiguous whitespace into a single token
+-    whitespace_pattern = '[%s]+' % ''.join(whitespaceset)
+-
+-    # In addition to the delimiters, we also use '\', which
+-    # is special in some contexts in PDF.
+-    delimiter_pattern = '\\\\|\\' + '|\\'.join(delimiterset)
+-
+-    # Dictionary delimiters are '<<' and '>>'.  Look for
+-    # these before the single variety.
+-    dictdelim_pattern = r'\<\<|\>\>'
+-
+-    pattern = '(%s|%s|%s)' % (whitespace_pattern,
+-                    dictdelim_pattern, delimiter_pattern)
+-    re_func = re.compile(pattern).finditer
+-    del whitespace_pattern, dictdelim_pattern
+-    del delimiter_pattern, pattern
+-
+-    def __init__(self, fdata):
+-
+-        class MyIterator(object):
+-            def next():
+-                if not tokens:
+-                    startloc = self.startloc
+-                    for match in next_match[0]:
+-                        start = match.start()
+-                        end = match.end()
+-                        tappend(fdata[start:end])
+-                        if start > startloc:
+-                            tappend(fdata[startloc:start])
+-                        self.startloc = end
+-                        break
+-                    else:
+-                        s = fdata[startloc:]
+-                        self.startloc = len(fdata)
+-                        if s:
+-                            tappend(s)
+-                    if not tokens:
+-                        raise StopIteration
+-                return tpop()
+-            next = staticmethod(next)
+-
+-        self.fdata = fdata
+-        self.tokens = tokens = []
+-        self.iterator = iterator = MyIterator()
+-        self.next = iterator.next
+-        self.next_match = next_match = [None]
+-        tappend = tokens.append
+-        tpop = tokens.pop
+-
+-    def setstart(self, startloc):
+-        self.startloc = startloc
+-        self.next_match[0] = self.re_func(self.fdata, startloc)
+-
+-    def __iter__(self):
+-        return self.iterator
+-
+-    def coalesce(self, result):
+-        ''' This function coalesces tokens together up until
+-            the next delimiter or whitespace.
+-            All of the coalesced tokens will either be non-matches,
+-            or will be a matched backslash.  We distinguish the
+-            non-matches by the fact that next() will have left
+-            a following match inside self.tokens for the actual match.
+-        '''
+-        tokens = self.tokens
+-        whitespace = self.whitespaceset
+-
+-        # Optimized path for usual case -- regular data (not a name string),
+-        # with no escape character, and followed by whitespace.
+-
+-        if tokens:
+-            token = tokens.pop()
+-            if token != '\\':
+-                if token[0] not in whitespace:
+-                    tokens.append(token)
+-                return
+-            result.append(token)
+-
+-        # Non-optimized path.  Either start of a name string received,
+-        # or we just had one escape.
+-
+-        for token in self:
+-            if tokens:
+-                result.append(token)
+-                token = tokens.pop()
+-            if token != '\\':
+-                if token[0] not in whitespace:
+-                    tokens.append(token)
+-                return
+-            result.append(token)
+-
+-
+-    def floc(self):
+-        return self.startloc - sum([len(x) for x in self.tokens])
+-
+-class PdfTokens(object):
+-
+-    def __init__(self, fdata, startloc=0, strip_comments=True):
+-
+-        def comment(token):
+-            tokens = [token]
+-            for token in primitive:
+-                tokens.append(token)
+-                if token[0] in whitespaceset and ('\n' in token or '\r' in token):
+-                    break
+-            return not strip_comments and ''.join(tokens)
+-
+-        def single(token):
+-            return token
+-
+-        def regular_string(token):
+-            def escaped():
+-                escaped = False
+-                i = -2
+-                while tokens[i] == '\\':
+-                    escaped = not escaped
+-                    i -= 1
+-                return escaped
+-
+-            tokens = [token]
+-            nestlevel = 1
+-            for token in primitive:
+-                tokens.append(token)
+-                if token in '()' and not escaped():
+-                    nestlevel += token == '(' or -1
+-                    if not nestlevel:
+-                        break
+-            else:
+-                assert 0, "Unexpected end of token stream"
+-            return PdfString(''.join(tokens))
+-
+-        def hex_string(token):
+-            tokens = [token]
+-            for token in primitive:
+-                tokens.append(token)
+-                if token == '>':
+-                    break
+-            while tokens[-2] == '>>':
+-                tokens.append(tokens.pop(-2))
+-            return PdfString(''.join(tokens))
+-
+-        def normal_data(token):
+-
+-            # Obscure optimization -- we can get here with
+-            # whitespace or regular character data.  If we get
+-            # here with whitespace, then there won't be an additional
+-            # token queued up in the primitive object, otherwise there
+-            # will...
+-            if primitive_tokens:     #if token[0] not in whitespaceset:
+-                tokens = [token]
+-                primitive.coalesce(tokens)
+-                return PdfObject(''.join(tokens))
+-
+-        def name_string(token):
+-            tokens = [token]
+-            primitive.coalesce(tokens)
+-            token = ''.join(tokens)
+-            if '#' in token:
+-                substrs = token.split('#')
+-                substrs.reverse()
+-                tokens = [substrs.pop()]
+-                while substrs:
+-                    s = substrs.pop()
+-                    tokens.append(chr(int(s[:2], 16)))
+-                    tokens.append(s[2:])
+-                token = ''.join(tokens)
+-            return PdfObject(token)
+-
+-        def broken(token):
+-            assert 0, token
+-
+-        dispatch = {
+-            '(': regular_string,
+-            ')': broken,
+-            '<': hex_string,
+-            '>': broken,
+-            '[': single,
+-            ']': single,
+-            '{': single,
+-            '}': single,
+-            '/': name_string,
+-            '%' : comment,
+-            '<<': single,
+-            '>>': single,
+-        }.get
+-
+-        class MyIterator(object):
+-            def next():
+-                while not tokens:
+-                    token = primitive_next()
+-                    token = dispatch(token, normal_data)(token)
+-                    if token:
+-                        return token
+-                return tokens.pop()
+-            next = staticmethod(next)
+-
+-        self.primitive = primitive = _PrimitiveTokens(fdata)
+-        self.setstart = primitive.setstart
+-        primitive.setstart(startloc)
+-        self.fdata = fdata
+-        self.strip_comments = strip_comments
+-        self.tokens = tokens = []
+-        self.iterator = iterator = MyIterator()
+-        self.next = iterator.next
+-        primitive_next = primitive.next
+-        primitive_tokens = primitive.tokens
+-        whitespaceset = _PrimitiveTokens.whitespaceset
+-
+-    def floc(self):
+-        return self.primitive.floc() - sum([len(x) for x in self.tokens])
+-    floc = property(floc)
+-
+-    def __iter__(self):
+-        return self.iterator
+-
+-    def multiple(self, count):
+-        next = self.next
+-        return [next() for i in range(count)]
+diff --git a/mat/pdfrw/pdfwriter.py b/mat/pdfrw/pdfwriter.py
+deleted file mode 100644
+index c193843..0000000
+--- a/mat/pdfrw/pdfwriter.py
++++ /dev/null
+@@ -1,234 +0,0 @@
+-#!/usr/bin/env python
+-
+-# A part of pdfrw (pdfrw.googlecode.com)
+-# Copyright (C) 2006-2009 Patrick Maupin, Austin, Texas
+-# MIT license -- See LICENSE.txt for details
+-
+-'''
+-The PdfWriter class writes an entire PDF file out to disk.
+-
+-The writing process is not at all optimized or organized.
+-
+-An instance of the PdfWriter class has two methods:
+-    addpage(page)
+-and
+-    write(fname)
+-
+-addpage() assumes that the pages are part of a valid
+-tree/forest of PDF objects.
+-'''
+-
+-try:
+-    set
+-except NameError:
+-    from sets import Set as set
+-
+-from pdfobjects import PdfName, PdfArray, PdfDict, IndirectPdfDict, PdfObject, PdfString
+-from pdfcompress import compress
+-
+-debug = False
+-
+-class FormatObjects(object):
+-    ''' FormatObjects performs the actual formatting and disk write.
+-    '''
+-
+-    def add(self, obj, visited):
+-        ''' Add an object to our list, if it's an indirect
+-            object.  Just format it if not.
+-        '''
+-        # Can't hash dicts, so just hash the object ID
+-        objid = id(obj)
+-
+-        # Automatically set stream objects to indirect
+-        if isinstance(obj, PdfDict):
+-            indirect = obj.indirect or (obj.stream is not None)
+-        else:
+-            indirect = getattr(obj, 'indirect', False)
+-
+-        if not indirect:
+-            assert objid not in visited, \
+-                'Circular reference encountered in non-indirect object %s' % repr(obj)
+-            visited.add(objid)
+-            result = self.format_obj(obj, visited)
+-            visited.remove(objid)
+-            return result
+-
+-        objnum = self.indirect_dict.get(objid)
+-
+-        # If we haven't seen the object yet, we need to
+-        # add it to the indirect object list.
+-        if objnum is None:
+-            objlist = self.objlist
+-            objnum = len(objlist) + 1
+-            if debug:
+-                print '  Object', objnum, '\r',
+-            objlist.append(None)
+-            self.indirect_dict[objid] = objnum
+-            objlist[objnum-1] = self.format_obj(obj)
+-        return '%s 0 R' % objnum
+-
+-    def format_array(myarray, formatter):
+-        # Format array data into semi-readable ASCII
+-        if sum([len(x) for x in myarray]) <= 70:
+-            return formatter % ' '.join(myarray)
+-        bigarray = []
+-        count = 1000000
+-        for x in myarray:
+-            lenx = len(x)
+-            if lenx + count > 70:
+-                subarray = []
+-                bigarray.append(subarray)
+-                count = 0
+-            count += lenx + 1
+-            subarray.append(x)
+-        return formatter % '\n  '.join([' '.join(x) for x in bigarray])
+-    format_array = staticmethod(format_array)
+-
+-    def format_obj(self, obj, visited=None):
+-        ''' format PDF object data into semi-readable ASCII.
+-            May mutually recurse with add() -- add() will
+-            return references for indirect objects, and add
+-            the indirect object to the list.
+-        '''
+-        if visited is None:
+-            visited = set()
+-        if isinstance(obj, PdfArray):
+-            myarray = [self.add(x, visited) for x in obj]
+-            return self.format_array(myarray, '[%s]')
+-        elif isinstance(obj, PdfDict):
+-            if self.compress and obj.stream:
+-                compress([obj])
+-            myarray = []
+-            # Jython 2.2.1 has a bug which segfaults when
+-            # sorting subclassed strings, so we un-subclass them.
+-            dictkeys = [str(x) for x in obj.iterkeys()]
+-            dictkeys.sort()
+-            for key in dictkeys:
+-                myarray.append(key)
+-                myarray.append(self.add(obj[key], visited))
+-            result = self.format_array(myarray, '<<%s>>')
+-            stream = obj.stream
+-            if stream is not None:
+-                result = '%s\nstream\n%s\nendstream' % (result, stream)
+-            return result
+-        elif isinstance(obj, basestring) and not hasattr(obj, 'indirect'):
+-            return PdfString.encode(obj)
+-        else:
+-            return str(obj)
+-
+-    def dump(cls, f, trailer, version='1.3', compress=True):
+-        self = cls()
+-        self.compress = compress
+-        self.indirect_dict = {}
+-        self.objlist = []
+-
+-        # The first format of trailer gets all the information,
+-        # but we throw away the actual trailer formatting.
+-        self.format_obj(trailer)
+-        # Now we know the size, so we update the trailer dict
+-        # and get the formatted data.
+-        trailer.Size = PdfObject(len(self.objlist) + 1)
+-        trailer = self.format_obj(trailer)
+-
+-        # Now we have all the pieces to write out to the file.
+-        # Keep careful track of the counts while we do it so
+-        # we can correctly build the cross-reference.
+-
+-        header = '%%PDF-%s\n%%\xe2\xe3\xcf\xd3\n' % version
+-        f.write(header)
+-        offset = len(header)
+-        offsets = [(0, 65535, 'f')]
+-
+-        for i, x in enumerate(self.objlist):
+-            objstr = '%s 0 obj\n%s\nendobj\n' % (i + 1, x)
+-            offsets.append((offset, 0, 'n'))
+-            offset += len(objstr)
+-            f.write(objstr)
+-
+-        f.write('xref\n0 %s\n' % len(offsets))
+-        for x in offsets:
+-            f.write('%010d %05d %s\r\n' % x)
+-        f.write('trailer\n\n%s\nstartxref\n%s\n%%%%EOF\n' % (trailer, offset))
+-    dump = classmethod(dump)
+-
+-class PdfWriter(object):
+-
+-    _trailer = None
+-
+-    def __init__(self, version='1.3', compress=True):
+-        self.pagearray = PdfArray()
+-        self.compress = compress
+-        self.version = version
+-
+-    def addpage(self, page):
+-        self._trailer = None
+-        assert page.Type == PdfName.Page
+-        inheritable = page.inheritable # searches for resources
+-        self.pagearray.append(
+-            IndirectPdfDict(
+-                page,
+-                Resources = inheritable.Resources,
+-                MediaBox = inheritable.MediaBox,
+-                CropBox = inheritable.CropBox,
+-                Rotate = inheritable.Rotate,
+-            )
+-        )
+-        return self
+-
+-    addPage = addpage  # for compatibility with pyPdf
+-
+-    def addpages(self, pagelist):
+-        for page in pagelist:
+-            self.addpage(page)
+-        return self
+-
+-    def _get_trailer(self):
+-        trailer = self._trailer
+-        if trailer is not None:
+-            return trailer
+-
+-        # Create the basic object structure of the PDF file
+-        trailer = PdfDict(
+-            Root = IndirectPdfDict(
+-                Type = PdfName.Catalog,
+-                Pages = IndirectPdfDict(
+-                    Type = PdfName.Pages,
+-                    Count = PdfObject(len(self.pagearray)),
+-                    Kids = self.pagearray
+-                )
+-            )
+-        )
+-        # Make all the pages point back to the page dictionary
+-        pagedict = trailer.Root.Pages
+-        for page in pagedict.Kids:
+-            page.Parent = pagedict
+-        self._trailer = trailer
+-        return trailer
+-
+-    def _set_trailer(self, trailer):
+-        self._trailer = trailer
+-
+-    trailer = property(_get_trailer, _set_trailer)
+-
+-    def write(self, fname, trailer=None):
+-        trailer = trailer or self.trailer
+-
+-        # Dump the data.  We either have a filename or a preexisting
+-        # file object.
+-        preexisting = hasattr(fname, 'write')
+-        f = preexisting and fname or open(fname, 'wb')
+-        FormatObjects.dump(f, trailer, self.version, self.compress)
+-        if not preexisting:
+-            f.close()
+-
+-if __name__ == '__main__':
+-    debug = True
+-    import pdfreader
+-    x = pdfreader.PdfReader('source.pdf')
+-    y = PdfWriter()
+-    for i, page in enumerate(x.pages):
+-        print '  Adding page', i+1, '\r',
+-        y.addpage(page)
+-    print
+-    y.write('result.pdf')
+-    print
+diff --git a/setup.py b/setup.py
+index 475cde1..083497f 100755
+--- a/setup.py
++++ b/setup.py
+@@ -9,7 +9,7 @@ setup(name='MAT',
+       author_email='julien.voisin@dustri.org',
+       license='GPLv2',
+       url='https://gitweb.torproject.org/user/jvoisin/mat.git',
+-      packages=['mat', 'mat.hachoir_editor', 'mat.pdfrw', 'mat.bencode', 'mat.tarfile'],
++      packages=['mat', 'mat.hachoir_editor', 'mat.bencode', 'mat.tarfile'],
+       scripts=['mat-cli', 'mat-gui'],
+       data_files=[
+           ( 'share/applications/', [ 'mat.desktop' ] ),
+-- 
