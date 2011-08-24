@@ -17,6 +17,7 @@ Depends:
  python-hachoir-core,
  python-hachoir-parser,
 Recommends:
+ pdfrw,
  python-cairo,
  python-poppler,
  python-mutagen
