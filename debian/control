@@ -14,10 +14,10 @@ Architecture: all
 Depends:
  ${python:Depends},
  ${misc:Depends},
+ pdfrw,
  python-hachoir-core,
  python-hachoir-parser,
 Recommends:
- pdfrw,
  python-cairo,
  python-poppler,
  python-mutagen
