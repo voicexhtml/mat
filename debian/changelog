@@ -1,3 +1,9 @@
+mat (0.1~4.git2c9182-2~bpo60+1) squeeze-backports; urgency=low
+
+  * Rebuild for squeeze-backports.
+
+ -- intrigeri <intrigeri+debian@boum.org>  Thu, 25 Aug 2011 11:40:31 +0200
+
 mat (0.1~4.git2c9182-2) unstable; urgency=low
 
   * Fix dependencies: depend on pdfrw instead of recommending it.
