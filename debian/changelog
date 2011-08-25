@@ -1,8 +1,38 @@
-mat (0.1~2.git54f665-1~bpo60+1) squeeze-backports; urgency=low
+mat (0.1~4.git2c9182-2) unstable; urgency=low
 
-  * Rebuild for squeeze-backports.
+  * Fix dependencies: depend on pdfrw instead of recommending it.
 
- -- intrigeri <intrigeri+debian@boum.org>  Sun, 21 Aug 2011 16:45:46 +0200
+ -- intrigeri <intrigeri+debian@boum.org>  Thu, 25 Aug 2011 11:07:55 +0200
+
+mat (0.1~4.git2c9182-1) unstable; urgency=low
+
+  * New upstream Git snapshot at commit 2c9182.
+  * New patches:
+    - 0001-Use-relative-path-in-setup.py.patch
+    - 0002-Fix-ugly-typo.patch
+    - 0003-Remove-embedded-pdfrw-copy.patch
+    - 0004-Don-t-install-FORMATS-file-in-a-stupid-place.patch
+  * Recommend pdfrw since it's not embedded anymore.
+
+ -- intrigeri <intrigeri+debian@boum.org>  Thu, 25 Aug 2011 00:41:27 +0200
+
+mat (0.1~3.gitf96246-1) unstable; urgency=low
+
+  * New upstream Git snasphot at commit f96246:
+    - Cleanup useless and repetitive wording in the manpage.
+    - Don't use hyphen as minus sign in manpage.
+    - Update program name in manpage.
+    - Remove deprecated Encoding key in desktop file.
+    - Improve --help message.
+    - Make it clear JPEG is only partially supported:
+      Canon Raw tags are not dealt with.
+    - Support Torrent files.
+    - Improved images support.
+    - User interface improvements.
+  * Drop all patches (integrated upstream).
+
+ -- intrigeri <intrigeri+debian@boum.org>  Mon, 22 Aug 2011 18:30:49 +0200
+>>>>>>> master
 
 mat (0.1~2.git54f665-1) unstable; urgency=low
 

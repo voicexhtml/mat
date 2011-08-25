@@ -1,4 +1,4 @@
-0001-Cleanup-useless-and-repetitive-wording-in-the-manpag.patch
-0002-Don-t-use-hyphen-as-minus-sign-in-manpage.patch
-0003-Update-program-name-in-manpage.patch
-0004-Remove-deprecated-Encoding-key-in-desktop-file.patch
+0001-Use-relative-path-in-setup.py.patch
+0002-Fix-ugly-typo.patch
+0003-Remove-embedded-pdfrw-copy.patch
+0004-Don-t-install-FORMATS-file-in-a-stupid-place.patch
