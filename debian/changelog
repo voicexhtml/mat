@@ -1,3 +1,9 @@
+mat (0.1~4.git2c9182-2) unstable; urgency=low
+
+  * Fix dependencies: depend on pdfrw instead of recommending it.
+
+ -- intrigeri <intrigeri+debian@boum.org>  Thu, 25 Aug 2011 11:07:55 +0200
+
 mat (0.1~4.git2c9182-1) unstable; urgency=low
 
   * New upstream Git snapshot at commit 2c9182.
