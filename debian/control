@@ -14,9 +14,9 @@ Architecture: all
 Depends:
  ${python:Depends},
  ${misc:Depends},
- pdfrw,
  python-hachoir-core,
  python-hachoir-parser,
+ python-pdfrw,
 Recommends:
  python-cairo,
  python-poppler,
