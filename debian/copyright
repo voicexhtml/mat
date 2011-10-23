@@ -15,8 +15,9 @@ Copyright: © 2006 Daniel J. Popowich
 License: GPL-2 and Expat
 
 Files: mat/benconde/*
-Copyright: © XXX
-License: XXX
+Copyright: © 2007 Petru Paler
+Copyright: © 2011 Julien Voisin <julien.voisin@dustri.org>
+License: Expat
 
 Files: mat/tarfile/*
 Copyright: © 2002 Lars Gustäbel <lars@gustaebel.de>
