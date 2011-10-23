@@ -41,3 +41,16 @@ Description: Metadata anonymisation toolkit
  .
  If you really want to be anonym, use format that does not contain any
  metadata, or better: use plain-text.
+ .
+ Formats supported to some extent are:
+    - Portable Network Graphics (PNG)
+    - JPEG (.jpeg, .jpg, ...)
+    - Open Document (.odt, .odx, .ods, ...)
+    - Office Openxml (.docx, .pptx, .xlsx, ...)
+    - Portable Document Fileformat (.pdf)
+    - Tape ARchive (.tar, .tar.bz2, .tar.gz)
+    - ZIP (.zip)
+    - MPEG Audio (.mp3, .mp2, .mp1, .mpa)
+    - Ogg Vorbis (.ogg)
+    - Free Lossless Audio Codec (.flac)
+    - Torrent (.torrent)
