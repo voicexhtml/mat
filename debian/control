@@ -7,7 +7,8 @@ Build-Depends-Indep: python-distutils-extra
 Standards-Version: 3.9.2
 X-Python-Version: >= 2.6
 Homepage: https://gitweb.torproject.org/user/jvoisin/mat.git
-Vcs-Git: git://webmasters.boum.org/mat
+Vcs-Git: git://git.debian.org/collab-maint/mat.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/mat.git
 
 Package: mat
 Architecture: all
