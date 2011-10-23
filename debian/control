@@ -30,7 +30,7 @@ Description: Metadata anonymisation toolkit
  .
  Metadata within a file can tell a lot about you. Cameras record data
  about when a picture was taken and what camera was used. Office
- documents like pdf or Office automatically adds author and company
+ documents like PDF or Office automatically adds author and company
  information to documents and spreadsheets.
  .
  Maybe you don't want to disclose those information on the web.
