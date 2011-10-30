@@ -1,8 +1,30 @@
-mat (0.1~4.git2c9182-2~bpo60+1) squeeze-backports; urgency=low
+mat (0.1-1~3.gbpf80227) unstable; urgency=low
 
-  * Rebuild for squeeze-backports.
+  ** SNAPSHOT build @f802278950c072db5659752af2ef9f5289287285 **
 
- -- intrigeri <intrigeri+debian@boum.org>  Thu, 25 Aug 2011 11:40:31 +0200
+  * Initial upstream release.
+  * Drop all patches, applied upstream.
+  * Update Vcs-* control fields: packaging repository was moved to collab-maint.
+  * The MAT now has a real web homepage.
+  * Set collective maintainer.
+  * Update gbp.conf to match current upstream practices.
+  * Add Lintian overrides for false positives.
+  * Add watch file.
+
+ -- intrigeri <intrigeri+debian@boum.org>  Sun, 30 Oct 2011 17:59:12 +0100
+
+mat (0.1~5.gite7a930-1) unstable; urgency=low
+
+  * New upstream Git snapshot at commit e7a930.
+  * Drop all patches (merged upstream).
+  * Clarify copyright and license on bencode.
+  * Cleanup debian/copyright: pdfrw is not embedded anymore.
+  * Add missing dependency on exiftool.
+  * List supported formats in long description.
+  * Fix spelling in long description.
+  * New patch: 0001-Do-not-try-to-install-files-that-we-don-t-ship-anymo.patch
+
+ -- intrigeri <intrigeri+debian@boum.org>  Sun, 23 Oct 2011 14:48:04 +0200
 
 mat (0.1~4.git2c9182-2) unstable; urgency=low
 

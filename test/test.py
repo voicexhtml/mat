@@ -17,6 +17,7 @@ clean = glob.glob('clean*')
 clean.sort()
 dirty  = glob.glob('dirty*')
 dirty.sort()
+
 FILE_LIST = zip(clean, dirty)
 
 try:

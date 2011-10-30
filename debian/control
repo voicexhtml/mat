@@ -1,22 +1,27 @@
 Source: mat
 Section: python
 Priority: optional
-Maintainer: intrigeri <intrigeri+debian@boum.org>
+Maintainer: Debian MAT maintainers <pkg-mat@lists.riseup.net>
+Uploaders:
+ bertagaz <bertagaz@ptitcanardnoir.org>,
+ intrigeri <intrigeri+debian@boum.org>
 Build-Depends: debhelper (>= 7.0.50~), python (>= 2.6.6-3~)
 Build-Depends-Indep: python-distutils-extra
 Standards-Version: 3.9.2
 X-Python-Version: >= 2.6
-Homepage: https://gitweb.torproject.org/user/jvoisin/mat.git
-Vcs-Git: git://webmasters.boum.org/mat
+Homepage: https://mat.boum.org/
+Vcs-Git: git://git.debian.org/collab-maint/mat.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/mat.git
 
 Package: mat
 Architecture: all
 Depends:
  ${python:Depends},
  ${misc:Depends},
- pdfrw,
+ libimage-exiftool-perl,
  python-hachoir-core,
  python-hachoir-parser,
+ python-pdfrw,
 Recommends:
  python-cairo,
  python-poppler,
@@ -29,7 +34,7 @@ Description: Metadata anonymisation toolkit
  .
  Metadata within a file can tell a lot about you. Cameras record data
  about when a picture was taken and what camera was used. Office
- documents like pdf or Office automatically adds author and company
+ documents like PDF or Office automatically adds author and company
  information to documents and spreadsheets.
  .
  Maybe you don't want to disclose those information on the web.
@@ -40,3 +45,16 @@ Description: Metadata anonymisation toolkit
  .
  If you really want to be anonym, use format that does not contain any
  metadata, or better: use plain-text.
+ .
+ Formats supported to some extent are:
+    - Portable Network Graphics (PNG)
+    - JPEG (.jpeg, .jpg, ...)
+    - Open Document (.odt, .odx, .ods, ...)
+    - Office Openxml (.docx, .pptx, .xlsx, ...)
+    - Portable Document Fileformat (.pdf)
+    - Tape ARchive (.tar, .tar.bz2, .tar.gz)
+    - ZIP (.zip)
+    - MPEG Audio (.mp3, .mp2, .mp1, .mpa)
+    - Ogg Vorbis (.ogg)
+    - Free Lossless Audio Codec (.flac)
+    - Torrent (.torrent)

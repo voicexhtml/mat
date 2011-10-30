@@ -23,12 +23,14 @@ WARNING :
 DEPENDENCIES:
     python2.6 (at least)
     python-hachoir-core and python-hachoir-parser
+    python-pdfrw  or exiftool for full pdf support
     shred (should be already installed)
 
 
 OPTIONALS DEPENDENCIES:
     python-poppler and python-cairo : for pdf support
     python-mutagen : for massive audio format support
+    exiftool : for _massive_ image format support
 
 
 USAGE:
@@ -109,6 +111,12 @@ SUPPORTED FORMAT:
         metadata : Flac, Vorbis
         method : removal of harmful fields is done with mutagen
 
+    Torrent (.torrent)
+        support : full
+        metadata : torrent
+        method : using the nice bencode lib by Petru Paler,
+            heavily tuned/rewritten.
+
 
 HOW TO IMPLEMENT NEW FORMATS:
     1. add the format's mimetype to the STRIPPER list in mat.py
@@ -120,6 +128,10 @@ HOW TO IMPLEMENT NEW FORMATS:
         - get_meta(self)
     5. don't forget to call the do_backup() method when necessary
 
+HOW TO LAUNCHE THE TESTSUITE:
+    1. cd ./test
+    2. python2.6 clitest.py : launch the testsuite for the CLI
+    3. python2.6 libtest.py : launch the testsuite for the mat internal library
 
 ALTERNATIVES AND COMPLEMENTS:
 for images:

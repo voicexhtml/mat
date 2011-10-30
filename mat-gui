@@ -12,6 +12,8 @@ import gettext
 import locale
 import logging
 import os
+import sys
+import mimetypes
 import xml.sax
 
 from mat import mat
@@ -100,12 +102,14 @@ class GUI:
         toolbutton = gtk.ToolButton(gtk.STOCK_PRINT_REPORT)
         toolbutton.set_label(_('Clean (lossless)'))
         toolbutton.connect('clicked', self.process_files, self.mat_clean)
-        toolbutton.set_tooltip_text(_('Clean selected files without data loss'))
+        toolbutton.set_tooltip_text(_('Clean selected files without possible \
+data loss'))
         toolbar.add(toolbutton)
 
         toolbutton = gtk.ToolButton(gtk.STOCK_PRINT_WARNING)
         toolbutton.set_label(_('Clean (strict)'))
-        toolbutton.connect('clicked', self.process_files, self.mat_clean_strict)
+        toolbutton.connect('clicked', self.process_files,
+                self.mat_clean_strict)
         toolbutton.set_tooltip_text(_('Clean selected files with possible \
 data loss, but clean more efficiently'))
         toolbar.add(toolbutton)
@@ -147,7 +151,7 @@ data loss, but clean more efficiently'))
             Create a MenuItem() like Preferences, Quit, Add, Clean, ...
         '''
         item = gtk.ImageMenuItem()
-        if shortcut :
+        if shortcut:
             key, mod = gtk.accelerator_parse(shortcut)
             item.add_accelerator('activate', self.accelerator,
                 key, mod, gtk.ACCEL_VISIBLE)
@@ -222,10 +226,9 @@ data loss, but clean more efficiently'))
         item.connect('activate', self.process_files, self.mat_check)
         process_menu.append(item)
 
-
         help_menu = self.create_sub_menu(_('Help'), menubar)
-        self.create_menu_item(_('Supported formats'), self.supported, help_menu,
-            gtk.STOCK_INFO, False)
+        self.create_menu_item(_('Supported formats'), self.supported,
+            help_menu, gtk.STOCK_INFO, False)
         self.create_menu_item(_('About'), self.about, help_menu,
                 gtk.STOCK_ABOUT, False)
 
@@ -270,20 +273,25 @@ data loss, but clean more efficiently'))
                 for root, dirs, files in os.walk(filename):
                     for item in files:
                         path_to_file = os.path.join(root, item)
+
                         if self.add_file_to_treeview(path_to_file):
                             not_supported.append(item)
             else:  # filename is a regular file
-                self.add_file_to_treeview(filename)
-                if self.add_file_to_treeview(path_to_file):
-                    not_supported.append(item)
+                if self.add_file_to_treeview(filename):
+                    not_supported.append(filename)
             yield True
-        self.popup_non_supported(not_supported)
+        if not_supported:
+            self.popup_non_supported(not_supported)
         yield False
 
     def add_file_to_treeview(self, filename):
         '''
-            Add a file to the list if his format is supported
+            Add a file to the list if it's format is supported
         '''
+        if not os.path.isfile(filename):
+            # if filename does not exist
+            return False
+
         cf = CFile(filename, self.backup, self.add2archive)
         if cf.file is not None:  # if the file is supported by the mat
             self.liststore.append([cf, cf.file.basename,
@@ -305,7 +313,13 @@ data loss, but clean more efficiently'))
         store = gtk.ListStore(str, str)
 
         # append filename - mimetype to the store
-        [store.append([item, 'bleh']) for item in filelist]#FIXME
+        #FIXME : I'm ugly
+        for item in filelist:
+            mime = mimetypes.guess_type(item)[0]
+            if mime:
+                store.append([item, mime])
+            else:
+                store.append([item, 'unknown'])
 
         treeview = gtk.TreeView(store)
         vbox.pack_start(treeview, True, True, 0)
@@ -355,7 +369,7 @@ data loss, but clean more efficiently'))
         handler = mat.XMLParser()
         parser = xml.sax.make_parser()
         parser.setContentHandler(handler)
-        with open('FORMATS', 'r') as xmlfile:
+        with open(mat.get_sharedir() + 'FORMATS', 'r') as xmlfile:
             parser.parse(xmlfile)
 
         for item in handler.list:  # list of dict : one dict per format
@@ -428,6 +442,9 @@ non-anonymised) file to output archive'))
             self.force = not self.force
         elif name == 'backup':
             self.backup = not self.backup
+            for line in xrange(len(self.liststore)):
+                # change the "backup" property of all files
+                self.liststore[line][0].file.backup = self.backup
             self.treeview.get_column(3).set_visible(self.backup)
         elif name == 'add2archive':
             self.add2archive = not self.add2archive
@@ -468,10 +485,10 @@ non-anonymised) file to output archive'))
             self.statusbar.push(0, _('Cleaning %s...') % self.liststore[line][1])
             if self.liststore[line][3] != _('Clean (strict)'):
                 if self.force or not self.liststore[line][0].file.is_clean():
-                    self.liststore[line][0].file.remove_all()
+                    if self.liststore[line][0].file.remove_all():
+                        self.liststore[line][3] = _('Clean (lossless)')
                 if self.backup:  # the backup copy state
                     self.liststore[line][4] = self.liststore[line][0].file.output
-                self.liststore[line][3] = _('Clean(lossless)')
             yield True
         self.statusbar.push(0, _('Ready'))
         yield False
@@ -485,10 +502,10 @@ non-anonymised) file to output archive'))
             self.statusbar.push(0, _('Cleaning %s...') % self.liststore[line][1])
             if self.liststore[line][3] != _('Clean (strict)'):
                 if self.force or not self.liststore[line][0].file.is_clean():
-                    self.liststore[line][0].file.remove_all_ugly()
+                    if self.liststore[line][0].file.remove_all_ugly():
+                        self.liststore[line][3] = _('Clean (strict)')
                 if self.backup:  # the backup copy state
                     self.liststore[line][4] = self.liststore[line][0].file.output
-                self.liststore[line][3] = _('Clean (strict)')
             yield True
         self.statusbar.push(0, _('Ready'))
         yield False
@@ -627,7 +644,6 @@ class TreeViewTooltips(object):
             name = model[path][0]
             return name.file.filename
 
-
 if __name__ == '__main__':
     #Translations
     t = gettext.translation('gui', 'locale', fallback=True)
@@ -635,5 +651,12 @@ if __name__ == '__main__':
     t.install()
 
     #Main
-    GUI()
+    gui = GUI()
+
+    #Add files from command line
+    infiles = [arg for arg in sys.argv[1:] if os.path.exists(arg)]
+    if infiles:
+        task = gui.populate(infiles)
+        gobject.idle_add(task.next)
+
     gtk.main()

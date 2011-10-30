@@ -1,15 +1,13 @@
 GENERAL:
-    -Complete the get_meta method:
+    - Complete the get_meta method:
 	the ultimate goal is to remove
 	all "harmful meta" stuff
+    - Fix the ugly function get_sharedir
+
+TESTSUITE:
+    - return code ?
 
 GUI:
     - Drag and Drop
     - Fix the statusbar
-
-PICTURES:
-    - Add exiftool to optional dependencies libraries
-    - Binding to exiftool
-    - A function to check if exiftool is installed
-
 

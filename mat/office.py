@@ -6,6 +6,7 @@ import os
 import logging
 import zipfile
 import fileinput
+import subprocess
 
 try:
     import cairo
@@ -16,7 +17,6 @@ except ImportError:
 import mat
 import parser
 import archive
-import pdfrw
 
 
 class OpenDocumentStripper(archive.GenericArchiveStripper):
@@ -35,7 +35,7 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
         try:
             content = zipin.read('meta.xml')
             zipin.close()
-            metadata[self.filename] = 'harful meta'
+            metadata[self.filename] = 'harmful meta'
         except KeyError:  # no meta.xml file found
             logging.debug('%s has no opendocument metadata' % self.filename)
         return metadata
@@ -91,6 +91,7 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
         zipin.close()
         zipout.close()
         self.do_backup()
+        return True
 
     def is_clean(self):
         '''
@@ -120,45 +121,27 @@ class PdfStripper(parser.GenericParser):
         self.password = None
         self.document = poppler.document_new_from_file(uri, self.password)
         self.meta_list = ('title', 'author', 'subject', 'keywords', 'creator',
-            'producer', 'creation-date', 'mod-date', 'metadata')
+            'producer', 'metadata')
 
     def is_clean(self):
         '''
             Check if the file is clean from harmful metadatas
         '''
         for key in self.meta_list:
-            if key == 'creation-date' or key == 'mod-date':
-                if self.document.get_property(key) != -1:
-                    return False
-            elif self.document.get_property(key) is not None and \
+            if self.document.get_property(key) is not None and \
                 self.document.get_property(key) != '':
                 return False
         return True
 
-    def remove_all_ugly(self):
-        page = self.document.get_page(0)
-        page_width, page_height = page.get_size()
-        surface = cairo.PDFSurface(self.output, page_width, page_height)
-        context = cairo.Context(surface)  # context draws on the surface
-        logging.debug('Pdf rendering of %s' % self.filename)
-        for pagenum in xrange(self.document.get_n_pages()):
-            page = self.document.get_page(pagenum)
-            context.translate(0, 0)
-            page.render(context)  # render the page on context
-            context.show_page()  # draw context on surface
-        surface.finish()
-
-        #For now, poppler cannot write meta, so we must use pdfrw
-        logging.debug('Removing %s\'s superficial metadata' % self.filename)
-        trailer = pdfrw.PdfReader(self.output)
-        trailer.Info.Producer = trailer.Info.Creator = None
-        writer = pdfrw.PdfWriter()
-        writer.trailer = trailer
-        writer.write(self.output)
-        self.do_backup()
-
 
     def remove_all(self):
+        '''
+            Remove supperficial
+        '''
+        return self._remove_meta()
+
+
+    def remove_all_ugly(self):
         '''
             Opening the pdf with poppler, then doing a render
             on a cairo pdfsurface for each pages.
@@ -177,15 +160,51 @@ class PdfStripper(parser.GenericParser):
             page.render(context)  # render the page on context
             context.show_page()  # draw context on surface
         surface.finish()
+        return self._remove_meta()
 
-        #For now, poppler cannot write meta, so we must use pdfrw
-        logging.debug('Removing %s\'s superficial metadata' % self.filename)
-        trailer = pdfrw.PdfReader(self.output)
-        trailer.Info.Producer = trailer.Info.Creator = None
-        writer = pdfrw.PdfWriter()
-        writer.trailer = trailer
-        writer.write(self.output)
-        self.do_backup()
+    def _remove_meta(self):
+        '''
+            Remove superficial/external metadata
+            from a pdf file, using exiftool,
+            of pdfrw if exiftool is not installed
+        '''
+        processed = False
+        try:# try with pdfrw
+            import pdfrw
+            #For now, poppler cannot write meta, so we must use pdfrw
+            logging.debug('Removing %s\'s superficial metadata' % self.filename)
+            trailer = pdfrw.PdfReader(self.output)
+            trailer.Info.Producer = trailer.Author = trailer.Info.Creator = None
+            writer = pdfrw.PdfWriter()
+            writer.trailer = trailer
+            writer.write(self.output)
+            self.do_backup()
+            processed = True
+        except:
+            pass
+
+        try:  # try with exiftool
+            subprocess.Popen('exiftool', stdout=open('/dev/null'))
+            import exiftool
+            # Note: '-All=' must be followed by a known exiftool option.
+            if self.backup:
+                process = subprocess.Popen(['exiftool', '-All=',
+                    '-out', self.output, self.filename], stdout=open('/dev/null'))
+                process.wait()
+            else:
+                # Note: '-All=' must be followed by a known exiftool option.
+                process = subprocess.Popen(
+                    ['exiftool', '-All=', '-overwrite_original', self.filename],
+                    stdout=open('/dev/null'))
+                process.wait()
+            processed = True
+        except:
+            pass
+
+        if processed is False:
+            logging.error('Please install either pdfrw, or exiftool to\
+                    fully handle pdf files')
+        return processed
 
     def get_meta(self):
         '''
@@ -193,11 +212,7 @@ class PdfStripper(parser.GenericParser):
         '''
         metadata = {}
         for key in self.meta_list:
-            if key == 'creation-date' or key == 'mod-date':
-                #creation and modification are set to -1
-                if self.document.get_property(key) != -1:
-                    metadata[key] = self.document.get_property(key)
-            elif self.document.get_property(key) is not None and \
+            if self.document.get_property(key) is not None and \
                 self.document.get_property(key) != '':
                 metadata[key] = self.document.get_property(key)
         return metadata
@@ -250,6 +265,7 @@ class OpenXmlStripper(archive.GenericArchiveStripper):
         zipin.close()
         zipout.close()
         self.do_backup()
+        return True
 
     def is_clean(self):
         '''

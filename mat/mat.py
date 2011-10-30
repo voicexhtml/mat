@@ -32,8 +32,6 @@ STRIPPERS = {
     'application/x-bzip2': archive.Bzip2Stripper,
     'application/zip': archive.ZipStripper,
     'audio/mpeg': audio.MpegAudioStripper,
-    'image/jpeg': images.JpegStripper,
-    'image/png': images.PngStripper,
     'application/x-bittorrent': misc.TorrentStripper,
     'application/opendocument': office.OpenDocumentStripper,
     'application/officeopenxml': office.OpenXmlStripper,
@@ -53,7 +51,28 @@ try:
     STRIPPERS['audio/x-flac'] = audio.FlacStripper
     STRIPPERS['audio/vorbis'] = audio.OggStripper
 except ImportError:
-    print('unable to import python-mutagen : limited audio format support')
+    print('Unable to import python-mutagen: limited audio format support')
+
+try:
+    # check if exiftool is installed on the system
+    subprocess.Popen('exiftool', stdout=open('/dev/null'))
+    import exiftool
+    STRIPPERS['image/jpeg'] = exiftool.JpegStripper
+    STRIPPERS['image/png'] = exiftool.PngStripper
+except:
+    print('Unable to find exiftool: limited images support')
+    STRIPPERS['image/jpeg'] = images.JpegStripper
+    STRIPPERS['image/png'] = images.PngStripper
+
+
+def get_sharedir():
+    '''
+        An ugly hack to find where is the "FORMATS" file.
+    '''
+    if os.path.isfile('FORMATS'):
+        return ''
+    elif os.path.exists('/usr/local/share/mat/'):
+        return '/usr/local/share/mat/'
 
 
 class XMLParser(xml.sax.handler.ContentHandler):
@@ -91,7 +110,7 @@ class XMLParser(xml.sax.handler.ContentHandler):
         '''
             Concatenate the content between opening and closing balises
         '''
-        if self.between is True:
+        if self.between:
             self.content += characters
 
 
@@ -101,7 +120,7 @@ def secure_remove(filename):
     '''
     removed = False
     try:
-        subprocess.call('shred --remove %s' % filename, shell=True)
+        subprocess.call(['shred', '--remove', filename])
         removed = True
     except:
         logging.error('Unable to securely remove %s' % filename)
@@ -113,23 +132,14 @@ def secure_remove(filename):
             logging.error('Unable to remove %s' % filename)
 
 
-def is_secure(filename):
-    '''
-        Prevent shell injection
-    '''
-    if not(os.path.isfile(filename)):  # check if the file exist
-        logging.error('%s is not a valid file' % filename)
-        return False
-    else:
-        return True
-
-
 def create_class_file(name, backup, add2archive):
     '''
         return a $FILETYPEStripper() class,
         corresponding to the filetype of the given file
     '''
-    if not is_secure(name):
+    if not os.path.isfile(name):
+        # check if the file exists
+        logging.error('%s is not a valid file' % name)
         return
 
     filename = ''
