@@ -4,6 +4,9 @@ GENERAL:
 	all "harmful meta" stuff
     - Fix the ugly function get_sharedir
 
+TESTSUITE:
+    - return code ?
+
 GUI:
     - Drag and Drop
     - Fix the statusbar

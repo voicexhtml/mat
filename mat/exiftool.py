@@ -30,15 +30,22 @@ class ExiftoolStripper(parser.GenericParser):
         '''
             Remove all metadata with help of exiftool
         '''
-        if self.backup:
-            process = subprocess.Popen(['exiftool', '-all=',
-                '-o %s' % self.output, self.filename],
-                stdout=open('/dev/null'))
-            process.wait()
-        else:
-            process = subprocess.Popen(['exiftool', '-overwrite_original',
-                '-all=', self.filename], stdout=open('/dev/null'))
-            process.wait()
+        try:
+            if self.backup:
+                # Note: '-All=' must be followed by a known exiftool option.
+                process = subprocess.Popen(['exiftool', '-All=',
+                    '-out', self.output, self.filename],
+                    stdout=open('/dev/null'))
+                process.wait()
+            else:
+                # Note: '-All=' must be followed by a known exiftool option.
+                process = subprocess.Popen(
+                    [ 'exiftool', '-All=', '-overwrite_original', self.filename ],
+                    stdout=open('/dev/null'))
+                process.wait()
+            return True
+        except:
+            return False
 
     def is_clean(self):
         '''
