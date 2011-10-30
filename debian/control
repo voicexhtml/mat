@@ -18,14 +18,13 @@ Architecture: all
 Depends:
  ${python:Depends},
  ${misc:Depends},
- libimage-exiftool-perl,
  python-hachoir-core,
- python-hachoir-parser,
- python-pdfrw,
+ python-hachoir-parser
 Recommends:
+ libimage-exiftool-perl | python-pdfrw,
  python-cairo,
- python-poppler,
- python-mutagen
+ python-mutagen,
+ python-poppler
 Description: Metadata anonymisation toolkit
  Metadata consist of information that characterizes data. Metadata are
  used to provide documentation for data products. In essence, metadata
