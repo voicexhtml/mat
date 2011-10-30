@@ -1,3 +1,15 @@
+mat (0.1-1~2.gbp0128de) UNRELEASED; urgency=low
+
+  ** SNAPSHOT build @0128dec765221028c9969d27d3dded174809a615 **
+
+  * Initial upstream release.
+  * Update Vcs-* control fields: packaging repository was moved to collab-maint.
+  * The MAT now has a real web homepage.
+  * Set collective maintainer.
+  * Update gbp.conf to match current upstream practices.
+
+ -- intrigeri <intrigeri+debian@boum.org>  Sun, 30 Oct 2011 17:36:48 +0100
+
 mat (0.1~5.gite7a930-1) unstable; urgency=low
 
   * New upstream Git snapshot at commit e7a930.
