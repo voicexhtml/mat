@@ -1,14 +1,17 @@
-mat (0.1-1~2.gbp0128de) UNRELEASED; urgency=low
+mat (0.1-1~3.gbpf80227) UNRELEASED; urgency=low
 
-  ** SNAPSHOT build @0128dec765221028c9969d27d3dded174809a615 **
+  ** SNAPSHOT build @f802278950c072db5659752af2ef9f5289287285 **
 
   * Initial upstream release.
+  * Drop all patches, applied upstream.
   * Update Vcs-* control fields: packaging repository was moved to collab-maint.
   * The MAT now has a real web homepage.
   * Set collective maintainer.
   * Update gbp.conf to match current upstream practices.
+  * Add Lintian overrides for false positives.
+  * Add watch file.
 
- -- intrigeri <intrigeri+debian@boum.org>  Sun, 30 Oct 2011 17:36:48 +0100
+ -- intrigeri <intrigeri+debian@boum.org>  Sun, 30 Oct 2011 17:53:12 +0100
 
 mat (0.1~5.gite7a930-1) unstable; urgency=low
 
