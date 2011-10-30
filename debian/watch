@@ -1,0 +1,2 @@
+version=3
+https://mat.boum.org/files/   ^mat-v?(\d[\d.-]+)\.(?:tar(?:\.gz|\.bz2)?|tgz|zip)$
