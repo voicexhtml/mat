@@ -21,7 +21,7 @@ Depends:
  python-hachoir-core,
  python-hachoir-parser
 Recommends:
- libimage-exiftool-perl | python-pdfrw,
+ libimage-exiftool-perl,
  python-cairo,
  python-mutagen,
  python-poppler
