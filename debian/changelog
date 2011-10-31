@@ -1,3 +1,12 @@
+mat (0.1-1~4.gbp70ebf7~bpo60+1) squeeze-backports; urgency=low
+
+  * Rebuild for squeeze-backports.
+  * Remove the python-pdfrw side of a Recommends alternative:
+    python-pdfrw was not shipped in Squeeze as a standalone package,
+    contrary to the other part of the alternative (libimage-exiftool-perl).
+
+ -- intrigeri <intrigeri+debian@boum.org>  Mon, 31 Oct 2011 14:30:40 +0100
+
 mat (0.1-1~4.gbp70ebf7) unstable; urgency=low
 
   ** SNAPSHOT build @70ebf732aa4bf861444a5aa4398b8558a231a4b1 **
