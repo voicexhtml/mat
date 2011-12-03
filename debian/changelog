@@ -1,18 +1,11 @@
-mat (0.1-1~4.gbp70ebf7) unstable; urgency=low
+mat (0.2~1.git697cf6-1) unstable; urgency=low
 
-  ** SNAPSHOT build @70ebf732aa4bf861444a5aa4398b8558a231a4b1 **
+  * New upstream Git snapshot at commit 697cf6:
+    - documentation improvements
+    - drag'n'drop support
+    - bugfixes
 
-  * Initial upstream release.
-  * Drop all patches, applied upstream.
-  * Update Vcs-* control fields: packaging repository was moved to collab-maint.
-  * The MAT now has a real web homepage.
-  * Set collective maintainer.
-  * Update gbp.conf to match current upstream practices.
-  * Add Lintian overrides for false positives.
-  * Add watch file.
-  * Make all optional dependencies recommends.
-
- -- intrigeri <intrigeri+debian@boum.org>  Mon, 31 Oct 2011 14:18:56 +0100
+ -- intrigeri <intrigeri+debian@boum.org>  Sat, 03 Dec 2011 11:21:42 +0100
 
 mat (0.1~5.gite7a930-1) unstable; urgency=low
 
