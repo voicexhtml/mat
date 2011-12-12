@@ -1,11 +1,13 @@
-mat (0.2~1.git697cf6-1) unstable; urgency=low
+mat (0.2~1.git6b2de7-2) unstable; urgency=low
 
-  * New upstream Git snapshot at commit 697cf6:
+  ** SNAPSHOT build @631a14a64d343d20c8f42340e09883fdc4e7f604 **
+
+  * New upstream Git snapshot at commit 6b2de70:
     - documentation improvements
     - drag'n'drop support
     - bugfixes
 
- -- intrigeri <intrigeri+debian@boum.org>  Sat, 03 Dec 2011 11:21:42 +0100
+ -- intrigeri <intrigeri+debian@boum.org>  Mon, 12 Dec 2011 16:45:37 +0100
 
 mat (0.1~5.gite7a930-1) unstable; urgency=low
 
