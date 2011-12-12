@@ -21,12 +21,14 @@ __author__ = 'jvoisin'
 #Silence
 LOGGING_LEVEL = logging.CRITICAL
 hachoir_core.config.quiet = True
+fname = ''
 
 #Verbose
 #LOGGING_LEVEL = logging.DEBUG
 #hachoir_core.config.quiet = False
+#logname = 'report.log'
 
-logging.basicConfig(filename='report.log', level=LOGGING_LEVEL)
+logging.basicConfig(filename=fname, level=LOGGING_LEVEL)
 
 
 def get_sharedir():
@@ -106,7 +108,17 @@ def create_class_file(name, backup, add2archive):
     if not os.path.isfile(name):
         # check if the file exists
         logging.error('%s is not a valid file' % name)
-        return
+        return False
+
+    if not os.access(name, os.R_OK):
+        #check read permissions
+        logging.error('%s is is not readable' % name)
+        return False
+
+    if not os.access(name, os.W_OK):
+        #check write permission
+        logging.error('%s is not writtable' % name)
+        return False
 
     filename = ''
     try:
@@ -117,7 +129,7 @@ def create_class_file(name, backup, add2archive):
     parser = hachoir_parser.createParser(filename)
     if not parser:
         logging.info('Unable to parse %s' % filename)
-        return
+        return False
 
     mime = parser.mime_type
 
@@ -133,6 +145,6 @@ def create_class_file(name, backup, add2archive):
         stripper_class = strippers.STRIPPERS[mime]
     except KeyError:
         logging.info('Don\'t have stripper for %s format' % mime)
-        return
+        return False
 
     return stripper_class(filename, parser, mime, backup, add2archive)

@@ -6,9 +6,6 @@ GENERAL:
     - Modify creation/modification date
     (except for stupid formats like zip)
 
-TESTSUITE:
-    - return code ?
-
 GUI:
     - display harmrful meta per file
 
