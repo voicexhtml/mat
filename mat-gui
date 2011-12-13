@@ -15,8 +15,10 @@ import os
 import sys
 import mimetypes
 import xml.sax
+import urllib2
 
 from mat import mat
+from mat import strippers
 
 __version__ = '0.1'
 __author__ = 'jvoisin'
@@ -50,8 +52,7 @@ class GUI:
 
         # Main window
         self.window = gtk.Window()
-        self.window.set_title('Metadata Anonymisation Toolkit %s' %
-            __version__)
+        self.window.set_title('Metadata Anonymisation Toolkit')
         self.window.connect('destroy', gtk.main_quit)
         self.window.set_default_size(800, 600)
 
@@ -75,6 +76,10 @@ class GUI:
         self.treeview.set_search_column(1)  # filename column is searchable
         self.treeview.set_rules_hint(True)  # alternate colors for rows
         self.treeview.set_rubber_banding(True)  # mouse selection
+        self.treeview.connect('drag_data_received', self.on_drag_data_received)
+        self.treeview.drag_dest_set(gtk.DEST_DEFAULT_MOTION |
+                gtk.DEST_DEFAULT_HIGHLIGHT | gtk.DEST_DEFAULT_DROP,
+                [('text/uri-list', 0, 80)], gtk.gdk.ACTION_COPY)
         self.add_columns()
         self.selection = self.treeview.get_selection()
         self.selection.set_mode(gtk.SELECTION_MULTIPLE)
@@ -251,7 +256,7 @@ data loss, but clean more efficiently'))
 
         supported_filter = gtk.FileFilter()
         # filter that shows only supported formats
-        [supported_filter.add_mime_type(i) for i in mat.STRIPPERS.keys()]
+        [supported_filter.add_mime_type(i) for i in strippers.STRIPPERS.keys()]
         supported_filter.set_name(_('Supported files'))
         chooser.add_filter(supported_filter)
 
@@ -300,7 +305,6 @@ data loss, but clean more efficiently'))
         else:
             return True
 
-
     def popup_non_supported(self, filelist):
         '''
             Popup that warn the user about the unsupported files
@@ -344,7 +348,7 @@ data loss, but clean more efficiently'))
         w.set_version(__version__)
         w.set_copyright('GNU Public License v2')
         w.set_comments(_('This software was coded during the GSoC 2011'))
-        w.set_website('https://gitweb.torproject.org/user/jvoisin/mat.git')
+        w.set_website('https://mat.boum.org')
         w.set_website_label(_('Website'))
         w.set_authors(['Julien (jvoisin) Voisin', ])
         w.set_program_name('Metadata Anonymisation Toolkit')
@@ -449,9 +453,34 @@ non-anonymised) file to output archive'))
         elif name == 'add2archive':
             self.add2archive = not self.add2archive
 
+    def on_drag_data_received(self, widget, context,
+            x, y, selection, target_type, timestamp):
+        '''
+            This function is called when something is
+            drag'n'droped into mat.
+            It basically add files.
+        '''
+        urls = selection.data.strip('\r\n\x00')  # strip stupid characters
+        cleaned_urls = map(self.clean_draged_file_path, urls.split('\n'))
+        task = self.populate(cleaned_urls)
+        gobject.idle_add(task.next)  # asynchrone processing
+
+    def clean_draged_file_path(self, url):
+        '''
+            Since the dragged urls are ugly,
+            we need to process them
+        '''
+        url = urllib2.unquote(url)  # unescape stupid chars
+        if url.startswith('file:\\\\\\'):  # windows
+            return url[8:]  # 8 is len('file:///')
+        elif url.startswith('file://'):  # nautilus, rox
+            return url[7:]  # 7 is len('file://')
+        elif url.startswith('file:'):  # xffm
+            return url[5:]  # 5 is len('file:')
+
     def process_files(self, button, func):
         '''
-            Launch the function "function" in a asynchrone way
+            Launch the function "func" in a asynchrone way
         '''
         iterator = self.selection.get_selected_rows()[1]
         if not iterator:  # if nothing is selected : select everything

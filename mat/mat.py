@@ -13,56 +13,22 @@ import xml.sax
 import hachoir_core.cmd_line
 import hachoir_parser
 
-import images
-import audio
-import office
-import archive
-import misc
+import strippers
 
 __version__ = '0.1'
 __author__ = 'jvoisin'
 
-LOGGING_LEVEL = logging.DEBUG
+#Silence
+LOGGING_LEVEL = logging.CRITICAL
+hachoir_core.config.quiet = True
+fname = ''
 
-logging.basicConfig(level=LOGGING_LEVEL)
+#Verbose
+#LOGGING_LEVEL = logging.DEBUG
+#hachoir_core.config.quiet = False
+#logname = 'report.log'
 
-STRIPPERS = {
-    'application/x-tar': archive.TarStripper,
-    'application/x-gzip': archive.GzipStripper,
-    'application/x-bzip2': archive.Bzip2Stripper,
-    'application/zip': archive.ZipStripper,
-    'audio/mpeg': audio.MpegAudioStripper,
-    'application/x-bittorrent': misc.TorrentStripper,
-    'application/opendocument': office.OpenDocumentStripper,
-    'application/officeopenxml': office.OpenXmlStripper,
-}
-
-try:
-    import poppler
-    import cairo
-    STRIPPERS['application/x-pdf'] = office.PdfStripper
-    STRIPPERS['application/pdf'] = office.PdfStripper
-except ImportError:
-    print('Unable to import python-poppler and/or python-cairo: no pdf \
-        support')
-
-try:
-    import mutagen
-    STRIPPERS['audio/x-flac'] = audio.FlacStripper
-    STRIPPERS['audio/vorbis'] = audio.OggStripper
-except ImportError:
-    print('Unable to import python-mutagen: limited audio format support')
-
-try:
-    # check if exiftool is installed on the system
-    subprocess.Popen('exiftool', stdout=open('/dev/null'))
-    import exiftool
-    STRIPPERS['image/jpeg'] = exiftool.JpegStripper
-    STRIPPERS['image/png'] = exiftool.PngStripper
-except:
-    print('Unable to find exiftool: limited images support')
-    STRIPPERS['image/jpeg'] = images.JpegStripper
-    STRIPPERS['image/png'] = images.PngStripper
+logging.basicConfig(filename=fname, level=LOGGING_LEVEL)
 
 
 def get_sharedir():
@@ -73,6 +39,8 @@ def get_sharedir():
         return ''
     elif os.path.exists('/usr/local/share/mat/'):
         return '/usr/local/share/mat/'
+    elif os.path.exists('/usr/share/mat/'):
+        return '/usr/share/mat'
 
 
 class XMLParser(xml.sax.handler.ContentHandler):
@@ -140,7 +108,17 @@ def create_class_file(name, backup, add2archive):
     if not os.path.isfile(name):
         # check if the file exists
         logging.error('%s is not a valid file' % name)
-        return
+        return False
+
+    if not os.access(name, os.R_OK):
+        #check read permissions
+        logging.error('%s is is not readable' % name)
+        return False
+
+    if not os.access(name, os.W_OK):
+        #check write permission
+        logging.error('%s is not writtable' % name)
+        return False
 
     filename = ''
     try:
@@ -151,7 +129,7 @@ def create_class_file(name, backup, add2archive):
     parser = hachoir_parser.createParser(filename)
     if not parser:
         logging.info('Unable to parse %s' % filename)
-        return
+        return False
 
     mime = parser.mime_type
 
@@ -164,9 +142,9 @@ def create_class_file(name, backup, add2archive):
         mime = 'application/officeopenxml'  # office openxml
 
     try:
-        stripper_class = STRIPPERS[mime]
+        stripper_class = strippers.STRIPPERS[mime]
     except KeyError:
         logging.info('Don\'t have stripper for %s format' % mime)
-        return
+        return False
 
     return stripper_class(filename, parser, mime, backup, add2archive)

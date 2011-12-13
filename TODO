@@ -3,11 +3,13 @@ GENERAL:
 	the ultimate goal is to remove
 	all "harmful meta" stuff
     - Fix the ugly function get_sharedir
-
-TESTSUITE:
-    - return code ?
+    - Modify creation/modification date
+    (except for stupid formats like zip)
 
 GUI:
-    - Drag and Drop
-    - Fix the statusbar
+    - display harmrful meta per file
 
+FORMATS
+    - microsoft office < 2007 (ugly and insane)
+    - fix zip (fix python's ziplib)
+    - videos format ?

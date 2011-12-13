@@ -5,7 +5,17 @@ Maintainer: Debian MAT maintainers <pkg-mat@lists.riseup.net>
 Uploaders:
  bertagaz <bertagaz@ptitcanardnoir.org>,
  intrigeri <intrigeri+debian@boum.org>
-Build-Depends: debhelper (>= 7.0.50~), python (>= 2.6.6-3~)
+Build-Depends:
+ debhelper (>= 7.0.50~),
+ libimage-exiftool-perl | python-pdfrw,
+ python (>= 2.6.6-3~),
+ python-cairo,
+ python-hachoir-core,
+ python-hachoir-parser,
+ python-mutagen,
+ python-poppler,
+ xauth,
+ xvfb
 Build-Depends-Indep: python-distutils-extra
 Standards-Version: 3.9.2
 X-Python-Version: >= 2.6
