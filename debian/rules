@@ -4,8 +4,8 @@ PACKAGE = mat
 DESTDIR = $(CURDIR)/debian/$(PACKAGE)
 
 override_dh_auto_test:
-	# cd ./test ; xvfb-run -a python clitest.py
-	# cd ./test ; xvfb-run -a python libtest.py
+	cd ./test ; xvfb-run -a python clitest.py
+	cd ./test ; xvfb-run -a python libtest.py
 	dh_auto_test
 
 %:
