@@ -7,7 +7,7 @@ Uploaders:
  intrigeri <intrigeri+debian@boum.org>
 Build-Depends:
  debhelper (>= 7.0.50~),
- libimage-exiftool-perl | python-pdfrw,
+ libimage-exiftool-perl,
  python (>= 2.6.6-3~),
  python-cairo,
  python-hachoir-core,
