@@ -1,3 +1,11 @@
+mat (0.3~bb41ac1-1) unstable; urgency=low
+
+  * New upstream Git snapshot at commit bb41ac1.
+    - testsuite fixes.
+  * Run test suite at build time.
+  
+ -- intrigeri <intrigeri+debian@boum.org>  Tue, 13 Dec 2011 15:08:08 +0100
+
 mat (0.2-1) unstable; urgency=low
 
   * New upstream release:
