@@ -7,6 +7,7 @@ import logging
 import zipfile
 import fileinput
 import subprocess
+import xml.dom.minidom as minidom
 
 try:
     import cairo
@@ -17,7 +18,6 @@ except ImportError:
 import mat
 import parser
 import archive
-
 
 class OpenDocumentStripper(archive.GenericArchiveStripper):
     '''
@@ -34,8 +34,17 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
         metadata = {}
         try:
             content = zipin.read('meta.xml')
+            dom1 = minidom.parseString(content)
+            elements = dom1.getElementsByTagName('office:meta')
+            for i in elements[0].childNodes:
+                if i.tagName != 'meta:document-statistic':
+                    nodename = ''.join([k for k in i.nodeName.split(':')[1:]])
+                    metadata[nodename] = ''.join([j.data for j in i.childNodes])
+                else:
+                    # thank you w3c for not providing a nice
+                    # method to get all attributes from a node
+                    pass
             zipin.close()
-            metadata[self.filename] = 'harmful meta'
         except KeyError:  # no meta.xml file found
             logging.debug('%s has no opendocument metadata' % self.filename)
         return metadata
@@ -78,7 +87,7 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
                         if method == 'normal':
                             cfile.remove_all()
                         else:
-                            cfile.remove_all_ugly()
+                            cfile.remove_all_strict()
                         logging.debug('Processing %s from %s' % (item,
                             self.filename))
                         zipout.write(name, item)
@@ -141,7 +150,7 @@ class PdfStripper(parser.GenericParser):
         return self._remove_meta()
 
 
-    def remove_all_ugly(self):
+    def remove_all_strict(self):
         '''
             Opening the PDF with poppler, then doing a render
             on a cairo pdfsurface for each pages.
@@ -252,7 +261,7 @@ class OpenXmlStripper(archive.GenericArchiveStripper):
                         if method == 'normal':
                             cfile.remove_all()
                         else:
-                            cfile.remove_all_ugly()
+                            cfile.remove_all_strict()
                         logging.debug('Processing %s from %s' % (item,
                             self.filename))
                         zipout.write(name, item)
