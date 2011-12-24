@@ -1,11 +1,11 @@
-mat (0.2-1~bpo60+1) squeeze-backports; urgency=low
+mat (0.2.1-1) unstable; urgency=low
 
-  * Rebuild for squeeze-backports.
-  * Remove the python-pdfrw side of alternative dependencies:
-    python-pdfrw was not shipped in Squeeze as a standalone package,
-    contrary to the other part of the alternative (libimage-exiftool-perl).
+  * New upstream release:
+    - fix critical bugs in GUI
+    - handle OpenDocument metadata
+    - various bugfixes
 
- -- intrigeri <intrigeri+debian@boum.org>  Tue, 13 Dec 2011 13:27:29 +0100
+ -- intrigeri <intrigeri+debian@boum.org>  Sat, 24 Dec 2011 17:49:14 +0100
 
 mat (0.2-1) unstable; urgency=low
 
