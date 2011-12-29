@@ -11,6 +11,7 @@ sys.path.append('..')
 from mat import mat
 import test
 
+
 class TestRemovecli(test.MATTest):
     '''
         test if cli correctly remove metadatas
@@ -72,6 +73,7 @@ class TestisCleancli(test.MATTest):
             stdout, _ = proc.communicate()
             self.assertEqual(stdout.strip('\n'), '[+] %s is not clean' % dirty)
 
+
 class TestFileAttributes(unittest.TestCase):
     '''
         test various stuffs about files (readable, writable, exist, ...)
@@ -94,11 +96,15 @@ class TestFileAttributes(unittest.TestCase):
         stdout, _ = proc.communicate()
         self.assertEqual(stdout.strip('\n'), 'Unable to pocess  %s' % 'ilikecookies')
 
-if __name__ == '__main__':
+
+def main():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestRemovecli))
     suite.addTest(unittest.makeSuite(TestListcli))
     suite.addTest(unittest.makeSuite(TestisCleancli))
     test_result = unittest.TextTestRunner(verbosity=test.VERBOSITY).run(suite)
-    sys.exit(len(test_result.failures))
+    return len(test_result.failures)
 
+
+if __name__ == '__main__':
+    sys.exit(main())
