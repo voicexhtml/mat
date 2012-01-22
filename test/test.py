@@ -33,7 +33,7 @@ try:  # python-mutagen : audio file format
 except:
     FILE_LIST.remove(('clean.ogg', 'dirty.ogg'))
 
-try:  # file format managed by exiftool
+try:  # file format managed only by exiftool
     subprocess.Popen('exiftool', stdout=open('/dev/null'))
 except:
     pass  # None for now
@@ -74,6 +74,7 @@ def main():
     print('\nRunning library related tests:\n')
     failed_tests += libtest.main()
     print('\nTotal failed tests: ' + str(failed_tests))
+
     return failed_tests
 
 if __name__ == '__main__':
