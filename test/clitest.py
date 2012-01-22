@@ -26,7 +26,7 @@ class TestRemovecli(test.MATTest):
     def test_remove_empty(self):
         '''Test removal with clean files'''
         for clean, _ in self.file_list:
-            subprocess.call(['../mat-cli', clean])
+            subprocess.call(['../mat-cli', '-f', clean])
             current_file = mat.create_class_file(clean, False, True)
             self.assertTrue(current_file.is_clean())
 
