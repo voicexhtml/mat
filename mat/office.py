@@ -19,7 +19,7 @@ import mat
 import parser
 import archive
 
-class OpenDocumentStripper(archive.GenericArchiveStripper):
+class OpenDocumentStripper(archive.ZipStripper):
     '''
         An open document file is a zip, with xml file into.
         The one that interest us is meta.xml
@@ -100,7 +100,7 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
         zipin.close()
         zipout.close()
         self.do_backup()
-        self.set_time(archive.ZIP_TIME)
+        self.set_time()
         return True
 
     def is_clean(self):
@@ -115,7 +115,7 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
                 'application/zip', self.backup, self.add2archive)
             if czf.is_clean():
                 zipin.close()
-                return True
+                return self.is_time_clean()
         zipin.close()
         return False
 
@@ -141,7 +141,7 @@ class PdfStripper(parser.GenericParser):
             if self.document.get_property(key) is not None and \
                 self.document.get_property(key) != '':
                 return False
-        return True
+        return self.is_time_clean()
 
 
     def remove_all(self):
@@ -215,7 +215,7 @@ class PdfStripper(parser.GenericParser):
             logging.error('Please install either pdfrw, or exiftool to\
                     fully handle PDF files')
 
-        self.set_time(parser.EPOCH)
+        self.set_time()
         return processed
 
     def get_meta(self):
@@ -230,7 +230,7 @@ class PdfStripper(parser.GenericParser):
         return metadata
 
 
-class OpenXmlStripper(archive.GenericArchiveStripper):
+class OpenXmlStripper(archive.ZipStripper):
     '''
         Represent an office openxml document, which is like
         an opendocument format, with some tricky stuff added.
@@ -277,7 +277,7 @@ class OpenXmlStripper(archive.GenericArchiveStripper):
         zipin.close()
         zipout.close()
         self.do_backup()
-        self.set_time(archive.ZIP_TIME)
+        self.set_time()
         return True
 
     def is_clean(self):
@@ -294,7 +294,7 @@ class OpenXmlStripper(archive.GenericArchiveStripper):
         if not czf.is_clean():
             return False
         else:
-            return True
+            return self.is_time_clean()
 
     def get_meta(self):
         '''

@@ -43,7 +43,7 @@ class ExiftoolStripper(parser.GenericParser):
                     [ 'exiftool', '-m', '-All=', '-overwrite_original', self.filename ],
                     stdout=open('/dev/null'))
                 process.wait()
-            self.set_time(parser.EPOCH)
+            self.set_time()
             return True
         except:
             return False
@@ -58,7 +58,7 @@ class ExiftoolStripper(parser.GenericParser):
         for i in out[:-1]:
             if i.split(':')[0].strip() not in self.allowed:
                 return False
-        return True
+        return self.is_time_clean()
 
     def get_meta(self):
         '''

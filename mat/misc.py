@@ -29,7 +29,7 @@ class TorrentStripper(parser.GenericParser):
                     return False
             except:
                 pass
-        return True
+        return self.is_time_clean()
 
     def get_meta(self):
         '''
@@ -60,5 +60,5 @@ class TorrentStripper(parser.GenericParser):
         with open(self.output, 'w') as f:  # encode the decoded torrent
             f.write(bencode.bencode(decoded))  # and write it in self.output
         self.do_backup()
-        self.set_time(parser.EPOCH)
+        self.set_time()
         return True

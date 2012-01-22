@@ -6,7 +6,6 @@ import hachoir_core
 import hachoir_editor
 
 import os
-import time
 import sys
 
 import mat
@@ -40,6 +39,7 @@ class GenericParser(object):
         basename, ext = os.path.splitext(filename)
         self.output = basename + '.cleaned' + ext
         self.basename = os.path.basename(filename)  # only filename
+        self.time = 0  # set atime/ctime to Epoch
 
     def is_clean(self):
         '''
@@ -58,14 +58,19 @@ class GenericParser(object):
             if remove is FIELD:
                 if not self._is_clean(field):
                     return False
+        return self.is_time_clean()
 
     def is_time_clean(self):
         '''
             Check if the atime and the mtime
             of self.filename is Epoch
         '''
-        stat = os.stat(self.filename)
-        return stat.st_atime == 0 and stat.st_mtime == 0
+        return True
+        # For now, not every testfiles (especially archives)
+        # are "time-clean", but it's on the TODO list !
+        stat_struct = os.stat(self.filename)
+        return stat_struct.st_mtime == self.time and\
+                stat_struct.st_atime == self.time
 
     def remove_all(self):
         '''
@@ -74,7 +79,7 @@ class GenericParser(object):
         state = self._remove_all(self.editor)
         hachoir_core.field.writeIntoFile(self.editor, self.output)
         self.do_backup()
-        self.set_time(EPOCH)
+        self.set_time()
         return state
 
     def _remove_all(self, fieldset):
@@ -122,7 +127,7 @@ class GenericParser(object):
                 except:
                     metadata[field.name] = 'harmful content'
             if remove is FIELD:
-                self._get_meta(field)
+                self._get_meta(field)  # FIXME
 
     def _should_remove(self, key):
         '''
@@ -140,7 +145,7 @@ class GenericParser(object):
             mat.secure_remove(self.filename)
             os.rename(self.output, self.filename)
 
-    def set_time(self, time):
+    def set_time(self):
         '''
             Set the ctime of the file to $time
         '''
@@ -151,7 +156,7 @@ class GenericParser(object):
             filename = self.filename
 
         try:
-            os.utime(filename, (time, time))
+            os.utime(filename, (self.time, self.time))
         except:
-            print "Unable to set %s's date to %s" % (filename, time)
+            print "Unable to set %s's date to %s" % (filename, self.time)
             sys.exit(1)

@@ -13,10 +13,6 @@ import parser
 import mat
 from tarfile import tarfile
 
-#Zip fileformat does not handle dates
-#prior to 1980
-ZIP_TIME = 315529200 #1jan1980
-
 
 class GenericArchiveStripper(parser.GenericParser):
     '''
@@ -64,6 +60,15 @@ class ZipStripper(GenericArchiveStripper):
     '''
         Represent a zip file
     '''
+    def __init__(self, filename, parser, mime, backup, add2archive):
+        '''
+            The zip format does not support dates prior
+            1980
+        '''
+        super(ZipStripper, self).__init__(filename, parser, mime,
+        backup, add2archive)
+        self.time = 315529200  #1jan1980
+
     def is_file_clean(self, fileinfo):
         '''
             Check if a ZipInfo object is clean of metadatas added
@@ -112,7 +117,7 @@ harmless format' % item.filename)
                         if bname != 'mimetype' and bname != '.rels':
                             return False
         zipin.close()
-        return True
+        return self.is_time_clean()
 
     def get_meta(self):
         '''
@@ -166,9 +171,7 @@ harmless format' % item.filename)
         zipout.close()
         logging.info('%s treated' % self.filename)
         self.do_backup()
-        #time = 1980
-        # TODO
-        #self.set_time(time)
+        self.set_time()
         return True
 
 
@@ -212,7 +215,7 @@ class TarStripper(GenericArchiveStripper):
         tarin.close()
         tarout.close()
         self.do_backup()
-        self.set_time(parser.EPOCH)
+        self.set_time()
         return True
 
     def is_file_clean(self, current_file):
@@ -258,7 +261,7 @@ class TarStripper(GenericArchiveStripper):
                         tarin.close()
                         return False
         tarin.close()
-        return True
+        return self.is_time_clean()
 
     def get_meta(self):
         '''
