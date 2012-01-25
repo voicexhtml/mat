@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Debian MAT maintainers <pkg-mat@lists.riseup.net>
 Uploaders:
  bertagaz <bertagaz@ptitcanardnoir.org>,
- intrigeri <intrigeri+debian@boum.org>
+ intrigeri <intrigeri@debian.org>
 Build-Depends:
  debhelper (>= 7.0.50~),
  libimage-exiftool-perl | python-pdfrw,
