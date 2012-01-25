@@ -102,7 +102,7 @@ class GenericParser(object):
             In a perfect world, with nice fileformat,
             this method would not exist.
         '''
-        self.remove_all()
+        return self.remove_all()
 
     def _remove(self, fieldset, field):
         '''
