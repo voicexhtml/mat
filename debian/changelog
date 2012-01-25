@@ -1,3 +1,12 @@
+mat (0.2.2-2~bpo60+1) squeeze-backports; urgency=low
+
+  * Rebuild for squeeze-backports.
+  * Remove the python-pdfrw side of alternative dependencies:
+    python-pdfrw was not shipped in Squeeze as a standalone package,
+    contrary to the other part of the alternative (libimage-exiftool-perl).
+
+ -- intrigeri <intrigeri@debian.org>  Wed, 25 Jan 2012 17:11:35 +0100
+
 mat (0.2.2-2) unstable; urgency=low
 
   * Cherry-pick critical bugfix commit from upstream Git:
