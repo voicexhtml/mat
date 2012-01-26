@@ -166,7 +166,7 @@ class PdfStripper(parser.GenericParser):
         for pagenum in xrange(self.document.get_n_pages()):
             page = self.document.get_page(pagenum)
             context.translate(0, 0)
-            page.render(context)  # render the page on context
+            page.render_for_printing(context)  # render the page on context
             context.show_page()  # draw context on surface
         surface.finish()
         return self._remove_meta()
