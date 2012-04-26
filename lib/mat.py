@@ -15,7 +15,7 @@ import hachoir_parser
 
 import strippers
 
-__version__ = '0.2.2'
+__version__ = '0.3.0'
 __author__ = 'jvoisin'
 
 #Silence
@@ -24,7 +24,7 @@ hachoir_core.config.quiet = True
 fname = ''
 
 #Verbose
-#LOGGING_LEVEL = logging.DEBUG
+LOGGING_LEVEL = logging.DEBUG
 #hachoir_core.config.quiet = False
 #logname = 'report.log'
 
