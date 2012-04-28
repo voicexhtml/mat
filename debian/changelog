@@ -1,3 +1,12 @@
+mat (0.3.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * Drop 0001-Fix-a-critical-bug-thanks-to-omaylorga patch:
+    is part of the new upstream release.
+  * Update manpage name: mat-cli(1) -> mat(1).
+
+ -- intrigeri <intrigeri@debian.org>  Thu, 03 May 2012 11:35:22 +0200
+
 mat (0.2.2-2) unstable; urgency=low
 
   * Cherry-pick critical bugfix commit from upstream Git:
