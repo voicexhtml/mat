@@ -17,7 +17,7 @@ Build-Depends:
  xauth,
  xvfb
 Build-Depends-Indep: python-distutils-extra
-Standards-Version: 3.9.2
+Standards-Version: 3.9.3
 X-Python-Version: >= 2.6
 Homepage: https://mat.boum.org/
 Vcs-Git: git://git.debian.org/collab-maint/mat.git
