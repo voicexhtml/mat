@@ -1,0 +1,21 @@
+From: intrigeri <intrigeri@boum.org>
+Date: Wed, 16 May 2012 11:01:13 +0200
+Subject: Get localized strings from the text domain where they live: MAT.
+
+---
+ mat-gui |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mat-gui b/mat-gui
+index eadf158..1095e30 100755
+--- a/mat-gui
++++ b/mat-gui
+@@ -580,7 +580,7 @@ def translate():
+     if language:
+         langs += language.split(':')
+ 
+-    return gettext.translation('mat-gui', 'locale', langs,
++    return gettext.translation('MAT', 'locale', langs,
+             fallback=True).ugettext
+ 
+ 
