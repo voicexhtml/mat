@@ -15,7 +15,7 @@ import hachoir_parser
 
 import strippers
 
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 __author__ = 'jvoisin'
 
 #Silence
@@ -31,16 +31,16 @@ LOGGING_LEVEL = logging.DEBUG
 logging.basicConfig(filename=fname, level=LOGGING_LEVEL)
 
 
-def get_sharedir():
+def get_sharedir(filename):
     '''
-        An ugly hack to find where is the "FORMATS" file.
+        An ugly hack to find various files
     '''
-    if os.path.isfile('FORMATS'):
-        return ''
-    elif os.path.exists('/usr/local/share/mat/'):
-        return '/usr/local/share/mat/'
-    elif os.path.exists('/usr/share/mat/'):
-        return '/usr/share/mat'
+    if os.path.isfile(filename):
+        return filename
+    elif os.path.exists(os.path.join('/usr/local/share/mat/', filename)):
+        return os.path.join('/usr/local/share/mat/', filename)
+    elif os.path.exists(os.path.join('/usr/share/mat/', filename)):
+        return os.path.join('/usr/share/mat', filename)
 
 
 class XMLParser(xml.sax.handler.ContentHandler):
