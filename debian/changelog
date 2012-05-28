@@ -1,3 +1,12 @@
+mat (0.3.2-1) unstable; urgency=low
+
+  * Imported Upstream version 0.3.2
+  - Add French translation and improve pot file.
+  - Clearer messages for missings libraries.
+  - Display a logo in desktop menus.
+
+ -- intrigeri <intrigeri@debian.org>  Mon, 28 May 2012 20:10:23 +0200
+
 mat (0.3.1-1) unstable; urgency=low
 
   * New upstream release:
