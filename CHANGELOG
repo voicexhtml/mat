@@ -1,7 +1,14 @@
-0.3.1 - 06may2012
+0.3.2 - 27may2012
+    * Add localisation (new translations are welcome)
+    * Even more beter handling of missing libraries
+    * Fix path relation bug
+
+0.3.1 - 06may2012 - bugfix release
     * Better handling of missing libraries
     * Improve the setup.py
     * Bugfixes
+    * python-cairo, python-poppler and python-pdfrw
+        are now mandatory for pdf support
 
 0.3 - 07mar2012
     * Merge the two cleaning mode in one
