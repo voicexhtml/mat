@@ -1,0 +1,186 @@
+# French translations for mat package.
+# Copyright (C) 2012 jvoisin
+# This file is distributed under the same license as the mat package.
+# jvoisin <julien.voisin@dustri.org>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mat 0.3.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-05-09 19:37+0200\n"
+"PO-Revision-Date: 2012-05-11 16:07+0100\n"
+"Last-Translator: \n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: mat-gui:94
+#: mat-gui:549
+#: mat-gui:565
+msgid "Ready"
+msgstr "Prêt"
+
+#: mat-gui:106
+msgid "Add"
+msgstr "Ajouter"
+
+#: mat-gui:108
+#: mat-gui:182
+msgid "Add files"
+msgstr "Ajouter des fichiers"
+
+#: mat-gui:112
+#: mat-gui:202
+#: mat-gui:308
+#: mat-gui:311
+#: mat-gui:541
+#: mat-gui:543
+#: mat-gui:559
+#: mat-gui:561
+msgid "Clean"
+msgstr "Nettoyer"
+
+#: mat-gui:114
+msgid "Clean selected files"
+msgstr "Nettoyer les fichiers sélectionnés"
+
+#: mat-gui:118
+#: mat-gui:213
+msgid "Check"
+msgstr "Vérifier"
+
+#: mat-gui:120
+msgid "Check selected files for harmful meta"
+msgstr "Vérifier si les fichiers sélectionnés comportent des métadonnées préjudiciables"
+
+#: mat-gui:124
+#: mat-gui:184
+msgid "Quit"
+msgstr "Quitter"
+
+#: mat-gui:136
+msgid "Path"
+msgstr "Chemin"
+
+#: mat-gui:136
+#: mat-gui:363
+msgid "Filename"
+msgstr "Nom"
+
+#: mat-gui:136
+#: mat-gui:365
+msgid "Mimetype"
+msgstr "Type MIME"
+
+#: mat-gui:136
+msgid "State"
+msgstr "État"
+
+#: mat-gui:137
+msgid "Cleaned file"
+msgstr "Fichier nettoyé"
+
+#: mat-gui:181
+msgid "Files"
+msgstr "Fichiers"
+
+#: mat-gui:187
+msgid "Edit"
+msgstr "Édition"
+
+#: mat-gui:188
+msgid "Clear the filelist"
+msgstr "Vider la liste de fichiers"
+
+#: mat-gui:191
+#: mat-gui:447
+msgid "Preferences"
+msgstr "Préférences"
+
+#: mat-gui:194
+msgid "Process"
+msgstr "Traitement"
+
+#: mat-gui:217
+msgid "Help"
+msgstr "Aide"
+
+#: mat-gui:218
+#: mat-gui:395
+msgid "Supported formats"
+msgstr "Formats supportés"
+
+#: mat-gui:220
+msgid "About"
+msgstr "À propos"
+
+#: mat-gui:240
+msgid "Choose files"
+msgstr "Sélectionner des fichiers"
+
+#: mat-gui:247
+msgid "All files"
+msgstr "Tous type de fichiers"
+
+#: mat-gui:254
+msgid "Supported files"
+msgstr "Fichiers supportés"
+
+#: mat-gui:296
+msgid "unknow"
+msgstr "inconnu"
+
+#: mat-gui:313
+#: mat-gui:545
+msgid "Dirty"
+msgstr "Préjudiciable"
+
+#: mat-gui:343
+msgid "Not-supported"
+msgstr "Fichier(s) non supporté(s)"
+
+#: mat-gui:381
+msgid "This software was coded during the GSoC 2011"
+msgstr "Ce logiciel fût réalisé lors du GSoC 2011"
+
+#: mat-gui:386
+msgid "Website"
+msgstr "Site web"
+
+#: mat-gui:459
+msgid "Force Clean"
+msgstr "Forcer le nettoyage"
+
+#: mat-gui:462
+msgid "Do not check if already clean before cleaning"
+msgstr "Ne pas vérifier si un fichier est propre avant le nettoyage"
+
+#: mat-gui:466
+msgid "Backup"
+msgstr "Sauvegarde"
+
+#: mat-gui:469
+msgid "Keep a backup copy"
+msgstr "Conserve une copie de sauvegarde"
+
+#: mat-gui:472
+msgid "Add unsupported file to archives"
+msgstr "Ajoute les fichiers non supportés aux archives"
+
+#: mat-gui:476
+msgid "Add non-supported (and so non-anonymised) file to output archive"
+msgstr "Ajoute les fichiers non supportés (et donc, non traités) aux archives produites"
+
+#: mat-gui:540
+#, python-format
+msgid "Checking %s..."
+msgstr "Vérification de %s..."
+
+#: mat-gui:558
+#, python-format
+msgid "Cleaning %s..."
+msgstr "Nettoyage de %s en cours..."
+

@@ -3,6 +3,6 @@ Suggested and recommended packages
 
 - audio formats support: python-mutagen
 - PDF support: python-cairo, python-poppler,
-  and lib-exiftool-perl
+  libimage-exiftool-perl and python-pdfrw
 
- -- intrigeri <intrigeri+debian@boum.org>, Mon, 31 Oct 2011 14:25:00 +0100
+ -- intrigeri <intrigeri@debian.org>, Wed, 16 May 2012 10:52:58 +0200

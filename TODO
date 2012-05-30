@@ -2,20 +2,26 @@ GENERAL:
     - Complete the get_meta method:
 	the ultimate goal is to remove
 	all "harmful meta" stuff
-    - Fix the ugly function get_sharedir
-    - Modify creation/modification date
-    (except for stupid formats like zip)
 
-GUI:
-    - display harmrful meta per file
 
 FORMATS:
-    - microsoft office < 2007 (ugly and insane)
-    - fix zip (fix python's ziplib)
-    - videos format ?
+    NEW:
+        - microsoft office < 2007 (ugly and insane)
+        - fix zip (fix python's ziplib)
+        - videos format ?
+    ARCHIVES:
+        - correctly handle mtime/atime for files inside archives
+    PDF:
+        - add an option to allow to lose quality to reduce outputed pdf size
+
 
 MISC:
     - a nautilus extension (right-clic -> clean with MAT)
 
-SETUP:
-    - handle l10n files
+
+TESTSUITE
+    - add a ctime/mtime related test
+
+
+WATERMARK:
+    - do research

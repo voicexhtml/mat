@@ -6,7 +6,6 @@ import os
 import logging
 import zipfile
 import fileinput
-import subprocess
 import xml.dom.minidom as minidom
 
 try:
@@ -18,6 +17,7 @@ except ImportError:
 import mat
 import parser
 import archive
+
 
 class OpenDocumentStripper(archive.GenericArchiveStripper):
     '''
@@ -49,7 +49,7 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
             logging.debug('%s has no opendocument metadata' % self.filename)
         return metadata
 
-    def _remove_all(self, method):
+    def _remove_all(self):
         '''
             FIXME ?
             There is a patch implementing the Zipfile.remove()
@@ -84,10 +84,7 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
                     try:
                         cfile = mat.create_class_file(name, False,
                             self.add2archive)
-                        if method == 'normal':
-                            cfile.remove_all()
-                        else:
-                            cfile.remove_all_strict()
+                        cfile.remove_all()
                         logging.debug('Processing %s from %s' % (item,
                             self.filename))
                         zipout.write(name, item)
@@ -129,36 +126,34 @@ class PdfStripper(parser.GenericParser):
         uri = 'file://' + os.path.abspath(self.filename)
         self.password = None
         self.document = poppler.document_new_from_file(uri, self.password)
-        self.meta_list = ('title', 'author', 'subject', 'keywords', 'creator',
-            'producer', 'metadata')
+        self.meta_list = frozenset(['title', 'author', 'subject', 'keywords', 'creator',
+            'producer', 'metadata'])
 
     def is_clean(self):
         '''
             Check if the file is clean from harmful metadatas
         '''
         for key in self.meta_list:
-            if self.document.get_property(key) is not None and \
-                self.document.get_property(key) != '':
+            if self.document.get_property(key):
                 return False
         return True
 
-
     def remove_all(self):
         '''
-            Remove supperficial
+            Remove metadata
         '''
         return self._remove_meta()
 
-
-    def remove_all_strict(self):
+    def _remove_meta(self):
         '''
             Opening the PDF with poppler, then doing a render
             on a cairo pdfsurface for each pages.
-            Thanks to Lunar^for the idea.
+
             http://cairographics.org/documentation/pycairo/2/
             python-poppler is not documented at all : have fun ;)
         '''
         page = self.document.get_page(0)
+        # assume that every pages are the same size
         page_width, page_height = page.get_size()
         surface = cairo.PDFSurface(self.output, page_width, page_height)
         context = cairo.Context(surface)  # context draws on the surface
@@ -166,54 +161,26 @@ class PdfStripper(parser.GenericParser):
         for pagenum in xrange(self.document.get_n_pages()):
             page = self.document.get_page(pagenum)
             context.translate(0, 0)
-            page.render(context)  # render the page on context
+            page.render_for_printing(context)  # render the page on context
             context.show_page()  # draw context on surface
         surface.finish()
-        return self._remove_meta()
 
-    def _remove_meta(self):
-        '''
-            Remove superficial/external metadata
-            from a PDF file, using exiftool,
-            of pdfrw if exiftool is not installed
-        '''
-        processed = False
-        try:# try with pdfrw
-            import pdfrw
-            #For now, poppler cannot write meta, so we must use pdfrw
+        try:
+            import pdfrw  # For now, poppler cannot write meta, so we must use pdfrw
             logging.debug('Removing %s\'s superficial metadata' % self.filename)
             trailer = pdfrw.PdfReader(self.output)
-            trailer.Info.Producer = trailer.Author = trailer.Info.Creator = None
+            trailer.Info.Producer = None
+            trailer.Info.Creator = None
             writer = pdfrw.PdfWriter()
             writer.trailer = trailer
             writer.write(self.output)
             self.do_backup()
-            processed = True
+            return True
         except:
-            pass
-
-        try:  # try with exiftool
-            subprocess.Popen('exiftool', stdout=open('/dev/null'))
-            import exiftool
-            # Note: '-All=' must be followed by a known exiftool option.
-            if self.backup:
-                process = subprocess.Popen(['exiftool', '-m', '-All=',
-                    '-out', self.output, self.filename], stdout=open('/dev/null'))
-                process.wait()
-            else:
-                # Note: '-All=' must be followed by a known exiftool option.
-                process = subprocess.Popen(
-                    ['exiftool', '-All=', '-overwrite_original', self.filename],
-                    stdout=open('/dev/null'))
-                process.wait()
-            processed = True
-        except:
-            pass
-
-        if processed is False:
-            logging.error('Please install either pdfrw, or exiftool to\
-                    fully handle PDF files')
-        return processed
+            print('Unable to remove all metadata from %s, please install\
+pdfrw' % self.output)
+            return False
+        return True
 
     def get_meta(self):
         '''
@@ -221,8 +188,7 @@ class PdfStripper(parser.GenericParser):
         '''
         metadata = {}
         for key in self.meta_list:
-            if self.document.get_property(key) is not None and \
-                self.document.get_property(key) != '':
+            if self.document.get_property(key):
                 metadata[key] = self.document.get_property(key)
         return metadata
 
@@ -234,7 +200,7 @@ class OpenXmlStripper(archive.GenericArchiveStripper):
         It contains mostly xml, but can have media blobs, crap, ...
         (I don't like this format.)
     '''
-    def _remove_all(self, method):
+    def _remove_all(self):
         '''
             FIXME ?
             There is a patch implementing the Zipfile.remove()
@@ -258,10 +224,7 @@ class OpenXmlStripper(archive.GenericArchiveStripper):
                     try:
                         cfile = mat.create_class_file(name, False,
                             self.add2archive)
-                        if method == 'normal':
-                            cfile.remove_all()
-                        else:
-                            cfile.remove_all_strict()
+                        cfile.remove_all()
                         logging.debug('Processing %s from %s' % (item,
                             self.filename))
                         zipout.write(name, item)
@@ -287,10 +250,7 @@ class OpenXmlStripper(archive.GenericArchiveStripper):
         zipin.close()
         czf = archive.ZipStripper(self.filename, self.parser,
                 'application/zip', self.backup, self.add2archive)
-        if not czf.is_clean():
-            return False
-        else:
-            return True
+        return czf.is_clean()
 
     def get_meta(self):
         '''

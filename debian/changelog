@@ -1,11 +1,48 @@
-mat (0.2.2-2~bpo60+1) squeeze-backports; urgency=low
+mat (0.3.2-1) unstable; urgency=low
 
-  * Rebuild for squeeze-backports.
-  * Remove the python-pdfrw side of alternative dependencies:
-    python-pdfrw was not shipped in Squeeze as a standalone package,
-    contrary to the other part of the alternative (libimage-exiftool-perl).
+  * Imported Upstream version 0.3.2
+  - Add French translation and improve pot file.
+  - Clearer messages for missings libraries.
+  - Display a logo in desktop menus.
 
- -- intrigeri <intrigeri@debian.org>  Wed, 25 Jan 2012 17:11:35 +0100
+ -- intrigeri <intrigeri@debian.org>  Mon, 28 May 2012 20:10:23 +0200
+
+mat (0.3.1-1) unstable; urgency=low
+
+  * New upstream release:
+  - Fix a logo-related bug.
+  - Fix a PDF-related bug in the testsuite.
+  - Fix PO files generation and installation.
+  - Fix encoding issues
+  - Better handling of dependencies regarding to PDF processing
+  * Migrate to a more standard gbp repository layout.
+  * Add missing email address in debian/copyright.
+  * Update DEP-5 URL.
+  * Reformat debian/copyright using cme.
+  * Remove obsolete Lintian override.
+  * Bump Standards-Version to 3.9.3, no change required.
+  * New patches, cherry-picked from upstream, that update
+    French translation:
+    - 0001-Add-french-translation-and-improve-pot-file.patch
+    - 0002-Update-french-translation.patch
+  * New patch: 0003-Get-localized-strings-from-the-text-domain-where-the.patch
+    Get localized strings from the text domain where they live: MAT.
+  * New patch: 0004-Have-gettext-find-translations-where-they-are-and-do.patch
+    Have gettext find translations where they are, and don't duplicate its work.
+  * Update dependencies: python-pdfrw is now required
+    to deal with PDF files.
+  * Fix duplicate Copyright field in debian/copyright.
+
+ -- intrigeri <intrigeri@debian.org>  Wed, 09 May 2012 10:28:59 +0200
+
+mat (0.3.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * Drop 0001-Fix-a-critical-bug-thanks-to-omaylorga patch:
+    is part of the new upstream release.
+  * Update manpage name: mat-cli(1) -> mat(1).
+
+ -- intrigeri <intrigeri@debian.org>  Thu, 03 May 2012 11:35:22 +0200
 
 mat (0.2.2-2) unstable; urgency=low
 

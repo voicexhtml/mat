@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Debian MAT maintainers <pkg-mat@lists.riseup.net>
 Uploaders:
  bertagaz <bertagaz@ptitcanardnoir.org>,
- intrigeri <intrigeri+debian@boum.org>
+ intrigeri <intrigeri@debian.org>
 Build-Depends:
  debhelper (>= 7.0.50~),
  libimage-exiftool-perl,
@@ -13,11 +13,12 @@ Build-Depends:
  python-hachoir-core,
  python-hachoir-parser,
  python-mutagen,
+ python-pdfrw,
  python-poppler,
  xauth,
  xvfb
 Build-Depends-Indep: python-distutils-extra
-Standards-Version: 3.9.2
+Standards-Version: 3.9.3
 X-Python-Version: >= 2.6
 Homepage: https://mat.boum.org/
 Vcs-Git: git://git.debian.org/collab-maint/mat.git
@@ -34,6 +35,7 @@ Recommends:
  libimage-exiftool-perl,
  python-cairo,
  python-mutagen,
+ python-pdfrw,
  python-poppler
 Description: Metadata anonymisation toolkit
  Metadata consist of information that characterizes data. Metadata are

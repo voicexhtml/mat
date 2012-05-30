@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*
 
 '''
     Unit test for the library
@@ -8,7 +9,7 @@ import unittest
 import test
 import sys
 sys.path.append('..')
-from mat import mat
+from lib import mat
 
 
 class TestRemovelib(test.MATTest):
@@ -70,9 +71,6 @@ class TestFileAttributes(unittest.TestCase):
     '''
         test various stuffs about files (readable, writable, exist, ...)
     '''
-    def test_not_readable(self):
-        self.assertFalse(mat.create_class_file('not_readable', False, True))
-
     def test_not_writtable(self):
         self.assertFalse(mat.create_class_file('not_writtable', False, True))
 

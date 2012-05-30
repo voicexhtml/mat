@@ -1,4 +1,4 @@
-Format: http://dep.debian.net/deps/dep5/
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Source: https://gitweb.torproject.org/user/jvoisin/mat.git
 
 Files: *
@@ -6,7 +6,7 @@ Copyright: © 2011 Julien Voisin <julien.voisin@dustri.org>
 License: GPL-2
 
 Files: debian/*
-Copyright: © 2011 intrigeri <intrigeri+debian@boum.org>
+Copyright: © 2011-2012 intrigeri <intrigeri@debian.org>
 License: GPL-2
 
 Files: mat-gui
@@ -15,21 +15,13 @@ Copyright: © 2006 Daniel J. Popowich
 License: GPL-2 and Expat
 
 Files: mat/benconde/*
-Copyright: © 2007 Petru Paler
-Copyright: © 2011 Julien Voisin <julien.voisin@dustri.org>
+Copyright: © 2007 Petru Paler <petru@paler.net>
+           © 2011 Julien Voisin <julien.voisin@dustri.org>
 License: Expat
 
 Files: mat/tarfile/*
 Copyright: © 2002 Lars Gustäbel <lars@gustaebel.de>
 License: Expat
-
-License: GPL-2
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License version 2 as
- published by the Free Software Foundation.
- .
- On Debian GNU/Linux systems, the complete text of version 2 of the
- General Public License can be found in `/usr/share/common-licenses/GPL-2'.
 
 License: Expat
  Permission is hereby granted, free of charge, to any person obtaining
@@ -50,3 +42,12 @@ License: Expat
  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+License: GPL-2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License version 2 as
+ published by the Free Software Foundation.
+ .
+ On Debian GNU/Linux systems, the complete text of version 2 of the
+ General Public License can be found in `/usr/share/common-licenses/GPL-2'.
+

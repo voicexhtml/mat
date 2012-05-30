@@ -1,14 +1,21 @@
+update localisations
+    po/mat-gui.pot
+    po/*.po
+
 update changelog:
     git log -> CHANGELOG
 
 update version number:
-    mat/mat.py -> __version__ = $VERSION
+    lib/mat.py -> __version__ = $VERSION
 
 commit release changes
-    git commit CHANGELOG mat/mat.py
+    git commit CHANGELOG lib/mat.py
 
 create a tag
     git tag -s $VERSION
+
+push the tag
+    git push --tags
 
 archive's creation :
     git archive --format=tar.gz --prefix=mat-$VERSION/ $VERSION > mat-$VERSION.tar.gz
@@ -18,3 +25,6 @@ signing:
 
 upload:
     https://mat.boum.org/files
+
+add changelog
+    https://mat.boum.org/
