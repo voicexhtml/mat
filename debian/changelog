@@ -1,3 +1,9 @@
+mat (0.3.2-1~bpo60+1) squeeze-backports; urgency=low
+
+  * Rebuild for squeeze-backports.
+
+ -- intrigeri <intrigeri@debian.org>  Wed, 30 May 2012 19:56:15 +0200
+
 mat (0.3.2-1) unstable; urgency=low
 
   * Imported Upstream version 0.3.2
