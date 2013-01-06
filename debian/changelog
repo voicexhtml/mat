@@ -1,3 +1,22 @@
+mat (0.3.3-1) experimental; urgency=low
+
+  * Imported Upstream version 0.3.3
+  - Reorganize source tree and files installation location.
+    (Closes: #689409)
+  - Fix the logo's path. (Closes: #693967)
+  - Add German translation.
+  - Set executable permission on the setup script.
+  - Use UTF-8 encoding for the tarfile module source code file.
+  - Fix the FreeDesktop menu file.
+  - Various test suite improvements, including compatibility
+    with Python 2.7.
+  - Various coding style and robustness improvements.
+  - Preliminary support for choosing the quality of producted PDF.
+  - Changing options if now also effective on added files too.
+  - Improve the "preferences" popup.
+
+ -- intrigeri <intrigeri@debian.org>  Sun, 06 Jan 2013 10:58:18 +0100
+
 mat (0.3.2-1) unstable; urgency=low
 
   * Imported Upstream version 0.3.2
