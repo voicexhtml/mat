@@ -49,7 +49,7 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
             logging.debug('%s has no opendocument metadata' % self.filename)
         return metadata
 
-    def _remove_all(self):
+    def remove_all(self):
         '''
             FIXME ?
             There is a patch implementing the Zipfile.remove()
@@ -83,17 +83,17 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
                 if os.path.isfile(name):
                     try:
                         cfile = mat.create_class_file(name, False,
-                            self.add2archive)
+                            add2archive=self.add2archive)
                         cfile.remove_all()
                         logging.debug('Processing %s from %s' % (item,
                             self.filename))
                         zipout.write(name, item)
                     except:
-                        logging.info('%s\' fileformat is not supported' % item)
+                        logging.info('%s\'s fileformat is not supported' % item)
                         if self.add2archive:
                             zipout.write(name, item)
         zipout.comment = ''
-        logging.info('%s treated' % self.filename)
+        logging.info('%s processed' % self.filename)
         zipin.close()
         zipout.close()
         self.do_backup()
@@ -108,7 +108,7 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
             zipin.getinfo('meta.xml')
         except KeyError:  # no meta.xml in the file
             czf = archive.ZipStripper(self.filename, self.parser,
-                'application/zip', self.backup, self.add2archive)
+                'application/zip', False, add2archive=self.add2archive)
             if czf.is_clean():
                 zipin.close()
                 return True
@@ -120,11 +120,11 @@ class PdfStripper(parser.GenericParser):
     '''
         Represent a PDF file
     '''
-    def __init__(self, filename, parser, mime, backup, add2archive):
-        super(PdfStripper, self).__init__(filename, parser, mime, backup,
-            add2archive)
+    def __init__(self, filename, parser, mime, backup, **kwargs):
+        super(PdfStripper, self).__init__(filename, parser, mime, backup, **kwargs)
         uri = 'file://' + os.path.abspath(self.filename)
         self.password = None
+        self.pdf_quality = kwargs['low_pdf_quality']
         self.document = poppler.document_new_from_file(uri, self.password)
         self.meta_list = frozenset(['title', 'author', 'subject', 'keywords', 'creator',
             'producer', 'metadata'])
@@ -139,12 +139,6 @@ class PdfStripper(parser.GenericParser):
         return True
 
     def remove_all(self):
-        '''
-            Remove metadata
-        '''
-        return self._remove_meta()
-
-    def _remove_meta(self):
         '''
             Opening the PDF with poppler, then doing a render
             on a cairo pdfsurface for each pages.
@@ -161,7 +155,10 @@ class PdfStripper(parser.GenericParser):
         for pagenum in xrange(self.document.get_n_pages()):
             page = self.document.get_page(pagenum)
             context.translate(0, 0)
-            page.render_for_printing(context)  # render the page on context
+            if self.pdf_quality:
+                page.render(context)  # render the page on context
+            else:
+                page.render_for_printing(context)  # render the page on context
             context.show_page()  # draw context on surface
         surface.finish()
 
@@ -175,7 +172,6 @@ class PdfStripper(parser.GenericParser):
             writer.trailer = trailer
             writer.write(self.output)
             self.do_backup()
-            return True
         except:
             print('Unable to remove all metadata from %s, please install\
 pdfrw' % self.output)
@@ -200,7 +196,7 @@ class OpenXmlStripper(archive.GenericArchiveStripper):
         It contains mostly xml, but can have media blobs, crap, ...
         (I don't like this format.)
     '''
-    def _remove_all(self):
+    def remove_all(self):
         '''
             FIXME ?
             There is a patch implementing the Zipfile.remove()
@@ -223,17 +219,17 @@ class OpenXmlStripper(archive.GenericArchiveStripper):
                 if os.path.isfile(name):  # don't care about folders
                     try:
                         cfile = mat.create_class_file(name, False,
-                            self.add2archive)
+                            add2archive=self.add2archive)
                         cfile.remove_all()
                         logging.debug('Processing %s from %s' % (item,
                             self.filename))
                         zipout.write(name, item)
                     except:
-                        logging.info('%s\' fileformat is not supported' % item)
+                        logging.info('%s\'s fileformat is not supported' % item)
                         if self.add2archive:
                             zipout.write(name, item)
         zipout.comment = ''
-        logging.info('%s treated' % self.filename)
+        logging.info('%s processed' % self.filename)
         zipin.close()
         zipout.close()
         self.do_backup()
@@ -249,7 +245,7 @@ class OpenXmlStripper(archive.GenericArchiveStripper):
                 return False
         zipin.close()
         czf = archive.ZipStripper(self.filename, self.parser,
-                'application/zip', self.backup, self.add2archive)
+                'application/zip', False, add2archive=self.add2archive)
         return czf.is_clean()
 
     def get_meta(self):

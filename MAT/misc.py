@@ -12,9 +12,8 @@ class TorrentStripper(parser.GenericParser):
         Represent a torrent file with the help
         of the bencode lib from Petru Paler
     '''
-    def __init__(self, filename, parser, mime, backup, add2archive):
-        super(TorrentStripper, self).__init__(filename, parser, mime,
-            backup, add2archive)
+    def __init__(self, filename, parser, mime, backup, **kwargs):
+        super(TorrentStripper, self).__init__(filename, parser, mime, backup)
         self.fields = ['comment', 'creation date', 'created by']
 
     def is_clean(self):
@@ -27,7 +26,7 @@ class TorrentStripper(parser.GenericParser):
             try:
                 if decoded[key] != '':
                     return False
-            except:
+            except KeyError:
                 pass
         return True
 
@@ -42,7 +41,7 @@ class TorrentStripper(parser.GenericParser):
             try:
                 if decoded[key] != '':
                     metadata[key] = decoded[key]
-            except:
+            except KeyError:
                 pass
         return metadata
 
@@ -55,7 +54,7 @@ class TorrentStripper(parser.GenericParser):
         for key in self.fields:
             try:
                 decoded[key] = ''
-            except:
+            except KeyError:
                 pass
         with open(self.output, 'w') as f:  # encode the decoded torrent
             f.write(bencode.bencode(decoded))  # and write it in self.output

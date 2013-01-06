@@ -5,7 +5,7 @@ import os
 from distutils.core import setup
 from DistUtilsExtra.command import *
 
-from lib import mat
+from MAT import mat
 
 #Remove MANIFEST file, since distutils
 #doesn't properly update it when
@@ -23,12 +23,14 @@ setup(
     platforms         = 'linux',
     license           = 'GPLv2',
     url               = 'https://mat.boum.org',
-    packages          = ['lib', 'lib.hachoir_editor', 'lib.bencode', 'lib.tarfile'],
+    packages          = ['MAT', 'MAT.hachoir_editor', 'MAT.bencode', 'MAT.tarfile'],
     scripts           = ['mat', 'mat-gui'],
     data_files        = [
         ( 'share/applications', ['mat.desktop'] ),
-        ( 'share/mat', ['FORMATS', 'logo.png'] ),
+        ( 'share/mat', ['FORMATS'] ),
+        ( 'share/pixmaps', ['mat.png'] ),
         ( 'share/doc/mat', ['README', 'TODO'] ),
+        ( 'share/man/man1', ['mat.1', 'mat-gui.1'] ),
     ],
     cmdclass          = {
         'build': build_extra.build_extra,

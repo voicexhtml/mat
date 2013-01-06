@@ -1,5 +1,4 @@
-.TH METADATA "1" "August 2011" "Metadata Anonymisation Toolkit" "User Commands"
-
+.TH METADATA "1" "January 2013" "Metadata Anonymisation Toolkit" "User Commands"
 
 .SH NAME
 MAT \- Metadata Anonymisation Toolkit
@@ -42,6 +41,9 @@ Don't check if files are clean before cleaning
 \fB\-l\fR, \fB\-\-list\fR
 List all supported fileformat
 .TP
+\fB\-L\fR, \fB\-\-low-pdf-quality\fR
+Reduced the produced PDF size and quality
+.TP
 \fB\-v\fR, \fB\-\-version\fR
 Display version and exit
 
@@ -64,12 +66,14 @@ If you want absolute privacy, use plain-text.
 
 
 .SH AUTHOR
-Julien (\fBjvoisin\fR) Voisin <pouicpouicpouic@gmail.com>, during the GSoC 2011
+Julien (\fBjvoisin\fR) Voisin <julien.voisin@dustri.org>
 
 
 .SH BUGS
-MAT does not handle watermaking/tattoo for now.
+MAT does not handle watermaking/tattoos for now.
+The --low-pdf-quality option may produce heavier PDF for very small files.
+You should only use it for big files.
 
 
 .SH "SEE ALSO"
-exiftool, hachoir-metadata
+\fBexiftool\fR(1), \fBhachoir-metadata\fR(1)

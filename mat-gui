@@ -9,7 +9,7 @@ import gtk
 import gobject
 
 import gettext
-import locale
+#import locale
 import logging
 import os
 import sys
@@ -17,8 +17,8 @@ import mimetypes
 import xml.sax
 import urllib2
 
-from lib import mat
-from lib import strippers
+from MAT import mat
+from MAT import strippers
 
 
 logging.basicConfig(level=mat.LOGGING_LEVEL)
@@ -30,9 +30,9 @@ class CFile(object):
         This class exist just to be "around" my parser.Generic_parser class,
         since the gtk.ListStore does not accept it.
     '''
-    def __init__(self, filename, backup, add2archive):
+    def __init__(self, filename, backup, **kwargs):
         try:
-            self.file = mat.create_class_file(filename, backup, add2archive)
+            self.file = mat.create_class_file(filename, backup, **kwargs)
         except:
             self.file = None
 
@@ -46,13 +46,14 @@ class GUI:
         self.force = False
         self.backup = True
         self.add2archive = True
+        self.pdf_quality = False
 
         # Main window
         self.window = gtk.Window()
         self.window.set_title('Metadata Anonymisation Toolkit')
         self.window.connect('destroy', gtk.main_quit)
         self.window.set_default_size(800, 600)
-        self.logo = mat.get_sharedir('logo.png')
+        self.logo = mat.get_sharedir('mat.png')
         icon = gtk.gdk.pixbuf_new_from_file_at_size(self.logo, 50, 50)
         self.window.set_icon(icon)
 
@@ -256,7 +257,7 @@ class GUI:
 
         response = chooser.run()
 
-        if response is 0:  # gtk.STOCK_OK
+        if not response:  # gtk.STOCK_OK
             filenames = chooser.get_filenames()
             task = self.populate(filenames)
             gobject.idle_add(task.next)  # asynchrone processing
@@ -290,13 +291,12 @@ class GUI:
             # if filename does not exist
             return False
 
-        cf = CFile(filename, self.backup, self.add2archive)
-        if cf.file is not None:  # if the file is supported by the mat
+        cf = CFile(filename, self.backup, add2archive=self.add2archive, low_pdf_quality=self.pdf_quality)
+        if cf.file:  # if the file is supported by the mat
             self.liststore.append([cf, os.path.dirname(cf.file.filename) + os.path.sep,
                 cf.file.basename, cf.file.mime, _('unknow'), 'None'])
             return False
-        else:
-            return True
+        return True
 
     def __popup_metadata(self, widget, row, col):
         '''
@@ -367,7 +367,7 @@ class GUI:
 
         dialog.show_all()
         click = dialog.run()
-        if click is 0:  # Ok button
+        if not click:  # Ok button
             dialog.destroy()
 
     def __about(self, button):
@@ -437,7 +437,7 @@ class GUI:
 
         dialog.show_all()
         click = dialog.run()
-        if click is 0:  # Close
+        if not click:  # Close
             dialog.destroy()
 
     def __preferences(self, button):
@@ -446,6 +446,8 @@ class GUI:
         '''
         dialog = gtk.Dialog(_('Preferences'), self.window, 0,
                 (gtk.STOCK_OK, 0))
+        dialog.set_resizable(False)
+        dialog.set_deletable(False)
         hbox = gtk.HBox()
         dialog.get_content_area().pack_start(hbox, False, False, 0)
 
@@ -469,17 +471,27 @@ cleaning'))
         backup.set_tooltip_text(_('Keep a backup copy'))
         table.attach(backup, 0, 1, 1, 2)
 
+        pdf_quality = gtk.CheckButton(_('Reduce PDF quality'), False)
+        pdf_quality.set_active(self.pdf_quality)
+        pdf_quality.connect('toggled', self.__invert, 'pdf_quality')
+        pdf_quality.set_tooltip_text(_('Reduce the produced PDF size and quality'))
+        table.attach(pdf_quality, 0, 1, 2, 3)
+
         add2archive = gtk.CheckButton(_('Add unsupported file to archives'),
             False)
         add2archive.set_active(self.add2archive)
         add2archive.connect('toggled', self.__invert, 'add2archive')
         add2archive.set_tooltip_text(_('Add non-supported (and so \
 non-anonymised) file to output archive'))
-        table.attach(add2archive, 0, 1, 2, 3)
+        table.attach(add2archive, 0, 1, 3, 4)
 
         hbox.show_all()
-        response = dialog.run()
-        if response is 0:  # gtk.STOCK_OK
+        if not dialog.run():  # gtk.STOCK_OK
+            for i in self.liststore:  # update preferences
+                i[0].backup = self.backup
+                i[0].add2archive = self.add2archive
+                if i[2].startswith('pdf'):
+                    i[0].pdf_quality = self.pdf_quality
             dialog.destroy()
 
     def __invert(self, button, name):
@@ -494,6 +506,8 @@ non-anonymised) file to output archive'))
                 # change the "backup" property of all files
                 self.liststore[line][0].file.backup = self.backup
             self.treeview.get_column(4).set_visible(self.backup)
+        elif name == 'pdf_quality':
+            self.pdf_quality = not self.pdf_quality
         elif name == 'add2archive':
             self.add2archive = not self.add2archive
 
@@ -538,7 +552,7 @@ non-anonymised) file to output archive'))
         '''
         for line in iterator:  # for each file in selection
             self.statusbar.push(0, _('Checking %s...') % self.liststore[line][1])
-            if self.force is True or self.liststore[line][4] != _('Clean'):
+            if self.force or self.liststore[line][4] != _('Clean'):
                 if self.liststore[line][0].file.is_clean():
                     string = _('Clean')
                 else:
@@ -556,7 +570,7 @@ non-anonymised) file to output archive'))
         for line in iterator:  # for each file in selection
             logging.info('Cleaning %s' % self.liststore[line][1])
             self.statusbar.push(0, _('Cleaning %s...') % self.liststore[line][1])
-            if self.force is True or self.liststore[line][4] != _('Clean'):
+            if self.force or self.liststore[line][4] != _('Clean'):
                 if self.liststore[line][0].file.remove_all():
                     self.liststore[line][4] = _('Clean')
                     if self.backup:  # the backup copy state
@@ -567,6 +581,7 @@ non-anonymised) file to output archive'))
 
 if __name__ == '__main__':
     gettext.install('MAT', unicode=True)
+    _ = gettext.gettext
 
     #Main
     gui = GUI()
