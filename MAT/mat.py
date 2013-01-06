@@ -15,7 +15,7 @@ import hachoir_parser
 
 import strippers
 
-__version__ = '0.3.2'
+__version__ = '0.3.3'
 __author__ = 'jvoisin'
 
 #Silence
@@ -41,6 +41,8 @@ def get_sharedir(filename):
         return os.path.join('/usr/local/share/mat/', filename)
     elif os.path.exists(os.path.join('/usr/share/mat/', filename)):
         return os.path.join('/usr/share/mat', filename)
+    elif os.path.exists(os.path.join('/usr/local/share/pixmaps/', filename)):
+        return os.path.join('/usr/local/share/pixmaps/', filename)
 
 
 class XMLParser(xml.sax.handler.ContentHandler):
@@ -90,17 +92,17 @@ def secure_remove(filename):
     try:
         subprocess.call(['shred', '--remove', filename])
         removed = True
-    except:
+    except OSError:
         logging.error('Unable to securely remove %s' % filename)
 
-    if removed is False:
+    if not removed:
         try:
             os.remove(filename)
-        except:
+        except OSError:
             logging.error('Unable to remove %s' % filename)
 
 
-def create_class_file(name, backup, add2archive):
+def create_class_file(name, backup, **kwargs):
     '''
         return a $FILETYPEStripper() class,
         corresponding to the filetype of the given file
@@ -147,4 +149,4 @@ def create_class_file(name, backup, add2archive):
         logging.info('Don\'t have stripper for %s format' % mime)
         return None
 
-    return stripper_class(filename, parser, mime, backup, add2archive)
+    return stripper_class(filename, parser, mime, backup, **kwargs)
