@@ -1,3 +1,15 @@
+mat (0.3.4-1) experimental; urgency=low
+
+  * Imported Upstream version 0.3.4
+  - Fix the logo's path, again
+  - Update the French translation
+  * Add 0001-gettext.install-defines-_-don-t-redefine-it.patch:
+    gettext.install defines "_", don't redefine it. This fixes
+    a regression against 0.3.2 that makes it so translations are not taken
+    into account.
+
+ -- intrigeri <intrigeri@debian.org>  Tue, 08 Jan 2013 22:32:26 +0100
+
 mat (0.3.3-1) experimental; urgency=low
 
   * Imported Upstream version 0.3.3
