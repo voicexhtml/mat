@@ -1,0 +1,20 @@
+From: intrigeri <intrigeri@boum.org>
+Date: Tue, 8 Jan 2013 22:56:49 +0100
+Subject: gettext.install defines "_", don't redefine it.
+
+---
+ mat-gui |    1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/mat-gui b/mat-gui
+index be966b0..77720e0 100755
+--- a/mat-gui
++++ b/mat-gui
+@@ -581,7 +581,6 @@ non-anonymised) file to output archive'))
+ 
+ if __name__ == '__main__':
+     gettext.install('MAT', unicode=True)
+-    _ = gettext.gettext
+ 
+     #Main
+     gui = GUI()
