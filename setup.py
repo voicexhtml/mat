@@ -31,6 +31,7 @@ setup(
         ( 'share/pixmaps', ['data/mat.png'] ),
         ( 'share/doc/mat', ['README', 'TODO'] ),
         ( 'share/man/man1', ['mat.1', 'mat-gui.1'] ),
+        ( 'share/nautilus/extensions-2.0/python', ['nautilus2-mat.py'] ),
     ],
     cmdclass          = {
         'build': build_extra.build_extra,
