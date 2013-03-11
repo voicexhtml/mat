@@ -6,6 +6,7 @@
 import sys
 import xml.sax
 import optparse
+import threading
 
 import hachoir_core
 
@@ -119,6 +120,15 @@ def list_supported():
     sys.exit(0)
 
 
+def process_file(function, filename, args):
+        class_file = mat.create_class_file(filename, args.backup,
+            add2archive=args.add2archive, low_pdf_quality=args.low_pdf_quality)
+        if class_file:
+            function(class_file, filename, args.force)
+        else:
+            print('Unable to process %s' % filename)
+
+
 def main():
     '''
         main function : get args, and launch the appropriate function
@@ -130,18 +140,13 @@ def main():
         func = list_meta
     elif args.check:  # only check if the file is clean
         func = is_clean
-    elif args.list:  # print the list of all supported format
+    elif args.list:  # print the list of all supported format and exit
         list_supported()
     else:  # clean the file
         func = clean_meta
 
     for filename in filenames:
-        class_file = mat.create_class_file(filename, args.backup,
-            add2archive=args.add2archive, low_pdf_quality=args.low_pdf_quality)
-        if class_file:
-            func(class_file, filename, args.force)
-        else:
-            print('Unable to process %s' % filename)
+        threading.Thread(target=process_file, args=(func, filename, args )).start()
 
 if __name__ == '__main__':
     main()
