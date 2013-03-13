@@ -13,6 +13,9 @@ import hachoir_core
 from MAT import mat
 from MAT import strippers
 
+MAX_THREADS = 4
+p = threading.Semaphore(MAX_THREADS)
+
 
 def parse():
     '''
@@ -121,12 +124,14 @@ def list_supported():
 
 
 def process_file(function, filename, args):
-        class_file = mat.create_class_file(filename, args.backup,
-            add2archive=args.add2archive, low_pdf_quality=args.low_pdf_quality)
-        if class_file:
-            function(class_file, filename, args.force)
-        else:
-            print('Unable to process %s' % filename)
+    p.acquire()
+    class_file = mat.create_class_file(filename, args.backup,
+        add2archive=args.add2archive, low_pdf_quality=args.low_pdf_quality)
+    if class_file:
+        function(class_file, filename, args.force)
+    else:
+        print('Unable to process %s' % filename)
+    p.release()
 
 
 def main():
