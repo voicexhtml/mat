@@ -8,7 +8,7 @@ Uploaders:
 Build-Depends:
  debhelper (>= 7.0.50~),
  libimage-exiftool-perl,
- python (>= 2.6.6-3~),
+ python (>= 2.7.3-6~),
  python-cairo,
  python-hachoir-core,
  python-hachoir-parser,
@@ -19,7 +19,7 @@ Build-Depends:
  xvfb
 Build-Depends-Indep: python-distutils-extra
 Standards-Version: 3.9.3
-X-Python-Version: >= 2.6
+X-Python-Version: >= 2.7
 Homepage: https://mat.boum.org/
 Vcs-Git: git://git.debian.org/collab-maint/mat.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/mat.git
