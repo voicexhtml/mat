@@ -13,9 +13,9 @@ import xml.sax
 import hachoir_core.cmd_line
 import hachoir_parser
 
-import strippers
+import MAT.exceptions
 
-__version__ = '0.3.4'
+__version__ = '0.4'
 __author__ = 'jvoisin'
 
 #Silence
@@ -24,11 +24,13 @@ hachoir_core.config.quiet = True
 fname = ''
 
 #Verbose
-LOGGING_LEVEL = logging.DEBUG
+#LOGGING_LEVEL = logging.DEBUG
 #hachoir_core.config.quiet = False
 #logname = 'report.log'
 
 logging.basicConfig(filename=fname, level=LOGGING_LEVEL)
+
+import strippers  # this is loaded here because we need LOGGING_LEVEL
 
 def get_logo():
     if os.path.isfile('./data/mat.png'):
@@ -38,14 +40,31 @@ def get_logo():
     elif os.path.isfile('/usr/local/share/pixmaps/mat.png'):
         return '/usr/local/share/pixmaps/mat.png'
 
-def get_formats():
-    if os.path.isfile('./data/FORMATS'):
-        return './data/FORMATS'
-    elif os.path.isfile('/usr/share/mat/FORMATS'):
-        return '/usr/share/mat/FORMATS'
-    elif os.path.isfile('/usr/local/share/mat/FORMATS'):
-        return '/usr/local/share/mat/FORMATS'
+def get_datadir():
+    if os.path.isdir('./data/'):
+        return './data/'
+    elif os.path.isdir('/usr/local/share/mat/'):
+        return '/usr/local/share/mat/'
+    elif os.path.isdir('/usr/share/mat/'):
+        return '/usr/share/mat/'
 
+def list_supported_formats():
+    '''
+        Return a list of all locally supported fileformat
+    '''
+    handler = XMLParser()
+    parser = xml.sax.make_parser()
+    parser.setContentHandler(handler)
+    path = os.path.join(get_datadir(), 'FORMATS')
+    with open(path, 'r') as xmlfile:
+        parser.parse(xmlfile)
+
+    localy_supported = []
+    for item in handler.list:
+        if strippers.STRIPPERS.has_key(item['mimetype'].split(',')[0]):
+            localy_supported.append(item)
+
+    return localy_supported
 
 class XMLParser(xml.sax.handler.ContentHandler):
     '''
@@ -60,7 +79,7 @@ class XMLParser(xml.sax.handler.ContentHandler):
 
     def startElement(self, name, attrs):
         '''
-            Called when entering into xml balise
+            Called when entering into xml tag
         '''
         self.between = True
         self.key = name
@@ -68,7 +87,7 @@ class XMLParser(xml.sax.handler.ContentHandler):
 
     def endElement(self, name):
         '''
-            Called when exiting a xml balise
+            Called when exiting a xml tag
         '''
         if name == 'format':  # exiting a fileformat section
             self.list.append(self.dict.copy())
@@ -80,7 +99,7 @@ class XMLParser(xml.sax.handler.ContentHandler):
 
     def characters(self, characters):
         '''
-            Concatenate the content between opening and closing balises
+            Concatenate the content between opening and closing tags
         '''
         if self.between:
             self.content += characters
@@ -90,18 +109,20 @@ def secure_remove(filename):
     '''
         securely remove the file
     '''
-    removed = False
     try:
-        subprocess.call(['shred', '--remove', filename])
-        removed = True
+        if subprocess.call(['shred', '--remove', filename]) == 0:
+            return True
+        else:
+            raise OSError
     except OSError:
         logging.error('Unable to securely remove %s' % filename)
 
-    if not removed:
-        try:
-            os.remove(filename)
-        except OSError:
-            logging.error('Unable to remove %s' % filename)
+    try:
+        os.remove(filename)
+        return True
+    except OSError:
+        logging.error('Unable to remove %s' % filename)
+        raise MAT.exceptions.UnableToRemoveFile
 
 
 def create_class_file(name, backup, **kwargs):
@@ -121,7 +142,12 @@ def create_class_file(name, backup, **kwargs):
 
     if not os.access(name, os.W_OK):
         #check write permission
-        logging.error('%s is not writtable' % name)
+        logging.error('%s is not writable' % name)
+        return None
+
+    if not os.path.getsize(name):
+        #check if the file is not empty (hachoir crash on empty files)
+        logging.error('%s is empty' % name)
         return None
 
     filename = ''
@@ -138,7 +164,8 @@ def create_class_file(name, backup, **kwargs):
     mime = parser.mime_type
 
     if mime == 'application/zip':  # some formats are zipped stuff
-        mime = mimetypes.guess_type(name)[0]
+        if mimetypes.guess_type(name)[0] is not None:
+            mime =  mimetypes.guess_type(name)[0]
 
     if mime.startswith('application/vnd.oasis.opendocument'):
         mime = 'application/opendocument'  # opendocument fileformat

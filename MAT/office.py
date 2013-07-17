@@ -6,11 +6,13 @@ import os
 import logging
 import zipfile
 import fileinput
+import tempfile
+import shutil
 import xml.dom.minidom as minidom
 
 try:
     import cairo
-    import poppler
+    from gi.repository import Poppler
 except ImportError:
     pass
 
@@ -66,14 +68,14 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
             # contain the list of all files present in the archive
                 zipin.extract(item, self.tempdir)
                 for line in fileinput.input(name, inplace=1):
-                    #remove the line which contains "meta.xml"
+                    # remove the line which contains "meta.xml"
                     line = line.strip()
                     if not 'meta.xml' in line:
                         print line
                 zipout.write(name, item)
 
             elif ext in parser.NOMETA or item == 'mimetype':
-                #keep NOMETA files, and the "manifest" file
+                # keep NOMETA files, and the "manifest" file
                 if item != 'meta.xml':  # contains the metadata
                     zipin.extract(item, self.tempdir)
                     zipout.write(name, item)
@@ -124,8 +126,12 @@ class PdfStripper(parser.GenericParser):
         super(PdfStripper, self).__init__(filename, parser, mime, backup, **kwargs)
         uri = 'file://' + os.path.abspath(self.filename)
         self.password = None
-        self.pdf_quality = kwargs['low_pdf_quality']
-        self.document = poppler.document_new_from_file(uri, self.password)
+        try:
+            self.pdf_quality = kwargs['low_pdf_quality']
+        except KeyError:
+            self.pdf_quality = False
+
+        self.document = Poppler.Document.new_from_file(uri, self.password)
         self.meta_list = frozenset(['title', 'author', 'subject', 'keywords', 'creator',
             'producer', 'metadata'])
 
@@ -144,12 +150,16 @@ class PdfStripper(parser.GenericParser):
             on a cairo pdfsurface for each pages.
 
             http://cairographics.org/documentation/pycairo/2/
-            python-poppler is not documented at all : have fun ;)
+
+            The use of an intermediate tempfile is necessary because
+            python-cairo segfaults on unicode.
+            See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=699457
         '''
+        output = tempfile.mkstemp()[1]
         page = self.document.get_page(0)
         # assume that every pages are the same size
         page_width, page_height = page.get_size()
-        surface = cairo.PDFSurface(self.output, page_width, page_height)
+        surface = cairo.PDFSurface(output, page_width, page_height)
         context = cairo.Context(surface)  # context draws on the surface
         logging.debug('PDF rendering of %s' % self.filename)
         for pagenum in xrange(self.document.get_n_pages()):
@@ -161,6 +171,7 @@ class PdfStripper(parser.GenericParser):
                 page.render_for_printing(context)  # render the page on context
             context.show_page()  # draw context on surface
         surface.finish()
+        shutil.move(output, self.output)
 
         try:
             import pdfrw  # For now, poppler cannot write meta, so we must use pdfrw
@@ -173,7 +184,7 @@ class PdfStripper(parser.GenericParser):
             writer.write(self.output)
             self.do_backup()
         except:
-            print('Unable to remove all metadata from %s, please install\
+            logging.error('Unable to remove all metadata from %s, please install\
 pdfrw' % self.output)
             return False
         return True
@@ -211,7 +222,7 @@ class OpenXmlStripper(archive.GenericArchiveStripper):
             if item.startswith('docProps/'):  # metadatas
                 pass
             elif ext in parser.NOMETA or item == '.rels':
-                #keep parser.NOMETA files, and the file named ".rels"
+                # keep parser.NOMETA files, and the file named ".rels"
                 zipin.extract(item, self.tempdir)
                 zipout.write(name, item)
             else:

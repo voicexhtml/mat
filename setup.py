@@ -5,7 +5,7 @@ import os
 from distutils.core import setup
 from DistUtilsExtra.command import *
 
-from MAT import mat
+__version__ = '0.4'
 
 #Remove MANIFEST file, since distutils
 #doesn't properly update it when
@@ -15,22 +15,23 @@ if os.path.exists('MANIFEST'):
 
 setup(
     name              = 'MAT',
-    version           = mat.__version__,
+    version           = __version__,
     description       = 'Metadata Anonymisation Toolkit',
     long_description  = 'A Metadata Anonymisation Toolkit in Python, using python-hachoir',
-    author            = mat.__author__,
+    author            = 'jvoisin',
     author_email      = 'julien.voisin@dustri.org',
     platforms         = 'linux',
     license           = 'GPLv2',
     url               = 'https://mat.boum.org',
-    packages          = ['MAT', 'MAT.hachoir_editor', 'MAT.bencode', 'MAT.tarfile'],
+    packages          = ['MAT', 'MAT.hachoir_editor', 'MAT.bencode'],
     scripts           = ['mat', 'mat-gui'],
     data_files        = [
         ( 'share/applications', ['mat.desktop'] ),
-        ( 'share/mat', ['data/FORMATS'] ),
+        ( 'share/mat', ['data/FORMATS', 'data/mat.ui'] ),
         ( 'share/pixmaps', ['data/mat.png'] ),
         ( 'share/doc/mat', ['README', 'TODO'] ),
         ( 'share/man/man1', ['mat.1', 'mat-gui.1'] ),
+        ( 'share/nautilus-python/extensions', ['nautilus/nautilus-mat.py'])
     ],
     cmdclass          = {
         'build': build_extra.build_extra,

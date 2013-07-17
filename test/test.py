@@ -15,7 +15,7 @@ import tempfile
 import unittest
 import subprocess
 
-VERBOSITY = 3
+VERBOSITY = 15
 
 clean = glob.glob('clean*')
 clean.sort()
@@ -25,8 +25,9 @@ dirty.sort()
 FILE_LIST = zip(clean, dirty)
 
 try:  # PDF render processing
-    import poppler
     import cairo
+    import gi
+    from gi.repository import Poppler
     import pdfrw
 except ImportError:
     FILE_LIST.remove(('clean é.pdf', 'dirty é.pdf'))
@@ -34,8 +35,9 @@ except ImportError:
 try:  # python-mutagen : audio file format
     import mutagen
 except ImportError:
-    pass  # since wr don't have any ogg for now
-    #FILE_LIST.remove(('clean.ogg', 'dirty.ogg'))
+    FILE_LIST.remove(('clean é.ogg', 'dirty é.ogg'))
+    FILE_LIST.remove(('clean é.mp3', 'dirty é.mp3'))
+    FILE_LIST.remove(('clean é.flac', 'dirty é.flac'))
 
 try:  # file format exclusively managed by exiftool
     subprocess.Popen('exiftool', stdout=open('/dev/null'))

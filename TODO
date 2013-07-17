@@ -1,27 +1,13 @@
-GENERAL:
-    - Complete the get_meta method:
-	the ultimate goal is to remove
-	all "harmful meta" stuff
-
-
 FORMATS:
     NEW:
         - microsoft office < 2007 (ugly and insane)
-        - fix zip (fix python's ziplib)
+        - fix (g)zip
         - videos format ?
     ARCHIVES:
         - correctly handle mtime/atime for files inside archives
-    PDF:
-        - add an option to allow to lose quality to reduce outputed pdf size
-
 
 MISC:
-    - a nautilus extension (right-clic -> clean with MAT)
+    - support non-utf8 filenames
+    - procude a .bak instead of a .cleaned.
+    - create a release.sh script
 
-
-TESTSUITE
-    - add a ctime/mtime related test
-
-
-WATERMARK:
-    - do research
