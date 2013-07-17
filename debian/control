@@ -7,6 +7,7 @@ Uploaders:
  intrigeri <intrigeri@debian.org>
 Build-Depends:
  debhelper (>= 7.0.50~),
+ gir1.2-poppler-0.18,
  libimage-exiftool-perl,
  python (>= 2.7.3-6~),
  python-gi,
@@ -16,7 +17,6 @@ Build-Depends:
  python-hachoir-parser,
  python-mutagen,
  python-pdfrw,
- python-poppler,
  xauth,
  xvfb
 Build-Depends-Indep: python-distutils-extra
@@ -36,11 +36,11 @@ Depends:
  python-hachoir-core,
  python-hachoir-parser
 Recommends:
+ gir1.2-poppler-0.18,
  libimage-exiftool-perl,
  python-gi-cairo,
  python-mutagen,
- python-pdfrw,
- python-poppler
+ python-pdfrw
 Description: Metadata anonymisation toolkit
  Metadata consist of information that characterizes data. Metadata are
  used to provide documentation for data products. In essence, metadata
