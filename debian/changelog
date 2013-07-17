@@ -1,3 +1,22 @@
+mat (0.3.4-2~1.gbp1d1541) UNRELEASED; urgency=low
+
+  ** SNAPSHOT build @1d1541eb29b66b520a3bfd01ef292e0f39b14ab7 **
+
+  * New upstream pre-release Git snapshot:
+    - Support of MPEG Audio, Ogg Vorbis and Free Lossless Audio Codec
+      is now official.
+    - Port from GTK+ 2.0 to GTK+ 3.0.
+    - Port the UI to Glade.
+    - Simplified GUI.
+    - Multiples files can now be dropped into the GUI.
+    - Various bugfixes.
+  * Bump Python dependency from 2.6 to 2.7.
+  * Update dependencies to take into account that the MAT now
+    heavily uses GI.
+  * Update poppler dependency to use GI.
+
+ -- intrigeri <intrigeri@debian.org>  Wed, 17 Jul 2013 12:38:25 +0200
+
 mat (0.3.4-1) experimental; urgency=low
 
   * Imported Upstream version 0.3.4
