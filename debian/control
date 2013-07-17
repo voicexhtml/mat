@@ -9,7 +9,9 @@ Build-Depends:
  debhelper (>= 7.0.50~),
  libimage-exiftool-perl,
  python (>= 2.7.3-6~),
- python-cairo,
+ python-gi,
+ python-gi-cairo,
+ python-gobject,
  python-hachoir-core,
  python-hachoir-parser,
  python-mutagen,
@@ -29,11 +31,13 @@ Architecture: all
 Depends:
  ${python:Depends},
  ${misc:Depends},
+ python-gi,
+ python-gobject,
  python-hachoir-core,
  python-hachoir-parser
 Recommends:
  libimage-exiftool-perl,
- python-cairo,
+ python-gi-cairo,
  python-mutagen,
  python-pdfrw,
  python-poppler
