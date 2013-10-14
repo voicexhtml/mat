@@ -5,7 +5,7 @@
     Metadata anonymisation toolkit - GUI edition
 '''
 
-from gi.repository import GObject, Gtk
+from gi.repository import GObject, Gtk, GLib
 from gi.repository import Gdk, GdkPixbuf
 
 import gettext
@@ -150,7 +150,7 @@ class GUI(object):
 
         if not chooser.run():  # Gtk.STOCK_OK
             filenames = chooser.get_filenames()
-            GObject.idle_add(self.populate(filenames).next)  # asynchrone processing
+            GLib.idle_add(self.populate(filenames).next)  # asynchronous processing
         chooser.destroy()
 
     def cb_popup_metadata(self, widget, row, col):
@@ -269,9 +269,9 @@ non-anonymised) file to output archive'))
             elif url.startswith('file:'):  # xffm
                 return url[5:]  # 5 is len('file:')
 
-        dirties_urls = selection.get_uris()
-        cleaned_urls = map(clean_path, dirties_urls)
-        GObject.idle_add(self.populate(cleaned_urls).next)  # asynchrone processing
+        dirty_urls = selection.get_uris()
+        cleaned_urls = map(clean_path, dirty_urls)
+        GLib.idle_add(self.populate(cleaned_urls).next)  # asynchronous processing
 
     def __add_file_to_treeview(self, filename):
         '''
@@ -279,20 +279,22 @@ non-anonymised) file to output archive'))
         '''
         cf = CFile(filename, add2archive=self.add2archive,
                 low_pdf_quality=self.pdf_quality)
-        if cf.file:  # if the file is supported by the mat
+        # if the file is supported by the mat,
+        # and is writable (for usability's sake).
+        if cf.file and cf.file.is_writable:
             self.liststore.append([cf, cf.file.basename, _('Unknown')])
             return False
         return True
 
     def __process_files(self, func):
         '''
-            Launch the function "func" in a asynchrone way
+            Launch the function "func" in a asynchronous way
         '''
         iterator = self.treeview.get_selection().get_selected_rows()[1]
         if not iterator:  # if nothing is selected : select everything
             iterator = range(len(self.liststore))
-        task = func(iterator)  # launch func() in an asynchrone way
-        GObject.idle_add(task.next)
+        task = func(iterator)  # launch func() in an asynchronous way
+        GLib.idle_add(task.next)
 
     def __invert(self, button, name):
         ''' Invert a preference state '''
@@ -396,6 +398,6 @@ if __name__ == '__main__':
     infiles = [arg for arg in sys.argv[1:] if os.path.exists(arg)]
     if infiles:
         task = gui.populate(infiles)
-        GObject.idle_add(task.next)
+        Glib.idle_add(task.next)
 
     Gtk.main()

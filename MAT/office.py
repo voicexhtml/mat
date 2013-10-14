@@ -14,6 +14,7 @@ try:
     import cairo
     from gi.repository import Poppler
 except ImportError:
+    logging.info('office.py loaded without PDF support')
     pass
 
 import mat
@@ -44,7 +45,7 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
                     metadata[nodename] = ''.join([j.data for j in i.childNodes])
                 else:
                     # thank you w3c for not providing a nice
-                    # method to get all attributes from a node
+                    # method to get all attributes of a node
                     pass
             zipin.close()
         except KeyError:  # no meta.xml file found
@@ -110,7 +111,7 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
             zipin.getinfo('meta.xml')
         except KeyError:  # no meta.xml in the file
             czf = archive.ZipStripper(self.filename, self.parser,
-                'application/zip', False, add2archive=self.add2archive)
+                'application/zip', False, True, add2archive=self.add2archive)
             if czf.is_clean():
                 zipin.close()
                 return True
@@ -122,8 +123,8 @@ class PdfStripper(parser.GenericParser):
     '''
         Represent a PDF file
     '''
-    def __init__(self, filename, parser, mime, backup, **kwargs):
-        super(PdfStripper, self).__init__(filename, parser, mime, backup, **kwargs)
+    def __init__(self, filename, parser, mime, backup, is_writable, **kwargs):
+        super(PdfStripper, self).__init__(filename, parser, mime, backup, is_writable, **kwargs)
         uri = 'file://' + os.path.abspath(self.filename)
         self.password = None
         try:
@@ -162,7 +163,7 @@ class PdfStripper(parser.GenericParser):
         surface = cairo.PDFSurface(output, page_width, page_height)
         context = cairo.Context(surface)  # context draws on the surface
         logging.debug('PDF rendering of %s' % self.filename)
-        for pagenum in xrange(self.document.get_n_pages()):
+        for pagenum in range(self.document.get_n_pages()):
             page = self.document.get_page(pagenum)
             context.translate(0, 0)
             if self.pdf_quality:
@@ -256,7 +257,7 @@ class OpenXmlStripper(archive.GenericArchiveStripper):
                 return False
         zipin.close()
         czf = archive.ZipStripper(self.filename, self.parser,
-                'application/zip', False, add2archive=self.add2archive)
+                'application/zip', False, True, add2archive=self.add2archive)
         return czf.is_clean()
 
     def get_meta(self):

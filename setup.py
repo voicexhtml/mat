@@ -5,7 +5,7 @@ import os
 from distutils.core import setup
 from DistUtilsExtra.command import *
 
-__version__ = '0.4'
+__version__ = '0.4-rc'
 
 #Remove MANIFEST file, since distutils
 #doesn't properly update it when
@@ -29,7 +29,7 @@ setup(
         ( 'share/applications', ['mat.desktop'] ),
         ( 'share/mat', ['data/FORMATS', 'data/mat.ui'] ),
         ( 'share/pixmaps', ['data/mat.png'] ),
-        ( 'share/doc/mat', ['README', 'TODO'] ),
+        ( 'share/doc/mat', ['README', 'TODO', 'README.security'] ),
         ( 'share/man/man1', ['mat.1', 'mat-gui.1'] ),
         ( 'share/nautilus-python/extensions', ['nautilus/nautilus-mat.py'])
     ],

@@ -7,15 +7,16 @@ import hachoir_editor
 
 import os
 import tempfile
+import shutil
 
 import mat
 
-NOMETA = ('.bmp',  # image
+NOMETA = frozenset(('.bmp',  # image
           '.rdf',  # text
           '.txt',  # plain text
           '.xml',  # formated text (XML)
           '.rels',  # openXML formated text
-          )
+          ))
 
 FIELD = object()
 
@@ -24,11 +25,12 @@ class GenericParser(object):
     '''
         Parent class of all parsers
     '''
-    def __init__(self, filename, parser, mime, backup, **kwargs):
+    def __init__(self, filename, parser, mime, backup, is_writable, **kwargs):
         self.filename = ''
         self.parser = parser
         self.mime = mime
         self.backup = backup
+        self.is_writable = is_writable
         self.editor = hachoir_editor.createEditor(parser)
         try:
             self.filename = hachoir_core.cmd_line.unicodeFilename(filename)
@@ -37,6 +39,12 @@ class GenericParser(object):
         self.basename = os.path.basename(filename)
         _, output = tempfile.mkstemp()
         self.output = hachoir_core.cmd_line.unicodeFilename(output)
+
+    def __del__(self):
+        ''' Remove tempfile if it was not used
+        '''
+        if os.path.exists(self.output):
+            mat.secure_remove(self.output)
 
     def is_clean(self):
         '''
@@ -115,6 +123,11 @@ class GenericParser(object):
             abstract method
         '''
         raise NotImplementedError
+
+    def create_backup_copy(self):
+        ''' Create a backup copy
+        '''
+        shutil.copy2(self.filename, self.filename + '.bak')
 
     def do_backup(self):
         '''

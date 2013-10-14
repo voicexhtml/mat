@@ -52,7 +52,8 @@ class TestListcli(test.MATTest):
             proc = subprocess.Popen(['../mat', '-d', dirty],
                 stdout=subprocess.PIPE)
             stdout, _ = proc.communicate()
-            self.assertNotEqual(str(stdout), "[+] File %s" % dirty)
+            self.assertNotEqual(str(stdout), "[+] File %s :\n No\
+harmul metadata found" % dirty)
 
 
 class TestisCleancli(test.MATTest):
@@ -85,7 +86,7 @@ class TestFileAttributes(unittest.TestCase):
         proc = subprocess.Popen(['../mat', 'not_writtable'],
             stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
-        self.assertEqual(str(stdout).strip('\n'), 'Unable to process  %s' % 'not_writtable')
+        self.assertEqual(str(stdout).strip('\n'), '[-] %s is not writable' % 'not_writtable')
 
     def test_not_exist(self):
         ''' test MAT's behaviour on non-existent file'''
