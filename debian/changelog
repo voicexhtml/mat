@@ -1,6 +1,4 @@
-mat (0.4-1~4.gbpe8f3fb) UNRELEASED; urgency=low
-
-  ** SNAPSHOT build @e8f3fb005943084c52e414800daa94a91cdb148d **
+mat (0.4-1) unstable; urgency=low
 
   * New upstream release:
     - Support of MPEG Audio, Ogg Vorbis and Free Lossless Audio Codec
@@ -25,7 +23,7 @@ mat (0.4-1~4.gbpe8f3fb) UNRELEASED; urgency=low
   * Declare compatibility with Standards-Version 3.9.4.
   * Use canonical URL for Vcs-Git control field.
 
- -- intrigeri <intrigeri@debian.org>  Mon, 14 Oct 2013 10:24:25 +0200
+ -- intrigeri <intrigeri@debian.org>  Mon, 14 Oct 2013 11:49:35 +0200
 
 mat (0.3.4-1) experimental; urgency=low
 
