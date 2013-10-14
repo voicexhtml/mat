@@ -1,21 +1,31 @@
-mat (0.3.4-2~1.gbp1d1541) UNRELEASED; urgency=low
+mat (0.4-1~1.gbpef9aab) UNRELEASED; urgency=low
 
-  ** SNAPSHOT build @1d1541eb29b66b520a3bfd01ef292e0f39b14ab7 **
+  ** SNAPSHOT build @ef9aabf692a1e96852ee61a37ca9257c5ddfdc14 **
 
-  * New upstream pre-release Git snapshot:
+  * New upstream release:
     - Support of MPEG Audio, Ogg Vorbis and Free Lossless Audio Codec
       is now official.
-    - Port from GTK+ 2.0 to GTK+ 3.0.
-    - Port the UI to Glade.
+    - Port from GTK+ 2.0 to GTK+ 3.0 and Glade.
     - Simplified GUI.
     - Multiples files can now be dropped into the GUI.
-    - Various bugfixes.
+    - Various runtime and test suite bugfixes.
+    - Fix exiftool presence check (Closes: #719140).
+    - Move to a more sound Python namespace (Closes: #689409).
+    - Install the logo to the right place (Closes: #693967).
+    - Handle read-only files properly (Closes: #721572).
+    - Handle empty files properly (Closes: #724544).
+    - Many new translations.
   * Bump Python dependency from 2.6 to 2.7.
   * Update dependencies to take into account that the MAT now
     heavily uses GI.
   * Update poppler dependency to use GI.
+  * Drop 0001-gettext.install-defines-_-don-t-redefine-it.patch:
+    applied upstream.
+  * Update recommended packages details in README.Debian.
+    * [[[insert-git-dch-commit-message-here]]]
+  * Update recommended packages details in README.Debian.
 
- -- intrigeri <intrigeri@debian.org>  Wed, 17 Jul 2013 12:38:25 +0200
+ -- intrigeri <intrigeri@debian.org>  Mon, 14 Oct 2013 10:24:25 +0200
 
 mat (0.3.4-1) experimental; urgency=low
 
