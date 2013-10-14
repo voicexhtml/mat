@@ -6,15 +6,17 @@ import hachoir_core
 import hachoir_editor
 
 import os
+import tempfile
+import shutil
 
 import mat
 
-NOMETA = ('.bmp',  # image
+NOMETA = frozenset(('.bmp',  # image
           '.rdf',  # text
           '.txt',  # plain text
           '.xml',  # formated text (XML)
-          '.rels', # openXML formated text
-          )
+          '.rels',  # openXML formated text
+          ))
 
 FIELD = object()
 
@@ -23,20 +25,26 @@ class GenericParser(object):
     '''
         Parent class of all parsers
     '''
-    def __init__(self, filename, parser, mime, backup, **kwargs):
+    def __init__(self, filename, parser, mime, backup, is_writable, **kwargs):
         self.filename = ''
         self.parser = parser
         self.mime = mime
         self.backup = backup
+        self.is_writable = is_writable
         self.editor = hachoir_editor.createEditor(parser)
-        self.realname = filename
         try:
             self.filename = hachoir_core.cmd_line.unicodeFilename(filename)
         except TypeError:  # get rid of "decoding Unicode is not supported"
             self.filename = filename
-        basename, ext = os.path.splitext(filename)
-        self.output = basename + '.cleaned' + ext
-        self.basename = os.path.basename(filename)  # only filename
+        self.basename = os.path.basename(filename)
+        _, output = tempfile.mkstemp()
+        self.output = hachoir_core.cmd_line.unicodeFilename(output)
+
+    def __del__(self):
+        ''' Remove tempfile if it was not used
+        '''
+        if os.path.exists(self.output):
+            mat.secure_remove(self.output)
 
     def is_clean(self):
         '''
@@ -101,7 +109,7 @@ class GenericParser(object):
         '''
         for field in fieldset:
             remove = self._should_remove(field)
-            if remove is True:
+            if remove:
                 try:
                     metadata[field.name] = field.value
                 except:
@@ -116,11 +124,20 @@ class GenericParser(object):
         '''
         raise NotImplementedError
 
+    def create_backup_copy(self):
+        ''' Create a backup copy
+        '''
+        shutil.copy2(self.filename, self.filename + '.bak')
+
     def do_backup(self):
         '''
-            Do a backup of the file if asked,
-            and change his creation/access date
+            Keep a backup of the file if asked.
+
+            The process of double-renaming is not very elegant,
+            but it greatly simplify new strippers implementation.
         '''
-        if not self.backup:
+        if self.backup:
+            os.rename(self.filename, self.filename + '.bak')
+        else:
             mat.secure_remove(self.filename)
-            os.rename(self.output, self.filename)
+        os.rename(self.output, self.filename)

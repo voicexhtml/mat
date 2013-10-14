@@ -10,15 +10,15 @@ import tempfile
 
 import parser
 import mat
-from tarfile import tarfile
+import tarfile
 
 
 class GenericArchiveStripper(parser.GenericParser):
     '''
         Represent a generic archive
     '''
-    def __init__(self, filename, parser, mime, backup, **kwargs):
-        super(GenericArchiveStripper, self).__init__(filename, parser, mime, backup, **kwargs)
+    def __init__(self, filename, parser, mime, backup, is_writable, **kwargs):
+        super(GenericArchiveStripper, self).__init__(filename, parser, mime, backup, is_writable, **kwargs)
         self.compression = ''
         self.add2archive = kwargs['add2archive']
         self.tempdir = tempfile.mkdtemp()
@@ -47,16 +47,15 @@ class ZipStripper(GenericArchiveStripper):
             Check if a ZipInfo object is clean of metadatas added
             by zip itself, independently of the corresponding file metadatas
         '''
-        if fileinfo.comment != '':
+        if fileinfo.comment:
             return False
-        elif fileinfo.date_time != 0:
+        elif fileinfo.date_time:
             return False
-        elif fileinfo.create_system != 0:
+        elif fileinfo.create_system:
             return False
-        elif fileinfo.create_version != 0:
+        elif fileinfo.create_version:
             return False
-        else:
-            return True
+        return True
 
     def is_clean(self):
         '''
@@ -67,9 +66,9 @@ class ZipStripper(GenericArchiveStripper):
             logging.debug('%s has a comment' % self.filename)
             return False
         for item in zipin.infolist():
-            #I have not found a way to remove the crap added by zipfile :/
-            #if not self.is_file_clean(item):
-            #    logging.debug('%s from %s has compromizing zipinfo' %
+            # I have not found a way to remove the crap added by zipfile :/
+            # if not self.is_file_clean(item):
+            #    logging.debug('%s from %s has compromising zipinfo' %
             #        (item.filename, self.filename))
             #    return False
             zipin.extract(item, self.tempdir)
@@ -81,7 +80,7 @@ class ZipStripper(GenericArchiveStripper):
                     if not cfile.is_clean():
                         return False
                 except:
-                    #best solution I have found
+                    # best solution I have found
                     logging.info('%s\'s fileformat is not supported, or is a \
 harmless format' % item.filename)
                     _, ext = os.path.splitext(name)
@@ -115,7 +114,7 @@ harmless format' % item.filename)
             So far, the zipfile module does not allow to write a ZipInfo
             object into a zipfile (and it's a shame !) : so data added
             by zipfile itself could not be removed. It's a big concern.
-            Is shiping a patched version of zipfile.py a good idea ?
+            Is shipping a patched version of zipfile.py a good idea ?
         '''
         zipin = zipfile.ZipFile(self.filename, 'r')
         zipout = zipfile.ZipFile(self.output, 'w', allowZip64=True)
@@ -160,13 +159,13 @@ class TarStripper(GenericArchiveStripper):
         return current_file
 
     def remove_all(self):
-        tarin = tarfile.open(self.filename, 'r' + self.compression)
-        tarout = tarfile.open(self.output, 'w' + self.compression)
+        tarin = tarfile.open(self.filename, 'r' + self.compression, encoding='utf-8')
+        tarout = tarfile.open(self.output, 'w' + self.compression, encoding='utf-8')
         for item in tarin.getmembers():
             tarin.extract(item, self.tempdir)
             name = os.path.join(self.tempdir, item.name)
             if item.type == '0':  # is item a regular file ?
-                #no backup file
+                # no backup file
                 try:
                     cfile = mat.create_class_file(name, False,
                             add2archive=self.add2archive)
@@ -219,7 +218,7 @@ class TarStripper(GenericArchiveStripper):
                         tarin.close()
                         return False
                 except:
-                    logging.error('%s\'s foramt is not supported or harmless' %
+                    logging.error('%s\'s format is not supported or harmless' %
                         item.filename)
                     _, ext = os.path.splitext(name)
                     if ext not in parser.NOMETA:
@@ -252,8 +251,8 @@ class GzipStripper(TarStripper):
     '''
         Represent a tar.gz archive
     '''
-    def __init__(self, filename, parser, mime, backup, **kwargs):
-        super(GzipStripper, self).__init__(filename, parser, mime, backup, **kwargs)
+    def __init__(self, filename, parser, mime, backup, is_writable, **kwargs):
+        super(GzipStripper, self).__init__(filename, parser, mime, backup, is_writable, **kwargs)
         self.compression = ':gz'
 
 
@@ -261,6 +260,6 @@ class Bzip2Stripper(TarStripper):
     '''
         Represents a tar.bz2 archive
     '''
-    def __init__(self, filename, parser, mime, backup, **kwargs):
-        super(Bzip2Stripper, self).__init__(filename, parser, mime, backup, **kwargs)
+    def __init__(self, filename, parser, mime, backup, is_writable, **kwargs):
+        super(Bzip2Stripper, self).__init__(filename, parser, mime, backup, is_writable, **kwargs)
         self.compression = ':bz2'

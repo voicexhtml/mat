@@ -6,6 +6,7 @@
 import sys
 import xml.sax
 import optparse
+import os
 
 import hachoir_core
 
@@ -87,6 +88,9 @@ def clean_meta(class_file, filename, force):
     '''
         Clean the file 'filename'
     '''
+    if not class_file.is_writable:
+        print('[-] %s is not writable' % filename)
+        return
     print('[+] Cleaning %s' % filename)
     if not force and class_file.is_clean():
         print('%s is already clean' % filename)
@@ -101,21 +105,13 @@ def list_supported():
     '''
         Print all supported fileformat, and exit
     '''
-    handler = mat.XMLParser()
-    parser = xml.sax.make_parser()
-    parser.setContentHandler(handler)
-    path = mat.get_formats()
-    with open(path, 'r') as xmlfile:
-        parser.parse(xmlfile)
-
-    for item in handler.list:
-        if strippers.STRIPPERS.has_key(item['mimetype'].split(',')[0]):
-            print('%s (%s)' % (item['name'], item['extension']))
-            print('\tsupport : ' + item['support'])
-            print('\tmetadata : ' + item['metadata'])
-            print('\tmethod : ' + item['method'] + '\n')
-            if item['support'] == 'partial':
-                print('\tremaining : ' + item['remaining'] + '\n')
+    for item in mat.list_supported_formats():
+        print('%s (%s)' % (item['name'], item['extension']))
+        print('\tsupport : ' + item['support'])
+        print('\tmetadata : ' + item['metadata'])
+        print('\tmethod : ' + item['method'])
+        print('\tremaining : ' + item['remaining'])
+        print('\n')
     sys.exit(0)
 
 
@@ -125,7 +121,7 @@ def main():
     '''
     args, filenames = parse()
 
-    #func receive the function correponding to the options given as parameters
+    #func receive the function corresponding to the options given as parameters
     if args.display:  # only print metadatas
         func = list_meta
     elif args.check:  # only check if the file is clean
@@ -135,7 +131,13 @@ def main():
     else:  # clean the file
         func = clean_meta
 
-    for filename in filenames:
+    while filenames:
+        filename = filenames.pop()
+        if os.path.isdir(filename):
+            for root, sub, files in os.walk(filename):
+                for file in files:
+                    filenames.append(os.path.join(root, file))
+
         class_file = mat.create_class_file(filename, args.backup,
             add2archive=args.add2archive, low_pdf_quality=args.low_pdf_quality)
         if class_file:

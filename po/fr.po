@@ -1,182 +1,174 @@
-# French translations for mat package.
-# Copyright (C) 2012-2013 jvoisin
-# This file is distributed under the same license as the mat package.
-# jvoisin <julien.voisin@dustri.org>, 2012-2013.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Onizuka, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: mat 0.3.1\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-05 20:03+0100\n"
-"PO-Revision-Date: 2013-01-06 21:00-0000\n"
-"Last-Translator: \n"
-"Language-Team: French\n"
-"Language: fr\n"
+"Project-Id-Version: The Tor Project\n"
+"Report-Msgid-Bugs-To: https://trac.torproject.org/projects/tor\n"
+"POT-Creation-Date: 2013-07-01 19:26+0200\n"
+"PO-Revision-Date: 2013-07-25 09:22+0000\n"
+"Last-Translator: Onizuka\n"
+"Language-Team: French (http://www.transifex.com/projects/p/torproject/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.5.4\n"
 
-#: mat-gui:95 mat-gui:563 mat-gui:579
+#: mat-gui:65 mat-gui:375 mat-gui:387
 msgid "Ready"
 msgstr "Prêt"
 
-#: mat-gui:107
-msgid "Add"
-msgstr "Ajouter"
-
-#: mat-gui:109 mat-gui:183
-msgid "Add files"
-msgstr "Ajouter des fichiers"
-
-#: mat-gui:113 mat-gui:203 mat-gui:308 mat-gui:311 mat-gui:555 mat-gui:557
-#: mat-gui:573 mat-gui:575
-msgid "Clean"
-msgstr "Nettoyer"
-
-#: mat-gui:115
-msgid "Clean selected files"
-msgstr "Nettoyer les fichiers sélectionnés"
-
-#: mat-gui:119 mat-gui:214
-msgid "Check"
-msgstr "Vérifier"
-
-#: mat-gui:121
-msgid "Check selected files for harmful meta"
-msgstr ""
-"Vérifier si les fichiers sélectionnés comportent des métadonnées "
-"préjudiciables"
-
-#: mat-gui:125 mat-gui:185
-msgid "Quit"
-msgstr "Quitter"
-
-#: mat-gui:137
-msgid "Path"
-msgstr "Chemin"
-
-#: mat-gui:137 mat-gui:363
-msgid "Filename"
-msgstr "Nom"
-
-#: mat-gui:137 mat-gui:365
-msgid "Mimetype"
-msgstr "Type MIME"
-
-#: mat-gui:137
-msgid "State"
-msgstr "État"
-
-#: mat-gui:138
-msgid "Cleaned file"
-msgstr "Fichier nettoyé"
-
-#: mat-gui:182
-msgid "Files"
-msgstr "Fichiers"
-
-#: mat-gui:188
-msgid "Edit"
-msgstr "Édition"
-
-#: mat-gui:189
-msgid "Clear the filelist"
-msgstr "Vider la liste de fichiers"
-
-#: mat-gui:192 mat-gui:447
-msgid "Preferences"
-msgstr "Préférences"
-
-#: mat-gui:195
-msgid "Process"
-msgstr "Traitement"
-
-#: mat-gui:218
-msgid "Help"
-msgstr "Aide"
-
-#: mat-gui:219 mat-gui:395
-msgid "Supported formats"
-msgstr "Formats supportés"
-
-#: mat-gui:220
-msgid "About"
-msgstr "À propos"
-
-#: mat-gui:241
+#: mat-gui:134
 msgid "Choose files"
 msgstr "Sélectionner des fichiers"
 
-#: mat-gui:248
+#: mat-gui:141
 msgid "All files"
 msgstr "Tous type de fichiers"
 
-#: mat-gui:255
+#: mat-gui:148
 msgid "Supported files"
 msgstr "Fichiers supportés"
 
-#: mat-gui:297
-msgid "unknow"
-msgstr "inconnu"
+#: mat-gui:164
+msgid "No metadata found"
+msgstr "Aucune métadonnée trouvée"
 
-#: mat-gui:313 mat-gui:559
+#: mat-gui:165 mat-gui:370 mat-gui:385 data/mat.ui:227
+msgid "Clean"
+msgstr "Nettoyer"
+
+#: mat-gui:167 mat-gui:372
 msgid "Dirty"
 msgstr "Préjudiciable"
 
-#: mat-gui:343
-msgid "Not-supported"
-msgstr "Fichier(s) non supporté(s)"
+#: mat-gui:172
+#, python-format
+msgid "%s's metadata"
+msgstr "Métadonnées de %s"
 
-#: mat-gui:381
-msgid "This software was coded during the GSoC 2011"
-msgstr "Ce logiciel fût réalisé lors du GSoC 2011"
+#: mat-gui:183
+msgid "Trash your meta, keep your data"
+msgstr "Jetez vos métadonnées, conservez vos données"
 
-#: mat-gui:386
+#: mat-gui:188
 msgid "Website"
 msgstr "Site web"
 
-#: mat-gui:461
-msgid "Force Clean"
-msgstr "Forcer le nettoyage"
+#: mat-gui:214 data/mat.ui:107
+msgid "Preferences"
+msgstr "Préférences"
 
-#: mat-gui:464
-msgid "Do not check if already clean before cleaning"
-msgstr "Ne pas vérifier si un fichier est propre avant le nettoyage"
-
-#: mat-gui:468
-msgid "Backup"
-msgstr "Sauvegarde"
-
-#: mat-gui:471
-msgid "Keep a backup copy"
-msgstr "Conserve une copie de sauvegarde"
-
-#: mat-gui:474
+#: mat-gui:228
 msgid "Reduce PDF quality"
 msgstr "Reduire la qualité des PDF"
 
-#: mat-gui:477
+#: mat-gui:231
 msgid "Reduce the produced PDF size and quality"
 msgstr "Réduit la qualité et la taille des PDF produits"
 
-#: mat-gui:480
+#: mat-gui:234
 msgid "Add unsupported file to archives"
 msgstr "Ajoute le(s) fichier(s) non supporté(s) aux archives"
 
-#: mat-gui:484
+#: mat-gui:238
 msgid "Add non-supported (and so non-anonymised) file to output archive"
-msgstr ""
-"Ajoute le(s) fichier(s) non supporté(s) (et donc, non traités) aux archives "
-"produites"
+msgstr "Ajoute le(s) fichier(s) non supporté(s) (et donc, non traités) aux archives produites"
 
-#: mat-gui:554
-#, python-format
-msgid "Checking %s..."
-msgstr "Vérification de %s..."
+#: mat-gui:283
+msgid "Unknown"
+msgstr "Inconnu"
 
-#: mat-gui:572
+#: mat-gui:330
+msgid "Not-supported"
+msgstr "Fichier(s) non supporté(s)"
+
+#: mat-gui:347
+msgid "Unknown mimetype"
+msgstr "Type MIME inconnu"
+
+#: mat-gui:354 data/mat.ui:291
+msgid "Filename"
+msgstr "Nom"
+
+#: mat-gui:356
+msgid "Mimetype"
+msgstr "Type MIME"
+
+#: mat-gui:366
 #, python-format
-msgid "Cleaning %s..."
-msgstr "Nettoyage de %s en cours..."
+msgid "Checking %s"
+msgstr "Vérification de %s"
+
+#: mat-gui:381
+#, python-format
+msgid "Cleaning %s"
+msgstr "Nettoyage de %s"
+
+#: data/mat.ui:63
+msgid "_File"
+msgstr "_Fichier"
+
+#: data/mat.ui:99
+msgid "_Edit"
+msgstr "_Editer"
+
+#: data/mat.ui:118 data/mat.ui:253
+msgid "Clear"
+msgstr "Effacer"
+
+#: data/mat.ui:134
+msgid "_Process"
+msgstr "_Processus"
+
+#: data/mat.ui:168
+msgid "_Help"
+msgstr "_Aide"
+
+#: data/mat.ui:214
+msgid "Add"
+msgstr "Ajouter"
+
+#: data/mat.ui:240
+msgid "Check"
+msgstr "Vérifier"
+
+#: data/mat.ui:308
+msgid "State"
+msgstr "État"
+
+#: data/mat.ui:346 data/mat.ui:495
+msgid "Metadata"
+msgstr "Métadonnées"
+
+#: data/mat.ui:400
+msgid "Name"
+msgstr "Nom"
+
+#: data/mat.ui:414
+msgid "Content"
+msgstr "Contenu"
+
+#: data/mat.ui:448
+msgid "Supported formats"
+msgstr "Formats supportés"
+
+#: data/mat.ui:482
+msgid "Support"
+msgstr "Support"
+
+#: data/mat.ui:508
+msgid "Method"
+msgstr "Procédé"
+
+#: data/mat.ui:521
+msgid "Remaining"
+msgstr "Restant"
+
+#: data/mat.ui:556
+msgid "Fileformat"
+msgstr "Format de fichier"

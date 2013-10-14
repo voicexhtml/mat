@@ -3,173 +3,172 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# K.N., 2012
-# Sacro <Scion@T-Online.de>, 2013
+# simabull tsai, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: The Tor Project\n"
 "Report-Msgid-Bugs-To: https://trac.torproject.org/projects/tor\n"
 "POT-Creation-Date: 2013-07-01 19:26+0200\n"
-"PO-Revision-Date: 2013-07-25 09:22+0000\n"
-"Last-Translator: Sacro <Scion@T-Online.de>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/torproject/language/de/)\n"
+"PO-Revision-Date: 2013-09-17 13:05+0000\n"
+"Last-Translator: simabull tsai\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/torproject/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: mat-gui:65 mat-gui:375 mat-gui:387
 msgid "Ready"
-msgstr "Fertig"
+msgstr "准备"
 
 #: mat-gui:134
 msgid "Choose files"
-msgstr "Dateien auswählen"
+msgstr "选择文件"
 
 #: mat-gui:141
 msgid "All files"
-msgstr "Alle Dateien"
+msgstr "全部文件"
 
 #: mat-gui:148
 msgid "Supported files"
-msgstr "Unterstützte Dateien"
+msgstr "支持文件"
 
 #: mat-gui:164
 msgid "No metadata found"
-msgstr "Keine Metadaten gefunden"
+msgstr "未找到元数据"
 
 #: mat-gui:165 mat-gui:370 mat-gui:385 data/mat.ui:227
 msgid "Clean"
-msgstr "Säubern"
+msgstr "清除"
 
 #: mat-gui:167 mat-gui:372
 msgid "Dirty"
-msgstr "Verschmutzt"
+msgstr "更新"
 
 #: mat-gui:172
 #, python-format
 msgid "%s's metadata"
-msgstr "%s's Metadaten"
+msgstr "%s 的元数据"
 
 #: mat-gui:183
 msgid "Trash your meta, keep your data"
-msgstr "Lösche deine Meta, behalte deinen Daten"
+msgstr "丢弃元标签，保留数据"
 
 #: mat-gui:188
 msgid "Website"
-msgstr "Webseite"
+msgstr "网站"
 
 #: mat-gui:214 data/mat.ui:107
 msgid "Preferences"
-msgstr "Einstellungen"
+msgstr "首选项"
 
 #: mat-gui:228
 msgid "Reduce PDF quality"
-msgstr "Verringere PDF Qualität"
+msgstr "降低 PDF 质量"
 
 #: mat-gui:231
 msgid "Reduce the produced PDF size and quality"
-msgstr "Verringere die Größe und Qualität der erstellten PDF"
+msgstr "降低生成 PDF 的大小和质量"
 
 #: mat-gui:234
 msgid "Add unsupported file to archives"
-msgstr "Nicht unterstützte Dateien im Archiv hinzufügen"
+msgstr "将不支持的文件添加到存档"
 
 #: mat-gui:238
 msgid "Add non-supported (and so non-anonymised) file to output archive"
-msgstr "Nicht unterstützte (und somit nicht gesäuberte) Dateien dem Ausgabe Archiv hinzufügen"
+msgstr "将不支持（与非匿名化）的文件添加到输出存档"
 
 #: mat-gui:283
 msgid "Unknown"
-msgstr "Unbekannt"
+msgstr "未知"
 
 #: mat-gui:330
 msgid "Not-supported"
-msgstr "Nicht unterstützt"
+msgstr "不支持"
 
 #: mat-gui:347
 msgid "Unknown mimetype"
-msgstr "Unbekannter mimetyp"
+msgstr "未知文档类型"
 
 #: mat-gui:354 data/mat.ui:291
 msgid "Filename"
-msgstr "Dateiname"
+msgstr "文件名"
 
 #: mat-gui:356
 msgid "Mimetype"
-msgstr "Mimetyp"
+msgstr "文档类型"
 
 #: mat-gui:366
 #, python-format
 msgid "Checking %s"
-msgstr "Prüfe %s"
+msgstr "正在检查 %s"
 
 #: mat-gui:381
 #, python-format
 msgid "Cleaning %s"
-msgstr "Bereinige %s"
+msgstr "正在清除 %s"
 
 #: data/mat.ui:63
 msgid "_File"
-msgstr "_Datei"
+msgstr "文件"
 
 #: data/mat.ui:99
 msgid "_Edit"
-msgstr "_Bearbeiten"
+msgstr "编辑"
 
 #: data/mat.ui:118 data/mat.ui:253
 msgid "Clear"
-msgstr "Löschen"
+msgstr "清空"
 
 #: data/mat.ui:134
 msgid "_Process"
-msgstr "_Abarbeiten"
+msgstr "处理"
 
 #: data/mat.ui:168
 msgid "_Help"
-msgstr "_Hilfe"
+msgstr "帮助"
 
 #: data/mat.ui:214
 msgid "Add"
-msgstr "Hinzufügen"
+msgstr "添加"
 
 #: data/mat.ui:240
 msgid "Check"
-msgstr "Prüfen"
+msgstr "检查"
 
 #: data/mat.ui:308
 msgid "State"
-msgstr "Status"
+msgstr "状态"
 
 #: data/mat.ui:346 data/mat.ui:495
 msgid "Metadata"
-msgstr "Metadaten"
+msgstr "元数据"
 
 #: data/mat.ui:400
 msgid "Name"
-msgstr "Name"
+msgstr "名字"
 
 #: data/mat.ui:414
 msgid "Content"
-msgstr "Inhalt"
+msgstr "内容"
 
 #: data/mat.ui:448
 msgid "Supported formats"
-msgstr "Unterstützte Formate"
+msgstr "支持格式"
 
 #: data/mat.ui:482
 msgid "Support"
-msgstr "Support"
+msgstr "支持"
 
 #: data/mat.ui:508
 msgid "Method"
-msgstr "Methode"
+msgstr "方式"
 
 #: data/mat.ui:521
 msgid "Remaining"
-msgstr "Verbleibend"
+msgstr "剩余"
 
 #: data/mat.ui:556
 msgid "Fileformat"
-msgstr "Dateiformat"
+msgstr "文件格式"
