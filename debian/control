@@ -40,7 +40,8 @@ Recommends:
  libimage-exiftool-perl,
  python-gi-cairo,
  python-mutagen,
- python-pdfrw
+ python-pdfrw,
+ python-nautilus
 Description: Metadata anonymisation toolkit
  Metadata consist of information that characterizes data. Metadata are
  used to provide documentation for data products. In essence, metadata

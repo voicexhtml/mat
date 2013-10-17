@@ -5,5 +5,6 @@ Suggested and recommended packages
 - PDF support: python-gi-cairo, python-poppler,
   libimage-exiftool-perl and python-pdfrw
 - image formats support: libimage-exiftool-perl
+- Nautilus (right-click) extension: python-nautilus
 
- -- intrigeri <intrigeri@debian.org>, Mon, 14 Oct 2013 10:45:06 +0200
+ -- intrigeri <intrigeri@debian.org>, Thu, 17 Oct 2013 17:55:30 +0200
