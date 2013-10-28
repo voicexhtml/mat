@@ -1,15 +1,12 @@
-'''
-    Care about images with help of the amazing (perl) library Exiftool.
+''' Care about images with help of the amazing (perl) library Exiftool.
 '''
 
-import subprocess
 import parser
-import shutil
+import subprocess
 
 
 class ExiftoolStripper(parser.GenericParser):
-    '''
-        A generic stripper class using exiftool as backend
+    ''' A generic stripper class using exiftool as backend
     '''
 
     def __init__(self, filename, parser, mime, backup, is_writable, **kwargs):
@@ -21,14 +18,12 @@ class ExiftoolStripper(parser.GenericParser):
         self._set_allowed()
 
     def _set_allowed(self):
-        '''
-            Set the allowed/harmless list of metadata
+        ''' Virtual method. Set the allowed/harmless list of metadata
         '''
         raise NotImplementedError
 
     def remove_all(self):
-        '''
-            Remove all metadata with help of exiftool
+        ''' Remove all metadata with help of exiftool
         '''
         try:
             if self.backup:
@@ -42,14 +37,12 @@ class ExiftoolStripper(parser.GenericParser):
             return False
 
     def is_clean(self):
+        ''' Check if the file is clean with the help of exiftool
         '''
-            Check if the file is clean with help of exiftool
-        '''
-        return self.get_meta() == {}
+        return not self.get_meta()
 
     def get_meta(self):
-        '''
-            Return every harmful meta with help of exiftool.
+        ''' Return every harmful meta with help of exiftool.
             Exiftool output looks like this:
             field name : value
             field name : value
@@ -57,7 +50,7 @@ class ExiftoolStripper(parser.GenericParser):
         output = subprocess.Popen(['exiftool', self.filename],
                 stdout=subprocess.PIPE).communicate()[0]
         meta = {}
-        for i in output.split('\n')[:-1]:
+        for i in output.split('\n')[:-1]:  # chop last char ('\n')
             key = i.split(':')[0].strip()
             if key not in self.allowed:
                 meta[key] = i.split(':')[1].strip()  # add the field name to the metadata set
@@ -65,8 +58,7 @@ class ExiftoolStripper(parser.GenericParser):
 
 
 class JpegStripper(ExiftoolStripper):
-    '''
-        Care about jpeg files with help
+    ''' Care about jpeg files with help
         of exiftool
     '''
     def _set_allowed(self):
@@ -76,8 +68,7 @@ class JpegStripper(ExiftoolStripper):
 
 
 class PngStripper(ExiftoolStripper):
-    '''
-        Care about png files with help
+    ''' Care about png files with help
         of exiftool
     '''
     def _set_allowed(self):

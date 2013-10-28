@@ -1,5 +1,4 @@
-'''
-    Care about office's formats
+''' Care about office's formats
 '''
 
 import os
@@ -23,14 +22,12 @@ import archive
 
 
 class OpenDocumentStripper(archive.GenericArchiveStripper):
-    '''
-        An open document file is a zip, with xml file into.
+    ''' An open document file is a zip, with xml file into.
         The one that interest us is meta.xml
     '''
 
     def get_meta(self):
-        '''
-            Return a dict with all the meta of the file by
+        ''' Return a dict with all the meta of the file by
             trying to read the meta.xml file.
         '''
         zipin = zipfile.ZipFile(self.filename, 'r')
@@ -103,8 +100,7 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
         return True
 
     def is_clean(self):
-        '''
-            Check if the file is clean from harmful metadatas
+        ''' Check if the file is clean from harmful metadatas
         '''
         zipin = zipfile.ZipFile(self.filename, 'r')
         try:
@@ -120,8 +116,7 @@ class OpenDocumentStripper(archive.GenericArchiveStripper):
 
 
 class PdfStripper(parser.GenericParser):
-    '''
-        Represent a PDF file
+    ''' Represent a PDF file
     '''
     def __init__(self, filename, parser, mime, backup, is_writable, **kwargs):
         super(PdfStripper, self).__init__(filename, parser, mime, backup, is_writable, **kwargs)
@@ -137,8 +132,7 @@ class PdfStripper(parser.GenericParser):
             'producer', 'metadata'])
 
     def is_clean(self):
-        '''
-            Check if the file is clean from harmful metadatas
+        ''' Check if the file is clean from harmful metadatas
         '''
         for key in self.meta_list:
             if self.document.get_property(key):
@@ -146,8 +140,7 @@ class PdfStripper(parser.GenericParser):
         return True
 
     def remove_all(self):
-        '''
-            Opening the PDF with poppler, then doing a render
+        ''' Opening the PDF with poppler, then doing a render
             on a cairo pdfsurface for each pages.
 
             http://cairographics.org/documentation/pycairo/2/
@@ -156,23 +149,27 @@ class PdfStripper(parser.GenericParser):
             python-cairo segfaults on unicode.
             See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=699457
         '''
-        output = tempfile.mkstemp()[1]
-        page = self.document.get_page(0)
-        # assume that every pages are the same size
-        page_width, page_height = page.get_size()
-        surface = cairo.PDFSurface(output, page_width, page_height)
-        context = cairo.Context(surface)  # context draws on the surface
-        logging.debug('PDF rendering of %s' % self.filename)
-        for pagenum in range(self.document.get_n_pages()):
-            page = self.document.get_page(pagenum)
-            context.translate(0, 0)
-            if self.pdf_quality:
-                page.render(context)  # render the page on context
-            else:
-                page.render_for_printing(context)  # render the page on context
-            context.show_page()  # draw context on surface
-        surface.finish()
-        shutil.move(output, self.output)
+        try:
+            output = tempfile.mkstemp()[1]
+            page = self.document.get_page(0)
+            # assume that every pages are the same size
+            page_width, page_height = page.get_size()
+            surface = cairo.PDFSurface(output, page_width, page_height)
+            context = cairo.Context(surface)  # context draws on the surface
+            logging.debug('PDF rendering of %s' % self.filename)
+            for pagenum in range(self.document.get_n_pages()):
+                page = self.document.get_page(pagenum)
+                context.translate(0, 0)
+                if self.pdf_quality:
+                    page.render(context)  # render the page on context
+                else:
+                    page.render_for_printing(context)  # render the page on context
+                context.show_page()  # draw context on surface
+            surface.finish()
+            shutil.move(output, self.output)
+        except:
+            logging.error('Something went wrong when cleaning %s. File not cleaned' % self.filename)
+            return False
 
         try:
             import pdfrw  # For now, poppler cannot write meta, so we must use pdfrw
@@ -191,8 +188,7 @@ pdfrw' % self.output)
         return True
 
     def get_meta(self):
-        '''
-            Return a dict with all the meta of the file
+        ''' Return a dict with all the meta of the file
         '''
         metadata = {}
         for key in self.meta_list:
@@ -248,8 +244,7 @@ class OpenXmlStripper(archive.GenericArchiveStripper):
         return True
 
     def is_clean(self):
-        '''
-            Check if the file is clean from harmful metadatas
+        ''' Check if the file is clean from harmful metadatas
         '''
         zipin = zipfile.ZipFile(self.filename, 'r')
         for item in zipin.namelist():
@@ -261,8 +256,7 @@ class OpenXmlStripper(archive.GenericArchiveStripper):
         return czf.is_clean()
 
     def get_meta(self):
-        '''
-            Return a dict with all the meta of the file
+        ''' Return a dict with all the meta of the file
         '''
         zipin = zipfile.ZipFile(self.filename, 'r')
         metadata = {}
