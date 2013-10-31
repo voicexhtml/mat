@@ -1,0 +1,18 @@
+From: intrigeri <intrigeri@boum.org>
+Date: Thu, 31 Oct 2013 16:10:05 +0000
+Subject: Add Keywords to the desktop file.
+Forwarded: mat-dev@boum.org
+
+---
+ mat.desktop | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/mat.desktop b/mat.desktop
+index 0d9c3d2..960e42e 100644
+--- a/mat.desktop
++++ b/mat.desktop
+@@ -7,3 +7,4 @@ Exec=mat-gui
+ Terminal=false
+ Categories=Utility;Security;System;
+ Icon=mat
++Keywords=metadata;anonymity;privacy;
