@@ -1,12 +1,14 @@
-mat (0.4.1-1~1.gbp575f62) UNRELEASED; urgency=low
+mat (0.4.2-1) unstable; urgency=low
 
   * New upstream release:
     - Fix PDF file deletion in some cases (Closes: 726640).
     - Improve Torrent handling.
-    - Various minor fixes and improvements.
+    - Various minor fixes, code refactoring and improvements.
+    - The Nautilus plugin warns if the file is non-writable.
   * Recommend python-nautilus, needed by the Nautilus extension.
+  * New patch: 0001-Add-Keywords-to-the-desktop-file.patch.
 
- -- intrigeri <intrigeri@debian.org>  Mon, 28 Oct 2013 21:47:16 +0100
+ -- intrigeri <intrigeri@debian.org>  Thu, 31 Oct 2013 17:00:13 +0100
 
 mat (0.4-1) unstable; urgency=low
 
