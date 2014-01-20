@@ -23,6 +23,15 @@ Test suite
 Formats that are not in the test suite are not well-tested,
 please do not trust the MAT about them!
 
+Archives handling
+-----------------
+MAT's GUI handle nested archives like unsupported format:
+ - The user can select which unsupported files s·he wants to
+    include in the _first level archive_.
+ - The user can only select by the mean of the
+    "Add unsupported file to archives" option which unsupported
+    files s·he wants to include in _deeper levels archives_.
+
 
 Threat Model
 ============

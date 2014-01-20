@@ -14,6 +14,7 @@ import subprocess
 STRIPPERS = {
     'application/x-tar': archive.TarStripper,
     'application/x-bzip2': archive.Bzip2Stripper,
+    'application/x-gzip': archive.GzipStripper,
     'application/zip': archive.ZipStripper,
     'audio/mpeg': audio.MpegAudioStripper,
     'application/x-bittorrent': misc.TorrentStripper,

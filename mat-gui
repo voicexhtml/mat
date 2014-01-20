@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*
 
-'''
-    Metadata anonymisation toolkit - GUI edition
-'''
+''' Metadata anonymisation toolkit - GUI edition '''
 
 from gi.repository import GObject, Gtk, GLib
 from gi.repository import Gdk, GdkPixbuf
@@ -12,19 +10,19 @@ import gettext
 import logging
 import os
 import sys
-import mimetypes
 import xml.sax
 import urllib2
 
 from MAT import mat
 from MAT import strippers
+from MAT import parser
+from MAT import archive
 
 logging.basicConfig(level=mat.LOGGING_LEVEL)
 
 
 class CFile(GObject.Object):
-    '''
-        Contain the "parser" class of the file "filename"
+    ''' Contain the "parser" class of the file "filename"
         This class exist just to be "around" my parser.Generic_parser class,
         since the Gtk.ListStore does not accept it because it does not
         extends Gobject.Object
@@ -34,12 +32,10 @@ class CFile(GObject.Object):
 
 
 class GUI(object):
-    '''
-        Main GUI class
-    '''
+    ''' Main GUI class '''
     def __init__(self):
         # Preferences
-        self.add2archive = True
+        self.add2archive = False
         self.pdf_quality = False
 
         # Main window
@@ -72,11 +68,11 @@ class GUI(object):
     def __init_supported_popup(self):
         ''' Initialise the "supported formats" popup '''
         self.supported_dict = mat.XMLParser()
-        parser = xml.sax.make_parser()
-        parser.setContentHandler(self.supported_dict)
+        xml_parser = xml.sax.make_parser()
+        xml_parser.setContentHandler(self.supported_dict)
         path = os.path.join(mat.get_datadir(), 'FORMATS')
         with open(path, 'r') as xmlfile:
-            parser.parse(xmlfile)
+            xml_parser.parse(xmlfile)
 
         supported_cbox = self.builder.get_object('supported_cbox')
         store = Gtk.ListStore(int, str)
@@ -110,12 +106,10 @@ class GUI(object):
         return False
 
     def cb_update_supported_popup(self, window):
-        '''
-            Fill GtkEntries of the supported_format_popups
+        ''' Fill GtkEntries of the supported_format_popups
             with corresponding data.
         '''
-        i = window.get_active_iter()
-        index, _ = window.get_model()[i]
+        index = window.get_model()[window.get_active_iter()][0]
         support = self.builder.get_object('supported_support')
         support.set_text(self.supported_dict.list[index]['support'])
         metadata = self.builder.get_object('supported_metadata').get_buffer()
@@ -154,8 +148,7 @@ class GUI(object):
         chooser.destroy()
 
     def cb_popup_metadata(self, widget, row, col):
-        '''
-            Popup that display on double-clic
+        ''' Popup that display on double-click
             metadata from a file
         '''
         metadataPopupListStore = self.builder.get_object('MetadataPopupListStore')
@@ -211,8 +204,7 @@ class GUI(object):
 
     def cb_preferences_popup(self, button):
         ''' Preferences popup '''
-        dialog = Gtk.Dialog(_('Preferences'), self.window, 0,
-                (Gtk.STOCK_OK, 0))
+        dialog = Gtk.Dialog(_('Preferences'), self.window, 0, (Gtk.STOCK_OK, 0))
         dialog.connect('delete-event', self.cb_hide_widget)
         dialog.set_resizable(False)
         hbox = Gtk.HBox()
@@ -231,8 +223,7 @@ class GUI(object):
         pdf_quality.set_tooltip_text(_('Reduce the produced PDF size and quality'))
         table.attach(pdf_quality, 0, 1, 0, 1)
 
-        add2archive = Gtk.CheckButton(_('Add unsupported file to archives'),
-            False)
+        add2archive = Gtk.CheckButton(_('Add unsupported file to archives'), False)
         add2archive.set_active(self.add2archive)
         add2archive.connect('toggled', self.__invert, 'add2archive')
         add2archive.set_tooltip_text(_('Add non-supported (and so \
@@ -241,23 +232,20 @@ non-anonymised) file to output archive'))
 
         hbox.show_all()
         if not dialog.run():  # Gtk.STOCK_OK
-            for file in self.liststore:  # update preferences
-                file[0].file.add2archive = self.add2archive
-                if file[0].file.mime.startswith('pdf'):
-                    file[0].file.pdf_quality = self.pdf_quality
+            for f in self.liststore:  # update preferences
+                f[0].file.add2archive = self.add2archive
+                if f[0].file.mime.startswith('pdf'):
+                    f[0].file.pdf_quality = self.pdf_quality
             dialog.hide()
 
-    def cb_drag_data_received(self, widget, context,
-            x, y, selection, target_type, timestamp):
-        '''
-            This function is called when something is
+    def cb_drag_data_received(self, widget, context, x, y, selection, target_type, timestamp):
+        ''' This function is called when something is
             drag'n'droped into mat.
             It basically add files.
         '''
 
         def clean_path(url):
-            '''
-                Since the dragged urls are ugly,
+            ''' Since the dragged urls are ugly,
                 we need to process them
             '''
             url = urllib2.unquote(url)  # unquote url
@@ -274,22 +262,15 @@ non-anonymised) file to output archive'))
         GLib.idle_add(self.populate(cleaned_urls).next)  # asynchronous processing
 
     def __add_file_to_treeview(self, filename):
-        '''
-            Add a file to the list if its format is supported
-        '''
-        cf = CFile(filename, add2archive=self.add2archive,
-                low_pdf_quality=self.pdf_quality)
-        # if the file is supported by the mat,
-        # and is writable (for usability's sake).
+        ''' Add a file to the list if its format is supported '''
+        cf = CFile(filename, add2archive=self.add2archive, low_pdf_quality=self.pdf_quality)
         if cf.file and cf.file.is_writable:
             self.liststore.append([cf, cf.file.basename, _('Unknown')])
             return False
         return True
 
     def __process_files(self, func):
-        '''
-            Launch the function "func" in a asynchronous way
-        '''
+        ''' Launch the function "func" in a asynchronous way '''
         iterator = self.treeview.get_selection().get_selected_rows()[1]
         if not iterator:  # if nothing is selected : select everything
             iterator = range(len(self.liststore))
@@ -304,9 +285,7 @@ non-anonymised) file to output archive'))
             self.add2archive = not self.add2archive
 
     def populate(self, filenames):
-        '''
-            Append selected files by add_file to the self.liststore
-        '''
+        ''' Append selected files by add_file to the self.liststore '''
         not_supported = []
         for filename in filenames:  # filenames : all selected files/folders
             if os.path.isdir(filename):  # if "filename" is a directory
@@ -325,8 +304,7 @@ non-anonymised) file to output archive'))
         yield False
 
     def __popup_non_supported(self, filelist):
-        '''
-            Popup that warn the user about the unsupported files
+        ''' Popup that warn the user about the unsupported files
             that he want to process
         '''
         dialog = Gtk.Dialog(title=_('Not-supported'), parent=self.window,
@@ -340,27 +318,75 @@ non-anonymised) file to output archive'))
         dialog.get_content_area().pack_start(sc, True, True, 0)
         store = Gtk.ListStore(str, str)
 
-        # append filename - mimetype to the store
+        # appends "filename - reason" to the ListStore
         for item in filelist:
-            mime = mimetypes.guess_type(item)[0]
-            if mime:
-                store.append([os.path.basename(item), mime])
+            if os.path.splitext(item)[1] in parser.NOMETA:
+                store.append([os.path.basename(item), _('Harmless fileformat')])
             else:
-                store.append([os.path.basename(item), _('Unknown mimetype')])
+                store.append([os.path.basename(item), _('Fileformat not supported')])
 
         treeview = Gtk.TreeView(store)
+        vbox.pack_start(Gtk.Label(_('These files can not be processed:')), False, False, 0)
         vbox.pack_start(treeview, True, True, 0)
 
-        # create column
+        # Create columns
         rendererText = Gtk.CellRendererText()
         column = Gtk.TreeViewColumn(_('Filename'), rendererText, text=0)
         treeview.append_column(column)
-        column = Gtk.TreeViewColumn(_('Mimetype'), rendererText, text=1)
+        column = Gtk.TreeViewColumn(_('Reason'), rendererText, text=1)
         treeview.append_column(column)
 
         dialog.show_all()
         dialog.run()
         dialog.destroy()
+
+    def __popup_archive(self, file_name, files_list):
+        ''' Popup that shows the user what files
+            are not going to be include into to outputed
+            archive
+        '''
+        dialog = Gtk.Dialog(title=_('Non-supported files in archive'), parent=self.window,
+                flags=Gtk.DialogFlags.MODAL, buttons=(_('Scour'), 0))
+        dialog.set_size_request(220, 180)
+        vbox = Gtk.VBox(spacing=5)
+        sc = Gtk.ScrolledWindow()
+        sc.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        sc.add_with_viewport(vbox)
+
+        dialog.get_content_area().pack_start(sc, True, True, 0)
+        store = Gtk.ListStore(bool, str)
+        for i in files_list:  # store.extend is not supported, wtf?!
+            store.append([0,os.path.basename(i)])
+
+        treeview = Gtk.TreeView(store)
+        column_toggle = Gtk.TreeViewColumn(_('Include'))
+        column_text = Gtk.TreeViewColumn(_('Filename'))
+        treeview.append_column(column_toggle)
+        treeview.append_column(column_text)
+
+        cellrenderer_text = Gtk.CellRendererText()
+        column_text.pack_start(cellrenderer_text, False)
+        column_text.add_attribute(cellrenderer_text, 'text', 1)
+
+        cellrenderer_toggle = Gtk.CellRendererToggle()
+        column_toggle.pack_start(cellrenderer_toggle, True)
+        column_toggle.add_attribute(cellrenderer_toggle, 'active', 0)
+        def cell_toggled(widget, path, model):
+            model[path][0] = not model[path][0]
+        cellrenderer_toggle.connect('toggled', cell_toggled, store)
+
+        vbox.pack_start(Gtk.Label(_('MAT is not able to clean the'
+            ' following files, found in the %s archive') % file_name), False, False, 0)
+        label = Gtk.Label()
+        label.set_markup('Select the files you want to <b>include</b>'
+            ' in the cleaned up archive anyway.')
+        vbox.pack_start(label, False, False, 0)
+        vbox.pack_start(treeview, True, True, 0)
+
+        dialog.show_all()
+        dialog.run()
+        dialog.destroy()
+        return [i[1] for i in store if i[0]]
 
     def __mat_check(self, iterator):
         ''' Check elements in iterator are clean '''
@@ -383,7 +409,14 @@ non-anonymised) file to output archive'))
             msg = _('Cleaning %s') % self.liststore[line][2].decode('utf-8', 'replace')
             logging.info(msg)
             self.statusbar.push(0, msg)
-            if self.liststore[line][0].file.remove_all():
+            if isinstance(self.liststore[line][0].file, archive.GenericArchiveStripper):
+                list_to_add = []
+                unsupported_list = self.liststore[line][0].file.list_unsupported()
+                if type(unsupported_list) == list and unsupported_list:
+                    logging.debug("Unsupported list: %s" % unsupported_list)
+                    filename = os.path.basename(self.liststore[line][0].file.filename)
+                    list_to_add = self.__popup_archive(filename, unsupported_list)
+            if self.liststore[line][0].file.remove_all(whitelist=list_to_add):
                 self.liststore[line][2] = _('Clean')
             yield True
         self.statusbar.push(0, _('Ready'))
@@ -398,6 +431,6 @@ if __name__ == '__main__':
     infiles = [arg for arg in sys.argv[1:] if os.path.exists(arg)]
     if infiles:
         task = gui.populate(infiles)
-        Glib.idle_add(task.next)
+        GLib.idle_add(task.next)
 
     Gtk.main()
