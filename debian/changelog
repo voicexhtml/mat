@@ -1,3 +1,30 @@
+mat (0.5-1~1.gbp5ae4df) UNRELEASED; urgency=medium
+
+  ** SNAPSHOT build @5ae4df54636d62ee8b107e7acbdc4ead5c35e4a5 **
+
+  * New upstream release:
+      - Better support for zip archives and tarballs.
+      - Handle read-only files inside archives.
+      - Handle zip-specific metadata.
+      - Allow picking which unsupported files are added to the "clean"
+        archive, in the GUI.
+  * Support .xz upstream tarballs in debian/watch.
+  * Have uscan automatically check upstream tarball signatures.
+  * Drop 0001-Add-Keywords-to-the-desktop-file.patch: applied upstream.
+  * Update upstream copyright and licensing information.
+  * Bump copyright years for the Debian packaging.
+  * Bump debhelper compatibility level to 9.
+  * Don't attempt to install TODO: it was removed from the upstream source.
+  * Do not explicitly install the upstream README: dh_installdocs does
+    it automatically.
+  * Update (commented-out) command to run the upstream test suite
+    in debian/rules.
+  * Move the fallback target on top of debian/rules.
+  * Yet another attempt at running the upstream test suite at package
+    build time.
+
+ -- intrigeri <intrigeri@debian.org>  Tue, 21 Jan 2014 12:04:19 +0100
+
 mat (0.4.2-1) unstable; urgency=low
 
   * New upstream release:
