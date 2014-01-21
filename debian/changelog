@@ -1,6 +1,6 @@
-mat (0.5-1~1.gbp5ae4df) UNRELEASED; urgency=medium
+mat (0.5-1~2.gbpb0901a) UNRELEASED; urgency=medium
 
-  ** SNAPSHOT build @5ae4df54636d62ee8b107e7acbdc4ead5c35e4a5 **
+  ** SNAPSHOT build @b0901adcf2ef5637c19ee9f1116cec5f3da3386c **
 
   * New upstream release:
       - Better support for zip archives and tarballs.
@@ -10,6 +10,8 @@ mat (0.5-1~1.gbp5ae4df) UNRELEASED; urgency=medium
         archive, in the GUI.
   * Support .xz upstream tarballs in debian/watch.
   * Have uscan automatically check upstream tarball signatures.
+    Accordingly add debian/upstream-signing-key.pgp
+    to debian/source/include-binaries.
   * Drop 0001-Add-Keywords-to-the-desktop-file.patch: applied upstream.
   * Update upstream copyright and licensing information.
   * Bump copyright years for the Debian packaging.
