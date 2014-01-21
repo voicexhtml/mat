@@ -1,6 +1,6 @@
-mat (0.5-1~4.gbp6b44bb) UNRELEASED; urgency=medium
+mat (0.5-1~5.gbpe23791) UNRELEASED; urgency=medium
 
-  ** SNAPSHOT build @6b44bb728beee783fb649c55e7077b1a9e2ae41c **
+  ** SNAPSHOT build @e23791dc302757755365b15fd15436539bdd92b8 **
 
   * New upstream release:
       - Better support for zip archives and tarballs.
@@ -27,6 +27,7 @@ mat (0.5-1~4.gbp6b44bb) UNRELEASED; urgency=medium
   * Run upstream test suite in C.UTF-8 locales, else test files with funny
     names break it.
   * New patch: 0001-Do-not-attempt-to-install-non-existing-TODO-file.patch.
+  * Declare compatibility with Standards-Version 3.9.5.
 
  -- intrigeri <intrigeri@debian.org>  Tue, 21 Jan 2014 12:04:19 +0100
 
