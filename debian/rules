@@ -7,5 +7,5 @@ DESTDIR = $(CURDIR)/debian/$(PACKAGE)
 	dh $@ --with python2
 
 override_dh_auto_test:
-	# cd ./test ; xvfb-run -a python test.py
+	cd ./test ; xvfb-run -a python test.py
 	dh_auto_test
