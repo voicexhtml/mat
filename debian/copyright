@@ -2,25 +2,16 @@ Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Source: https://gitweb.torproject.org/user/jvoisin/mat.git
 
 Files: *
-Copyright: © 2011 Julien Voisin <julien.voisin@dustri.org>
+Copyright: © 2011-2013 Julien Voisin <julien.voisin@dustri.org>
 License: GPL-2
 
 Files: debian/*
 Copyright: © 2011-2012 intrigeri <intrigeri@debian.org>
 License: GPL-2
 
-Files: mat-gui
-Copyright: © 2006 Daniel J. Popowich
-           © 2011 Julien Voisin <julien.voisin@dustri.org>
-License: GPL-2 and Expat
-
-Files: mat/benconde/*
+Files: MAT/benconde/*
 Copyright: © 2007 Petru Paler <petru@paler.net>
            © 2011 Julien Voisin <julien.voisin@dustri.org>
-License: Expat
-
-Files: mat/tarfile/*
-Copyright: © 2002 Lars Gustäbel <lars@gustaebel.de>
 License: Expat
 
 License: Expat
