@@ -6,7 +6,7 @@ Uploaders:
  bertagaz <bertagaz@ptitcanardnoir.org>,
  intrigeri <intrigeri@debian.org>
 Build-Depends:
- debhelper (>= 7.0.50~),
+ debhelper (>= 9),
  gir1.2-poppler-0.18,
  libimage-exiftool-perl,
  python (>= 2.7.3-6~),
