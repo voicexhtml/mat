@@ -1,10 +1,14 @@
+check if year in the copyright notice in README needs an update.
+
+mark "Fix commited" tickes as "resolved" in the bugtracker.
+
 update localisations using
     xgettext -k_ -kN_ --from-code utf-8 -o ./po/mat-gui.pot mat-gui.py ./data/mat.glade
 
 update changelog:
     git log -> CHANGELOG
 
-update version number:
+update version number (Don't be affraid to use -rc or -beta)
     MAT/mat.py -> __version__ = $VERSION
 
 commit release changes
