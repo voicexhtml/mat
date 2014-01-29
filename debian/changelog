@@ -1,9 +1,11 @@
-mat (0.5.1-1~1.gbp41e6a8) UNRELEASED; urgency=medium
+mat (0.5.1-1~2.gbp983de3) UNRELEASED; urgency=medium
 
-  ** SNAPSHOT build @41e6a8cc2ab1f15cd4af561bc53069d13d7c3b86 **
+  ** SNAPSHOT build @983de3506488583dd4ae6b0b371a0591be189d4f **
 
   * New upstream release.
   * Drop Debian patches, applied upstream.
+  * Update debian/source/include-binaries accordingly to the upstream
+    signing key move.
 
  -- intrigeri <intrigeri@debian.org>  Wed, 29 Jan 2014 20:15:41 +0100
 
