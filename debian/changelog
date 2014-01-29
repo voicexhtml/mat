@@ -1,3 +1,12 @@
+mat (0.5.1-1~1.gbp41e6a8) UNRELEASED; urgency=medium
+
+  ** SNAPSHOT build @41e6a8cc2ab1f15cd4af561bc53069d13d7c3b86 **
+
+  * New upstream release.
+  * Drop Debian patches, applied upstream.
+
+ -- intrigeri <intrigeri@debian.org>  Wed, 29 Jan 2014 20:15:41 +0100
+
 mat (0.5-1) UNRELEASED; urgency=medium
 
   * New upstream release:
