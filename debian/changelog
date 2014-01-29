@@ -1,6 +1,4 @@
-mat (0.5-1~5.gbpe23791) UNRELEASED; urgency=medium
-
-  ** SNAPSHOT build @e23791dc302757755365b15fd15436539bdd92b8 **
+mat (0.5-1) UNRELEASED; urgency=medium
 
   * New upstream release:
       - Better support for zip archives and tarballs.
