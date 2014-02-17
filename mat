@@ -12,11 +12,11 @@ import hachoir_core
 
 from MAT import mat
 from MAT import strippers
+from MAT import archive
 
 
 def parse():
-    '''
-        Get, and parse options passed to the program
+    ''' Get, and parse options passed to the program
     '''
     parser = optparse.OptionParser(usage='%prog [options] files\n\
 The default behaviour is to clean files given in argument')
@@ -25,11 +25,8 @@ The default behaviour is to clean files given in argument')
         default=False, help='Add to output archive non-supported filetypes (Off by default)')
     options.add_option('--backup', '-b', action='store_true', default=False,
         help='Keep a backup copy')
-    options.add_option('--force', '-f', action='store_true', default=False,
-        help='Don\'t check if files are clean before cleaning')
     options.add_option('--low-pdf-quality', '-L', action='store_true', default=False,
         help='Produces a lighter, but lower quality PDF')
-
     info = optparse.OptionGroup(parser, 'Informations')
     info.add_option('--check', '-c',  action='store_true', default=False,
         help='Check if a file is free of harmful metadatas')
@@ -51,59 +48,66 @@ The default behaviour is to clean files given in argument')
 
 
 def display_version(*_):
+    ''' Display the program's version, and exit
     '''
-        Display the program's version, and exit
-    '''
-    print('Metadata Anonymisation Toolkit version %s') % mat.__version__
-    print('Hachoir version %s') % hachoir_core.__version__
+    print('Metadata Anonymisation Toolkit %s' % mat.__version__)
+    print('Hachoir %s' % hachoir_core.__version__)
     sys.exit(0)
 
 
-def list_meta(class_file, filename, force):
-    '''
-        Print all the metadata of 'filename' on stdout
+def list_meta(class_file, filename, add2archive):
+    ''' Print all the metadata of 'filename' on stdout
     '''
     print('[+] File %s :' % filename)
-    if not force and class_file.is_clean():
+    if class_file.is_clean():
         print('No harmful metadata found')
     else:
-        meta = class_file.get_meta()
         print ('Harmful metadata found:')
+        meta = class_file.get_meta()
         if meta:
             for key, value in class_file.get_meta().iteritems():
-                print('\t' + key + ' : ' + str(value))
+                print('\t%s: %s' % (key, value))
+    return 0
 
 
-def is_clean(class_file, filename, force):
-    '''
-        Say if 'filename' is clean or not
+def is_clean(class_file, filename, add2archive):
+    ''' Tell if 'filename' is clean or not
     '''
     if class_file.is_clean():
         print('[+] %s is clean' % filename)
     else:
         print('[+] %s is not clean' % filename)
+    return 0
 
 
-def clean_meta(class_file, filename, force):
-    '''
-        Clean the file 'filename'
+def clean_meta(class_file, filename, add2archive):
+    ''' Clean the file 'filename'
     '''
     if not class_file.is_writable:
         print('[-] %s is not writable' % filename)
-        return
-    print('[+] Cleaning %s' % filename)
-    if not force and class_file.is_clean():
-        print('%s is already clean' % filename)
+        return 1
+    print('[*] Cleaning %s' % filename)
+    if not add2archive:
+        is_archive = isinstance(class_file, archive.GenericArchiveStripper)
+        is_terminal = isinstance(class_file, archive.TerminalZipStripper)
+        if is_archive and not is_terminal:
+            unsupported_list = class_file.list_unsupported()
+            if type(unsupported_list) == list and unsupported_list:
+                print('[-] Can not clean: %s.'\
+                'It contains unsupported filetypes:' % filename)
+                for i in unsupported_list:
+                    print('- %s' % i)
+                return 1
+    if class_file.remove_all():
+        print('[+] %s cleaned !' % filename)
     else:
-        if class_file.remove_all():
-            print('%s cleaned !' % filename)
-        else:
-            print('Unable to clean %s', filename)
+        print('[-] Unable to clean %s', filename)
+        return 1
+    return 0
 
 
 def list_supported():
-    '''
-        Print all supported fileformat, and exit
+    ''' Print all supported fileformat, and exit
     '''
     for item in mat.list_supported_formats():
         print('%s (%s)' % (item['name'], item['extension']))
@@ -116,12 +120,11 @@ def list_supported():
 
 
 def main():
-    '''
-        main function : get args, and launch the appropriate function
+    ''' Main function : get args and launch the appropriate function
     '''
     args, filenames = parse()
 
-    #func receive the function corresponding to the options given as parameters
+    #func receives the function corresponding to the options given as parameters
     if args.display:  # only print metadatas
         func = list_meta
     elif args.check:  # only check if the file is clean
@@ -131,6 +134,7 @@ def main():
     else:  # clean the file
         func = clean_meta
 
+    ret = 0
     while filenames:
         filename = filenames.pop()
         if os.path.isdir(filename):
@@ -142,9 +146,11 @@ def main():
         class_file = mat.create_class_file(filename, args.backup,
             add2archive=args.add2archive, low_pdf_quality=args.low_pdf_quality)
         if class_file:
-            func(class_file, filename, args.force)
+            ret += func(class_file, filename, args.add2archive)
         else:
-            print('Unable to process %s' % filename)
+            ret = 1
+            print('[-] Unable to process %s' % filename)
+    sys.exit(ret)
 
 if __name__ == '__main__':
     main()
