@@ -1,4 +1,5 @@
 ''' Care about office's formats
+
 '''
 
 import logging
@@ -19,7 +20,7 @@ import parser
 import archive
 
 
-class OpenDocumentStripper(archive.ZipStripper):
+class OpenDocumentStripper(archive.TerminalZipStripper):
     ''' An open document file is a zip, with xml file into.
         The one that interest us is meta.xml
     '''
@@ -68,7 +69,7 @@ class OpenDocumentStripper(archive.ZipStripper):
         return False
 
 
-class OpenXmlStripper(archive.ZipStripper):
+class OpenXmlStripper(archive.TerminalZipStripper):
     ''' Represent an office openxml document, which is like
         an opendocument format, with some tricky stuff added.
         It contains mostly xml, but can have media blobs, crap, ...
@@ -112,22 +113,22 @@ class PdfStripper(parser.GenericParser):
     '''
     def __init__(self, filename, parser, mime, backup, is_writable, **kwargs):
         super(PdfStripper, self).__init__(filename, parser, mime, backup, is_writable, **kwargs)
-        uri = 'file://' + os.path.abspath(self.filename)
+        self.uri = 'file://' + os.path.abspath(self.filename)
         self.password = None
         try:
             self.pdf_quality = kwargs['low_pdf_quality']
         except KeyError:
             self.pdf_quality = False
 
-        self.document = Poppler.Document.new_from_file(uri, self.password)
         self.meta_list = frozenset(['title', 'author', 'subject',
             'keywords', 'creator', 'producer', 'metadata'])
 
     def is_clean(self):
         ''' Check if the file is clean from harmful metadatas
         '''
+        document = Poppler.Document.new_from_file(self.uri, self.password)
         for key in self.meta_list:
-            if self.document.get_property(key):
+            if document.get_property(key):
                 return False
         return True
 
@@ -141,16 +142,17 @@ class PdfStripper(parser.GenericParser):
             python-cairo segfaults on unicode.
             See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=699457
         '''
+        document = Poppler.Document.new_from_file(self.uri, self.password)
         try:
             output = tempfile.mkstemp()[1]
-            page = self.document.get_page(0)
+            page = document.get_page(0)
             # assume that every pages are the same size
             page_width, page_height = page.get_size()
             surface = cairo.PDFSurface(output, page_width, page_height)
             context = cairo.Context(surface)  # context draws on the surface
             logging.debug('PDF rendering of %s' % self.filename)
-            for pagenum in range(self.document.get_n_pages()):
-                page = self.document.get_page(pagenum)
+            for pagenum in range(document.get_n_pages()):
+                page = document.get_page(pagenum)
                 context.translate(0, 0)
                 if self.pdf_quality:
                     page.render(context)  # render the page on context
@@ -181,8 +183,9 @@ class PdfStripper(parser.GenericParser):
     def get_meta(self):
         ''' Return a dict with all the meta of the file
         '''
+        document = Poppler.Document.new_from_file(self.uri, self.password)
         metadata = {}
         for key in self.meta_list:
-            if self.document.get_property(key):
-                metadata[key] = self.document.get_property(key)
+            if document.get_property(key):
+                metadata[key] = document.get_property(key)
         return metadata
