@@ -1,3 +1,10 @@
+mat (0.5.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Upload to unstable.
+
+ -- intrigeri <intrigeri@debian.org>  Thu, 03 Apr 2014 10:44:26 +0200
+
 mat (0.5.2~rc1-1) experimental; urgency=medium
 
   * New upstream release candidate.
