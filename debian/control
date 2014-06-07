@@ -12,7 +12,6 @@ Build-Depends:
  python (>= 2.7.3-6~),
  python-gi,
  python-gi-cairo,
- python-gobject,
  python-hachoir-core,
  python-hachoir-parser,
  python-mutagen,
@@ -32,7 +31,6 @@ Depends:
  ${python:Depends},
  ${misc:Depends},
  python-gi,
- python-gobject,
  python-hachoir-core,
  python-hachoir-parser
 Recommends:
