@@ -1,3 +1,9 @@
+mat (0.5.2-2) unstable; urgency=medium
+
+  * Drop obsolete {build,runtime} dependency on python-gobject.
+
+ -- intrigeri <intrigeri@debian.org>  Sun, 08 Jun 2014 00:46:49 +0200
+
 mat (0.5.2-1) unstable; urgency=medium
 
   * New upstream release.
