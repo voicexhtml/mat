@@ -3,7 +3,6 @@ Section: python
 Priority: optional
 Maintainer: Anonymity Tools Debian Maintainers <pkg-anonymity-tools@lists.alioth.debian.org>
 Uploaders:
- bertagaz <bertagaz@ptitcanardnoir.org>,
  intrigeri <intrigeri@debian.org>
 Build-Depends:
  debhelper (>= 9),
