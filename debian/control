@@ -1,7 +1,7 @@
 Source: mat
 Section: python
 Priority: optional
-Maintainer: Debian MAT maintainers <pkg-mat@lists.riseup.net>
+Maintainer: Anonymity Tools Debian Maintainers <pkg-anonymity-tools@lists.alioth.debian.org>
 Uploaders:
  bertagaz <bertagaz@ptitcanardnoir.org>,
  intrigeri <intrigeri@debian.org>
