@@ -1,3 +1,13 @@
+mat (0.5.2-3) unstable; urgency=medium
+
+  * Put under the umbrella of the Anonymity Tools Debian Maintainers team.
+  * Remove bertagaz from Uploaders: he actually never had time to work
+    on this package.
+  * Ship armored upstream OpenPGP key instead of binary one,
+    accordingly drop debian/source/include-binaries.
+
+ -- intrigeri <intrigeri@debian.org>  Fri, 29 Aug 2014 11:20:41 -0700
+
 mat (0.5.2-2) unstable; urgency=medium
 
   * Drop obsolete {build,runtime} dependency on python-gobject.
