@@ -10,10 +10,14 @@ import sys
 import shutil
 import tarfile
 import tempfile
-import test
 import unittest
 
-sys.path.append('..')
+import test
+if test.IS_LOCAL is True:
+    # Are we testing the _local_ version of MAT?
+    sys.path.insert(0, '..')
+# else it will be in the path
+
 import libmat
 
 
@@ -155,12 +159,12 @@ class TestArchiveProcessing(test.MATTest):
         """
         tarpath = os.path.join(self.tmpdir, "test.tar.bz2")
         tar = tarfile.open(tarpath, "w")
-        for f in ('../mat.desktop', '../README.security', '../setup.py'):
-            tar.add(f, f[3:])  # trim '../'
+        for f in ('libtest.py', 'test.py', 'clitest.py'):
+            tar.add(f, f)
         tar.close()
         current_file = libmat.mat.create_class_file(tarpath, False, add2archive=False)
         unsupported_files = set(current_file.is_clean(list_unsupported=True))
-        self.assertEqual(unsupported_files, {'mat.desktop', 'README.security', 'setup.py'})
+        self.assertEqual(unsupported_files, {'libtest.py', 'test.py', 'clitest.py'})
 
     def test_archive_unwritable_content(self):
         path = os.path.join(self.tmpdir, './unwritable_content.zip')

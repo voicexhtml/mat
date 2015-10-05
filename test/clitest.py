@@ -11,9 +11,15 @@ import subprocess
 import sys
 import tarfile
 
-sys.path.append('..')
-from libmat import mat
 import test
+MAT_PATH = 'mat'
+if test.IS_LOCAL is True:
+    # Are we testing the _local_ version of MAT?
+    sys.path.insert(0, '..')
+    MAT_PATH = '../mat'
+# else it will be in the path
+
+from libmat import mat
 
 
 class TestRemovecli(test.MATTest):
@@ -24,14 +30,14 @@ class TestRemovecli(test.MATTest):
     def test_remove(self):
         """make sure that the cli remove all compromizing meta"""
         for _, dirty in self.file_list:
-            subprocess.call(['../mat', '--add2archive', dirty])
+            subprocess.call([MAT_PATH, '--add2archive', dirty])
             current_file = mat.create_class_file(dirty, False, add2archive=True, low_pdf_quality=True)
             self.assertTrue(current_file.is_clean())
 
     def test_remove_empty(self):
         """Test removal with clean files\n"""
         for clean, _ in self.file_list:
-            subprocess.call(['../mat', '--add2archive', clean])
+            subprocess.call([MAT_PATH, '--add2archive', clean])
             current_file = mat.create_class_file(clean, False, add2archive=True, low_pdf_quality=True)
             self.assertTrue(current_file.is_clean())
 
@@ -44,7 +50,7 @@ class TestListcli(test.MATTest):
     def test_list_clean(self):
         """check if get_meta returns meta"""
         for clean, _ in self.file_list:
-            proc = subprocess.Popen(['../mat', '-d', clean],
+            proc = subprocess.Popen([MAT_PATH, '-d', clean],
                                     stdout=subprocess.PIPE)
             stdout, _ = proc.communicate()
             self.assertEqual(str(stdout).strip('\n'), "[+] File %s \
@@ -53,7 +59,7 @@ class TestListcli(test.MATTest):
     def test_list_dirty(self):
         """check if get_meta returns all the expected meta"""
         for _, dirty in self.file_list:
-            proc = subprocess.Popen(['../mat', '-d', dirty],
+            proc = subprocess.Popen([MAT_PATH, '-d', dirty],
                                     stdout=subprocess.PIPE)
             stdout, _ = proc.communicate()
             self.assertNotEqual(str(stdout), "[+] File %s :\n No\
@@ -68,7 +74,7 @@ class TestisCleancli(test.MATTest):
     def test_clean(self):
         """test is_clean on clean files"""
         for clean, _ in self.file_list:
-            proc = subprocess.Popen(['../mat', '-c', clean],
+            proc = subprocess.Popen([MAT_PATH, '-c', clean],
                                     stdout=subprocess.PIPE)
             stdout, _ = proc.communicate()
             self.assertEqual(str(stdout).strip('\n'), '[+] %s is clean' % clean)
@@ -76,7 +82,7 @@ class TestisCleancli(test.MATTest):
     def test_dirty(self):
         """test is_clean on dirty files"""
         for _, dirty in self.file_list:
-            proc = subprocess.Popen(['../mat', '-c', dirty],
+            proc = subprocess.Popen([MAT_PATH, '-c', dirty],
                                     stdout=subprocess.PIPE)
             stdout, _ = proc.communicate()
             self.assertEqual(str(stdout).strip('\n'), '[+] %s is not clean' % dirty)
@@ -89,21 +95,21 @@ class TestFileAttributes(unittest.TestCase):
 
     def test_not_writtable(self):
         """ test MAT's behaviour on non-writable file"""
-        proc = subprocess.Popen(['../mat', 'not_writtable'],
+        proc = subprocess.Popen([MAT_PATH, 'not_writtable'],
                                 stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
         self.assertEqual(str(stdout).strip('\n'), '[-] %s is not writable' % 'not_writtable')
 
     def test_not_exist(self):
         """ test MAT's behaviour on non-existent file"""
-        proc = subprocess.Popen(['../mat', 'ilikecookies'],
+        proc = subprocess.Popen([MAT_PATH, 'ilikecookies'],
                                 stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
         self.assertEqual(str(stdout).strip('\n'), 'Unable to process  %s' % 'ilikecookies')
 
     def test_empty(self):
         """ test MAT's behaviour on empty file"""
-        proc = subprocess.Popen(['../mat', 'empty_file'], stdout=subprocess.PIPE)
+        proc = subprocess.Popen([MAT_PATH, 'empty_file'], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
         self.assertEqual(str(stdout).strip('\n'), 'Unable to process  %s' % 'ilikecookies')
 
@@ -114,13 +120,13 @@ class TestUnsupported(test.MATTest):
         """
         tarpath = os.path.join(self.tmpdir, "test.tar.bz2")
         tar = tarfile.open(tarpath, "w")
-        for f in ('../mat.desktop', '../README.security', '../setup.py'):
-            tar.add(f, f[3:])  # trim '../'
+        for f in ('libtest.py', 'test.py', 'clitest.py'):
+            tar.add(f, f)
         tar.close()
-        proc = subprocess.Popen(['../mat', tarpath], stdout=subprocess.PIPE)
+        proc = subprocess.Popen([MAT_PATH, tarpath], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
         self.assertTrue('It contains unsupported filetypes:' \
-                        '\n- mat.desktop\n- README.security\n- setup.py\n'
+                        '\n- libtest.py\n- test.py\n- clitest.py\n'
                         in str(stdout))
 
 

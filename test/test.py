@@ -15,6 +15,8 @@ import sys
 import tempfile
 import unittest
 
+IS_LOCAL = True
+
 VERBOSITY = 15
 
 clean = glob.glob('clean*')
@@ -72,6 +74,22 @@ class MATTest(unittest.TestCase):
 if __name__ == '__main__':
     import clitest
     import libtest
+    import argparse
+
+    parser = argparse.ArgumentParser(description='MAT testsuite')
+    parser.add_argument('-l', '--local', action='store_true',
+            help='Test the local version of mat')
+    parser.add_argument('-s', '--system', action='store_true',
+            help='Test the system-wide version of mat')
+
+    if parser.parse_args().local is True:
+        IS_LOCAL = True
+    elif parser.parse_args().system is True:
+        IS_LOCAL = False
+    else:
+        print('Please specify either --local or --system')
+        sys.exit(1)
+
 
     SUITE = unittest.TestSuite()
     SUITE.addTests(clitest.get_tests())
