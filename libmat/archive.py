@@ -44,6 +44,7 @@ class GenericArchiveStripper(parser.GenericParser):
 
     def is_clean(self, list_unsupported=False):
         """ Virtual method to check for harmul metadata
+        :param bool list_unsupported:
         """
         raise NotImplementedError
 
@@ -157,6 +158,10 @@ class ZipStripper(GenericArchiveStripper):
             files starting with "begining_blacklist", or ending with
             "ending_blacklist". This method also add files present in
             whitelist to the archive.
+
+            :param list whitelist: Add those files to the produced archive, regardless if they are harmful or not
+            :param list beginning_blacklist: If the file starts with $ending_blacklist, it will _not_ be added
+            :param list ending_blacklist: If the file end with $ending_blacklist, it will _not_ be added
         """
         if not ending_blacklist:
             ending_blacklist = []
@@ -222,6 +227,8 @@ class TarStripper(GenericArchiveStripper):
         """ Remove all harmful metadata from the tarfile.
             The method will also add every files matching
             whitelist in the produced archive.
+            :param list whitelist: Files to add the to produced archive,
+                    regardless if they are considered harmfull.
         """
         if not whitelist:
             whitelist = []
@@ -257,6 +264,7 @@ class TarStripper(GenericArchiveStripper):
     @staticmethod
     def is_file_clean(current_file):
         """ Check metadatas added by tarfile
+        :param tarfile.TarInfo current_file:
         """
         if current_file.mtime != 0:
             return False
@@ -275,6 +283,7 @@ class TarStripper(GenericArchiveStripper):
             When list_unsupported is True, the method returns a list
             of all non-supported/archives files contained in the
             archive.
+            :param bool list_unsupported:
         """
         ret_list = []
         tarin = tarfile.open(self.filename, 'r' + self.compression)

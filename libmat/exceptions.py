@@ -7,6 +7,7 @@ class UnableToRemoveFile(Exception):
     """
     pass
 
+
 class UnableToWriteFile(Exception):
     """This exception is raised when a file
         can could not be chmod +w

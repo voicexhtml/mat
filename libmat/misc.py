@@ -64,7 +64,6 @@ class TorrentStripper(parser.GenericParser):
     def remove_all(self):
         """ Remove all comprimizing fields
         """
-        decoded = ''
         with open(self.filename, 'r') as f:
             decoded = bencode.bdecode(f.read())
 

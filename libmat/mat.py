@@ -9,7 +9,6 @@ import os
 import platform
 import subprocess
 import xml.sax
-import mimetypes
 
 import hachoir_core.cmd_line
 import hachoir_parser
@@ -46,7 +45,8 @@ def get_logo():
 
 
 def get_datafile_path(filename):
-    """ Return the path to the given ressource
+    """ Return the path to $filename
+    :param string filename:
     """
     if os.path.isfile(os.path.join(os.path.curdir, 'data', filename)):
         return os.path.join(os.path.curdir, 'data', filename)
@@ -82,6 +82,7 @@ class XMLParser(xml.sax.handler.ContentHandler):
     """
 
     def __init__(self):
+        xml.sax.handler.ContentHandler.__init__(self)
         self.dict = {}
         self.list = []
         self.content, self.key = '', ''

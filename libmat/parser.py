@@ -85,7 +85,8 @@ class GenericParser(object):
         except:
             return False
 
-    def _remove(self, fieldset, field):
+    @staticmethod
+    def _remove(fieldset, field):
         """ Delete the given field
         """
         del fieldset[field]
