@@ -3,7 +3,6 @@
 
 import archive
 import audio
-import gi
 import images
 import logging
 import mat
@@ -67,6 +66,7 @@ try:
     import exiftool
     STRIPPERS['image/jpeg'] = exiftool.JpegStripper
     STRIPPERS['image/png'] = exiftool.PngStripper
+    STRIPPERS['image/tiff'] = exiftool.TiffStripper
 except OSError:  # if exiftool is not installed, use hachoir instead
     logging.info('Unable to find exiftool: limited images support')
     STRIPPERS['image/jpeg'] = images.JpegStripper

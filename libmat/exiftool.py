@@ -2,7 +2,6 @@
 """
 
 import subprocess
-
 import parser
 
 
@@ -29,11 +28,12 @@ class ExiftoolStripper(parser.GenericParser):
             if self.backup:
                 self.create_backup_copy()
             # Note: '-All=' must be followed by a known exiftool option.
-            subprocess.call(['exiftool', '-m', '-all=',
-                '-adobe=', '-overwrite_original', self.filename],
-                stdout=open('/dev/null'))
+            # Also, '-CommonIFD0' is needed for .tiff files
+            subprocess.call(['exiftool', '-all=', '-adobe=', '-exif:all=', '-Time:All=', '-m',
+                             '-CommonIFD0=', '-overwrite_original', self.filename],
+                            stdout=open('/dev/null'))
             return True
-        except:
+        except OSError:
             return False
 
     def is_clean(self):
@@ -48,7 +48,7 @@ class ExiftoolStripper(parser.GenericParser):
             field name : value
         """
         output = subprocess.Popen(['exiftool', self.filename],
-                stdout=subprocess.PIPE).communicate()[0]
+                                  stdout=subprocess.PIPE).communicate()[0]
         meta = {}
         for i in output.split('\n')[:-1]:  # chop last char ('\n')
             key = i.split(':')[0].strip()
@@ -61,19 +61,34 @@ class JpegStripper(ExiftoolStripper):
     """ Care about jpeg files with help
         of exiftool
     """
+
     def _set_allowed(self):
         self.allowed.update(['JFIF Version', 'Resolution Unit',
-        'X Resolution', 'Y Resolution', 'Encoding Process',
-        'Bits Per Sample', 'Color Components', 'Y Cb Cr Sub Sampling'])
+                             'X Resolution', 'Y Resolution', 'Encoding Process',
+                             'Bits Per Sample', 'Color Components', 'Y Cb Cr Sub Sampling'])
 
 
 class PngStripper(ExiftoolStripper):
     """ Care about png files with help
         of exiftool
     """
+
     def _set_allowed(self):
         self.allowed.update(['Bit Depth', 'Color Type',
-            'Compression', 'Filter', 'Interlace', 'Palette',
-            'Pixels Per Unit X',
-            'Pixels Per Unit Y', 'Pixel Units', 'Significant Bits',
-            'Background Color', 'SRGB Rendering'])
+                             'Compression', 'Filter', 'Interlace', 'Palette',
+                             'Pixels Per Unit X',
+                             'Pixels Per Unit Y', 'Pixel Units', 'Significant Bits',
+                             'Background Color', 'SRGB Rendering'])
+
+
+class TiffStripper(ExiftoolStripper):
+    """ Care about tiff files with help
+        of exiftool
+    """
+
+    def _set_allowed(self):
+        # Todo: it would be awesome to detect the Resolution Unit, and to transform it in centimeter if it's in inches.
+        self.allowed.update(['X Resolution', 'Y Resolution', 'Compression', 'Bits Per Sample',
+                             'Strip Offsets', 'Photometric Interpretation', 'Strip Byte Counts',
+                             'Resolution Unit', 'Exif Byte Order', 'Samples Per Pixel', 'Rows Per Strip',
+                             'Orientation'])
