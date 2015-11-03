@@ -113,10 +113,10 @@ class XMLParser(xml.sax.handler.ContentHandler):
 
 
 def secure_remove(filename):
-    """ Securely remove the file
+    """ Securely remove $filename
+    :param str filename: File to be removed
     """
-    # I want the file removed, even if it's read-only
-    try:
+    try:  # I want the file removed, even if it's read-only
         os.chmod(filename, 220)
     except OSError:
         logging.error('Unable to add write rights to %s' % filename)
@@ -145,17 +145,17 @@ def secure_remove(filename):
 def create_class_file(name, backup, **kwargs):
     """ Return a $FILETYPEStripper() class,
         corresponding to the filetype of the given file
+
+        :param str name: name of the file to be parsed
+        :param bool backup: shell the file be backuped?
     """
     if not os.path.isfile(name):  # check if the file exists
         logging.error('%s is not a valid file' % name)
         return None
-
-    if not os.access(name, os.R_OK):  # check read permissions
+    elif not os.access(name, os.R_OK):  # check read permissions
         logging.error('%s is is not readable' % name)
         return None
-
-    if not os.path.getsize(name):
-        # check if the file is not empty (hachoir crash on empty files)
+    elif not os.path.getsize(name):  # check if the file is not empty (hachoir crash on empty files)
         logging.error('%s is empty' % name)
         return None
 
@@ -168,14 +168,10 @@ def create_class_file(name, backup, **kwargs):
     if not parser:
         logging.info('Unable to parse %s with hachoir' % filename)
 
-    mime = mimetypes.guess_type(filename)[0]
+    mime = mimetypes.guess_type(name)[0]
     if not mime:
         logging.info('Unable to find mimetype of %s' % filename)
         return None
-
-    if mime == 'application/zip':  # some formats are zipped stuff
-        if mimetypes.guess_type(name)[0]:
-            mime = mimetypes.guess_type(name)[0]
 
     if mime.startswith('application/vnd.oasis.opendocument'):
         mime = 'application/opendocument'  # opendocument fileformat
