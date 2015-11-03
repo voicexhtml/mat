@@ -48,12 +48,11 @@ def get_datafile_path(filename):
     """ Return the path to $filename
     :param string filename:
     """
-    if os.path.isfile(os.path.join(os.path.curdir, 'data', filename)):
-        return os.path.join(os.path.curdir, 'data', filename)
-    elif os.path.isfile(os.path.join('/usr/local/share/mat/', filename)):
-        return os.path.join('/usr/local/share/mat/', filename)
-    elif os.path.isfile(os.path.join('/usr/share/mat/', filename)):
-        return os.path.join('/usr/share/mat/', filename)
+    paths = ['data', '/usr/local/share/mat/', '/usr/share/mat/']
+    for path in paths:
+        filepath = os.path.join(os.path.curdir, path, filename)
+        if os.path.isfile(filepath):
+            return filepath
 
 
 def list_supported_formats():
