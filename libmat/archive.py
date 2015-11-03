@@ -81,6 +81,8 @@ class ZipStripper(GenericArchiveStripper):
             When list_unsupported is True, the method returns a list
             of all non-supported/archives files contained in the
             archive.
+
+            :param bool list_unsupported: Should the list of unsupported files be returned
         """
         ret_list = []
         zipin = zipfile.ZipFile(self.filename, 'r')

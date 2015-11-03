@@ -41,7 +41,11 @@ def parse():
 
 
 def list_meta(class_file, filename, add2archive):
-    """ Print all the metadata of 'filename' on stdout
+    """ Print all the metadata of $filename on stdout
+
+    :param parser.GenericParser class_file: The class file representing $filename
+    :param str filename: File to parse
+    :param bool add2archive: Unused parameter, check the `main` function for more information
     """
     print('[+] File %s :' % filename)
     if class_file.is_clean():
@@ -56,7 +60,12 @@ def list_meta(class_file, filename, add2archive):
 
 
 def is_clean(class_file, filename, add2archive):
-    """ Tell if 'filename' is clean or not """
+    """ Tell if 'filename' is clean or not
+
+    :param parser.GenericParser class_file: The class file representing $filename
+    :param str filename: File to parse
+    :param bool add2archive: Unused parameter, check the `main` function for more information
+    """
     if class_file.is_clean():
         print('[+] %s is clean' % filename)
     else:
@@ -65,7 +74,12 @@ def is_clean(class_file, filename, add2archive):
 
 
 def clean_meta(class_file, filename, add2archive):
-    """ Clean the file 'filename' """
+    """ Clean the file 'filename'
+
+    :param parser.GenericParser class_file: The class file representing $filename
+    :param str filename: File to parse
+    :param bool add2archive: Unused parameter, check the `main` function for more information
+    """
     if not class_file.is_writable:
         print('[-] %s is not writable' % filename)
         return 1
