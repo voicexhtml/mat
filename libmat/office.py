@@ -80,7 +80,7 @@ class OpenXmlStripper(archive.TerminalZipStripper):
         """ Remove harmful metadata, by deleting everything that doesn't end with '.rels' in the
         'docProps' folder. """
         return super(OpenXmlStripper, self).remove_all(
-            beginning_blacklist='docProps/', whitelist='.rels')
+            beginning_blacklist=['docProps/'], whitelist=['.rels'])
 
     def is_clean(self):
         """ Check if the file is clean from harmful metadatas.
@@ -91,7 +91,7 @@ class OpenXmlStripper(archive.TerminalZipStripper):
         if clean_super is False:
             return False
 
-        zipin = zipfile.ZipFile(self.filename, 'r')
+        zipin = zipfile.ZipFile(self.filename)
         for item in zipin.namelist():
             if item.startswith('docProps/'):
                 return False
@@ -103,7 +103,7 @@ class OpenXmlStripper(archive.TerminalZipStripper):
         """
         metadata = super(OpenXmlStripper, self).get_meta()
 
-        zipin = zipfile.ZipFile(self.filename, 'r')
+        zipin = zipfile.ZipFile(self.filename)
         for item in zipin.namelist():
             if item.startswith('docProps/'):
                 metadata[item] = 'harmful content'
