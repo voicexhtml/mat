@@ -98,20 +98,20 @@ class TestFileAttributes(unittest.TestCase):
         proc = subprocess.Popen([MAT_PATH, 'not_writtable'],
                                 stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
-        self.assertEqual(str(stdout).strip('\n'), '[-] %s is not writable' % 'not_writtable')
+        self.assertEqual(str(stdout).strip('\n'), '[-] Unable to process not_writtable')
 
     def test_not_exist(self):
         """ test MAT's behaviour on non-existent file"""
         proc = subprocess.Popen([MAT_PATH, 'ilikecookies'],
                                 stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
-        self.assertEqual(str(stdout).strip('\n'), 'Unable to process  %s' % 'ilikecookies')
+        self.assertEqual(str(stdout).strip('\n'), '[-] Unable to process ilikecookies')
 
     def test_empty(self):
         """ test MAT's behaviour on empty file"""
         proc = subprocess.Popen([MAT_PATH, 'empty_file'], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
-        self.assertEqual(str(stdout).strip('\n'), 'Unable to process  %s' % 'ilikecookies')
+        self.assertEqual(str(stdout).strip('\n'), '[-] Unable to process empty_file')
 
 
 class TestUnsupported(test.MATTest):
@@ -137,4 +137,5 @@ def get_tests():
     suite.addTest(unittest.makeSuite(TestListcli))
     suite.addTest(unittest.makeSuite(TestisCleancli))
     suite.addTest(unittest.makeSuite(TestUnsupported))
+    suite.addTest(unittest.makeSuite(TestFileAttributes))
     return suite
