@@ -40,5 +40,5 @@ setup(
         'build_icons': build_icons.build_icons,
         'clean': clean_i18n.clean_i18n,
     },
-    requires=['mutagen', 'gi', 'pdfrw']
+    requires=['mutagen', 'gi', 'pdfrw', 'hachoir_core', 'hachoir_parser']
 )
