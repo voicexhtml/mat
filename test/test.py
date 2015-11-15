@@ -41,6 +41,10 @@ except ImportError:
     FILE_LIST.remove(('clean é.mp3', 'dirty é.mp3'))
     FILE_LIST.remove(('clean é.flac', 'dirty é.flac'))
 
+try:  # exiftool
+    subprocess.check_output(['exiftool', '-ver'])
+except:
+    FILE_LIST.remove(('clean é.tif', 'dirty é.tif'))
 
 class MATTest(unittest.TestCase):
     """
