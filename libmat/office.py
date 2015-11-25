@@ -38,10 +38,6 @@ class OpenDocumentStripper(archive.TerminalZipStripper):
                 if i.tagName != 'meta:document-statistic':
                     nodename = ''.join(i.nodeName.split(':')[1:])
                     metadata[nodename] = ''.join([j.data for j in i.childNodes])
-                else:
-                    # thank you w3c for not providing a nice
-                    # method to get all attributes of a node
-                    pass
         except KeyError:  # no meta.xml file found
             logging.debug('%s has no opendocument metadata', self.filename)
         zipin.close()
