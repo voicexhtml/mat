@@ -2,7 +2,7 @@
 
 import os
 
-from distutils.core import setup
+from distutils.core import setup, Command
 from DistUtilsExtra.command import *
 
 __version__ = '0.5.3'
@@ -12,6 +12,22 @@ __version__ = '0.5.3'
 # the contents of directories changes.
 if os.path.exists('MANIFEST'):
     os.remove('MANIFEST')
+
+
+class PyTest(Command):
+    user_options = []
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        import subprocess
+        import sys
+        os.chdir('test')
+        errno = subprocess.call([sys.executable, 'test.py', '--local'])
+        raise SystemExit(errno)
 
 setup(
     name='MAT',
@@ -34,6 +50,7 @@ setup(
         ('share/nautilus-python/extensions', ['nautilus/nautilus-mat.py'])
     ],
     cmdclass={
+        'test': PyTest,
         'build': build_extra.build_extra,
         'build_i18n': build_i18n.build_i18n,
         'build_help': build_help.build_help,
