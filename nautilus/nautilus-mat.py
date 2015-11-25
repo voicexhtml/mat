@@ -36,17 +36,17 @@ class MatExtension(GObject.GObject, Nautilus.MenuProvider):
         # We're only going to put ourselves on supported mimetypes' context menus
         if not (file.get_mime_type()
                 in [i["mimetype"] for i in libmat.mat.list_supported_formats()]):
-            logging.debug("%s is not supported by MAT" % file.get_mime_type())
+            logging.debug("%s is not supported by MAT", file.get_mime_type())
             return
 
         # MAT can only handle local file:
         if file.get_uri_scheme() != 'file':
-            logging.debug("%s files not supported by MAT" % file.get_uri_scheme())
+            logging.debug("%s files not supported by MAT", file.get_uri_scheme())
             return
 
         # MAT can not clean non-writable files
         if not file.can_write():
-            logging.debug("%s is not writable by MAT" % file.get_uri_scheme())
+            logging.debug("%s is not writable by MAT", file.get_uri_scheme())
             return
 
         item = Nautilus.MenuItem(name="Nautilus::clean_metadata",

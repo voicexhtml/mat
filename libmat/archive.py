@@ -87,25 +87,23 @@ class ZipStripper(GenericArchiveStripper):
         ret_list = []
         zipin = zipfile.ZipFile(self.filename, 'r')
         if zipin.comment != '' and not list_unsupported:
-            logging.debug('%s has a comment' % self.filename)
+            logging.debug('%s has a comment', self.filename)
             return False
         for item in zipin.infolist():
             zipin.extract(item, self.tempdir)
             path = os.path.join(self.tempdir, item.filename)
             if not self.__is_zipfile_clean(item) and not list_unsupported:
-                logging.debug('%s from %s has compromising zipinfo' %
-                              (item.filename, self.filename))
+                logging.debug('%s from %s has compromising zipinfo', item.filename, self.filename)
                 return False
             if os.path.isfile(path):
                 cfile = mat.create_class_file(path, False, add2archive=self.add2archive)
                 if cfile is not None:
                     if not cfile.is_clean():
-                        logging.debug('%s from %s has metadata' % (item.filename, self.filename))
+                        logging.debug('%s from %s has metadata', item.filename, self.filename)
                         if not list_unsupported:
                             return False
                 else:
-                    logging.info('%s\'s fileformat is not supported or harmless.'
-                                 % item.filename)
+                    logging.info('%s\'s fileformat is not supported or harmless.', item.filename)
                     basename, ext = os.path.splitext(path)
                     if os.path.basename(item.filename) not in ('mimetype', '.rels'):
                         if ext not in parser.NOMETA:
@@ -136,8 +134,7 @@ class ZipStripper(GenericArchiveStripper):
                     if cfile_meta != {}:
                         metadata[item.filename] = str(cfile_meta)
                 else:
-                    logging.info('%s\'s fileformat is not supported or harmless'
-                                 % item.filename)
+                    logging.info('%s\'s fileformat is not supported or harmless', item.filename)
         zipin.close()
         return metadata
 
@@ -188,9 +185,9 @@ class ZipStripper(GenericArchiveStripper):
                     os.chmod(path, old_stat | stat.S_IWUSR)
                     cfile.remove_all()
                     os.chmod(path, old_stat)
-                    logging.debug('Processing %s from %s' % (item.filename, self.filename))
+                    logging.debug('Processing %s from %s', item.filename, self.filename)
                 elif item.filename not in whitelist:
-                    logging.info('%s\'s format is not supported or harmless' % item.filename)
+                    logging.info("%s's format is not supported or harmless", item.filename)
                     basename, ext = os.path.splitext(path)
                     if not (self.add2archive or ext in parser.NOMETA):
                         continue
@@ -205,7 +202,7 @@ class ZipStripper(GenericArchiveStripper):
         zipin.close()
         zipout.close()
 
-        logging.info('%s processed' % self.filename)
+        logging.info('%s processed', self.filename)
         self.do_backup()
         return True
 
@@ -248,12 +245,11 @@ class TarStripper(GenericArchiveStripper):
                     cfile.remove_all()
                     os.chmod(path, old_stat)
                 elif self.add2archive or os.path.splitext(item.name)[1] in parser.NOMETA:
-                    logging.debug('%s\' format is either not supported or harmless' % item.name)
+                    logging.debug("%s' format is either not supported or harmless", item.name)
                 elif item.name in whitelist:
-                    logging.debug('%s is not supported, but MAT was told to add it anyway.'
-                                  % item.name)
+                    logging.debug('%s is not supported, but MAT was told to add it anyway.', item.name)
                 else:  # Don't add the file to the archive
-                    logging.debug('%s will not be added' % item.name)
+                    logging.debug('%s will not be added', item.name)
                     continue
                 tarout.add(unicode(path.decode('utf-8')),
                            unicode(item.name.decode('utf-8')),
@@ -291,8 +287,7 @@ class TarStripper(GenericArchiveStripper):
         tarin = tarfile.open(self.filename, 'r' + self.compression)
         for item in tarin.getmembers():
             if not self.is_file_clean(item) and not list_unsupported:
-                logging.debug('%s from %s has compromising tarinfo' %
-                              (item.name, self.filename))
+                logging.debug('%s from %s has compromising tarinfo', item.name, self.filename)
                 return False
             tarin.extract(item, self.tempdir)
             path = os.path.join(self.tempdir, item.name)
@@ -300,15 +295,14 @@ class TarStripper(GenericArchiveStripper):
                 cfile = mat.create_class_file(path, False, add2archive=self.add2archive)
                 if cfile is not None:
                     if not cfile.is_clean():
-                        logging.debug('%s from %s has metadata' %
-                                      (item.name.decode("utf8"), self.filename))
+                        logging.debug('%s from %s has metadata', item.name.decode("utf8"), self.filename)
                         if not list_unsupported:
                             return False
                         # Nested archives are treated like unsupported files
                         elif isinstance(cfile, GenericArchiveStripper):
                             ret_list.append(item.name)
                 else:
-                    logging.error('%s\'s format is not supported or harmless' % item.name)
+                    logging.error("%s's format is not supported or harmless", item.name)
                     if os.path.splitext(path)[1] not in parser.NOMETA:
                         if not list_unsupported:
                             return False
@@ -334,7 +328,7 @@ class TarStripper(GenericArchiveStripper):
                     if meta:
                         current_meta['file'] = str(meta)
                 else:
-                    logging.error('%s\'s format is not supported or harmless' % item.name)
+                    logging.error("%s's format is not supported or harmless", item.name)
 
                 if not self.is_file_clean(item):  # if there is meta
                     current_meta['mtime'] = item.mtime

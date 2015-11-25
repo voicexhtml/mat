@@ -119,7 +119,7 @@ def secure_remove(filename):
     try:  # I want the file removed, even if it's read-only
         os.chmod(filename, 220)
     except OSError:
-        logging.error('Unable to add write rights to %s' % filename)
+        logging.error('Unable to add write rights to %s', filename)
         raise libmat.exceptions.UnableToWriteFile
 
     try:
@@ -131,12 +131,12 @@ def secure_remove(filename):
         else:
             raise OSError
     except OSError:
-        logging.error('Unable to securely remove %s' % filename)
+        logging.error('Unable to securely remove %s', filename)
 
     try:
         os.remove(filename)
     except OSError:
-        logging.error('Unable to remove %s' % filename)
+        logging.error('Unable to remove %s', filename)
         raise libmat.exceptions.UnableToRemoveFile
 
     return True
@@ -150,13 +150,13 @@ def create_class_file(name, backup, **kwargs):
         :param bool backup: shell the file be backuped?
     """
     if not os.path.isfile(name):  # check if the file exists
-        logging.error('%s is not a valid file' % name)
+        logging.error('%s is not a valid file', name)
         return None
     elif not os.access(name, os.R_OK):  # check read permissions
-        logging.error('%s is is not readable' % name)
+        logging.error('%s is is not readable', name)
         return None
     elif not os.path.getsize(name):  # check if the file is not empty (hachoir crash on empty files)
-        logging.error('%s is empty' % name)
+        logging.error('%s is empty', name)
         return None
 
     try:
@@ -166,11 +166,11 @@ def create_class_file(name, backup, **kwargs):
 
     parser = hachoir_parser.createParser(filename)
     if not parser:
-        logging.info('Unable to parse %s with hachoir' % filename)
+        logging.info('Unable to parse %s with hachoir', filename)
 
     mime = mimetypes.guess_type(name)[0]
     if not mime:
-        logging.info('Unable to find mimetype of %s' % filename)
+        logging.info('Unable to find mimetype of %s', filename)
         return None
 
     if mime.startswith('application/vnd.oasis.opendocument'):
@@ -183,7 +183,7 @@ def create_class_file(name, backup, **kwargs):
     try:
         stripper_class = strippers.STRIPPERS[mime]
     except KeyError:
-        logging.info('Don\'t have stripper for %s format' % mime)
+        logging.info('Don\'t have stripper for %s format', mime)
         return None
 
     return stripper_class(filename, parser, mime, backup, is_writable, **kwargs)

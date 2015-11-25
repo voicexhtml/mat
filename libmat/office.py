@@ -44,7 +44,7 @@ class OpenDocumentStripper(archive.TerminalZipStripper):
                     # method to get all attributes of a node
                     pass
         except KeyError:  # no meta.xml file found
-            logging.debug('%s has no opendocument metadata' % self.filename)
+            logging.debug('%s has no opendocument metadata', self.filename)
         zipin.close()
         return metadata
 
@@ -153,7 +153,7 @@ class PdfStripper(parser.GenericParser):
             surface = cairo.PDFSurface(output, 10, 10)
             context = cairo.Context(surface)  # context draws on the surface
 
-            logging.debug('PDF rendering of %s' % self.filename)
+            logging.debug('PDF rendering of %s', self.filename)
             for pagenum in range(document.get_n_pages()):
                 page = document.get_page(pagenum)
                 page_width, page_height = page.get_size()
@@ -168,13 +168,13 @@ class PdfStripper(parser.GenericParser):
             surface.finish()
             shutil.move(output, self.output)
         except:
-            logging.error('Something went wrong when cleaning %s.' % self.filename)
+            logging.error('Something went wrong when cleaning %s.', self.filename)
             return False
 
         try:
             import pdfrw  # For now, poppler cannot write meta, so we must use pdfrw
 
-            logging.debug('Removing %s\'s superficial metadata' % self.filename)
+            logging.debug('Removing %s\'s superficial metadata', self.filename)
             trailer = pdfrw.PdfReader(self.output)
             trailer.Info.Producer = None
             trailer.Info.Creator = None
@@ -183,7 +183,7 @@ class PdfStripper(parser.GenericParser):
             writer.write(self.output)
             self.do_backup()
         except:
-            logging.error('Unable to remove all metadata from %s, please install pdfrw' % self.output)
+            logging.error('Unable to remove all metadata from %s, please install pdfrw', self.output)
             return False
         return True
 
