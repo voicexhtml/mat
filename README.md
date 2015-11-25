@@ -1,3 +1,10 @@
+[![Travis-CI build status]( https://travis-ci.org/jvoisin/MAT.svg?branch=master )]( https://travis-ci.org/jvoisin/MAT )
+[![Coveralls status]( https://coveralls.io/repos/jvoisin/MAT/badge.svg?branch=master&service=github )]( https://coveralls.io/github/jvoisin/MAT?branch=master )
+[![codecov.io status]( https://codecov.io/github/jvoisin/MAT/coverage.svg?branch=master )]( https://codecov.io/github/jvoisin/MAT?branch=master )
+[![Landascape.io status](https://landscape.io/github/jvoisin/MAT/master/landscape.svg?style=flat)](https://landscape.io/github/jvoisin/MAT/master)
+[![Codacy status]( https://api.codacy.com/project/badge/grade/17830b47b8db4878ac0560906050809c )]( https://www.codacy.com/app/julien-voisin/MAT )
+
+
 METADATA
 ========
 Metadata consist of information that characterizes data.
