@@ -104,7 +104,7 @@ class ZipStripper(GenericArchiveStripper):
                             return False
                 else:
                     logging.info('%s\'s fileformat is not supported or harmless.', item.filename)
-                    basename, ext = os.path.splitext(path)
+                    _, ext = os.path.splitext(path)
                     if os.path.basename(item.filename) not in ('mimetype', '.rels'):
                         if ext not in parser.NOMETA:
                             if not list_unsupported:
@@ -188,7 +188,7 @@ class ZipStripper(GenericArchiveStripper):
                     logging.debug('Processing %s from %s', item.filename, self.filename)
                 elif item.filename not in whitelist:
                     logging.info("%s's format is not supported or harmless", item.filename)
-                    basename, ext = os.path.splitext(path)
+                    _, ext = os.path.splitext(path)
                     if not (self.add2archive or ext in parser.NOMETA):
                         continue
                 zinfo = zipfile.ZipInfo(item.filename, date_time=ZIP_EPOCH)
