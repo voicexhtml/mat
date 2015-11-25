@@ -47,6 +47,6 @@ class PngStripper(parser.GenericParser):
             'end'])      # end of the image
         if field.name in field_list:
             return False
-        if field.name.startswith('data['):  # data
+        elif field.name.startswith('data['):  # data
             return False
         return True
