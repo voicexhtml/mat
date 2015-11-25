@@ -23,11 +23,9 @@ class PyTest(Command):
         pass
 
     def run(self):
-        import subprocess
-        import sys
         os.chdir('test')
-        errno = subprocess.call([sys.executable, 'test.py', '--local'])
-        raise SystemExit(errno)
+        import test
+        test.test.run_all_tests()
 
 setup(
     name='MAT',

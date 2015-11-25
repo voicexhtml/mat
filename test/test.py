@@ -75,9 +75,24 @@ class MATTest(unittest.TestCase):
         shutil.rmtree(self.tmpdir)
 
 
-if __name__ == '__main__':
+def run_all_tests():
+    """
+    This method will run all tests, both for cli and lib.
+    The imports of clitest and libtest are done here because
+    of dependencie on the IS_LOCAL variable.
+
+    If set to true, the tests will be done on the _local_ instance
+    of MAT, else, on the _system-wide_ one.
+    """
     import clitest
     import libtest
+    SUITE = unittest.TestSuite()
+    SUITE.addTests(clitest.get_tests())
+    SUITE.addTests(libtest.get_tests())
+
+    return unittest.TextTestRunner(verbosity=VERBOSITY).run(SUITE).wasSuccessful()
+
+if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser(description='MAT testsuite')
@@ -94,10 +109,4 @@ if __name__ == '__main__':
         print('Please specify either --local or --system')
         sys.exit(1)
 
-
-    SUITE = unittest.TestSuite()
-    SUITE.addTests(clitest.get_tests())
-    SUITE.addTests(libtest.get_tests())
-
-    ret = unittest.TextTestRunner(verbosity=VERBOSITY).run(SUITE).wasSuccessful()
-    sys.exit(ret is False)
+    sys.exit(run_all_tests() is False)
