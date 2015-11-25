@@ -14,7 +14,6 @@ try:
     from gi.repository import Poppler
 except ImportError:
     logging.info('office.py loaded without PDF support')
-    pass
 
 import parser
 import archive
