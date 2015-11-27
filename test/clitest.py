@@ -115,6 +115,7 @@ class TestFileAttributes(unittest.TestCase):
 
 
 class TestUnsupported(test.MATTest):
+    """ test MAT's behaviour on unsupported files """
     def test_abort_unsupported(self):
         """ test if the cli aborts on unsupported files
         """

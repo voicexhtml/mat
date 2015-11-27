@@ -54,6 +54,7 @@ class GenericParser(object):
         return True
 
     def _is_clean(self, fieldset):
+        """ Helper method of the `is_clean` one """
         for field in fieldset:
             remove = self._should_remove(field)
             if remove is True:
