@@ -28,7 +28,6 @@ DEPENDENCIES
 ============
  * python2.7 (at least)
  * python-hachoir-core and python-hachoir-parser
- * python-pil for more secure images handling
  * python-pdfrw, gir-poppler and python-gi-cairo for full PDF support
  * python-gi for the GUI
  * shred (should be already installed)
@@ -62,8 +61,8 @@ HOW TO IMPLEMENT NEW FORMATS
 
 HOW TO LAUNCH THE TESTSUITE
 ===========================
-    cd ./test
-    python test.py
+
+    python setup.py test
 
 LINKS
 =====
