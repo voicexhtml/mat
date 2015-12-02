@@ -36,11 +36,6 @@ class GenericArchiveStripper(parser.GenericParser):
                 mat.secure_remove(path_file)
         shutil.rmtree(self.tempdir)
 
-    def _should_remove(self, key):
-        """ This method is not used, but since it's defined in
-        parser.GenericParser, we must implement it."""
-        pass
-
     def is_clean(self, list_unsupported=False):
         """ Virtual method to check for harmul metadata
         :param bool list_unsupported:
@@ -51,11 +46,6 @@ class GenericArchiveStripper(parser.GenericParser):
         """ Get a list of every non-supported files present in the archive
         """
         return self.is_clean(list_unsupported=True)
-
-    def remove_all(self):
-        """ Virtual method to remove all metadata
-        """
-        raise NotImplementedError
 
 
 class ZipStripper(GenericArchiveStripper):
