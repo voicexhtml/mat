@@ -27,7 +27,6 @@ See README.security
 DEPENDENCIES
 ============
  * python2.7 (at least)
- * python-hachoir-core and python-hachoir-parser
  * python-pdfrw, gir-poppler and python-gi-cairo for full PDF support
  * python-gi for the GUI
  * shred (should be already installed)
@@ -35,7 +34,7 @@ DEPENDENCIES
 OPTIONALS DEPENDENCIES
 ======================
  * python-mutagen: for massive audio format support
- * exiftool: for _massive_ image format support
+ * exiftool: for image format support
 
 USAGE
 =====

@@ -10,9 +10,6 @@ import platform
 import subprocess
 import xml.sax
 
-import hachoir_core.cmd_line
-import hachoir_parser
-
 import libmat.exceptions
 
 __version__ = '0.5.4'
@@ -20,12 +17,10 @@ __author__ = 'jvoisin'
 
 # Silence
 LOGGING_LEVEL = logging.CRITICAL
-hachoir_core.config.quiet = True
 fname = ''
 
 # Verbose
 # LOGGING_LEVEL = logging.DEBUG
-# hachoir_core.config.quiet = False
 # logname = 'report.log'
 
 logging.basicConfig(filename=fname, level=LOGGING_LEVEL)
@@ -155,22 +150,10 @@ def create_class_file(name, backup, **kwargs):
     elif not os.access(name, os.R_OK):  # check read permissions
         logging.error('%s is is not readable', name)
         return None
-    elif not os.path.getsize(name):  # check if the file is not empty (hachoir crash on empty files)
-        logging.error('%s is empty', name)
-        return None
-
-    try:
-        filename = hachoir_core.cmd_line.unicodeFilename(name)
-    except TypeError:  # get rid of "decoding Unicode is not supported"
-        filename = name
-
-    parser = hachoir_parser.createParser(filename)
-    if not parser:
-        logging.info('Unable to parse %s with hachoir', filename)
 
     mime = mimetypes.guess_type(name)[0]
     if not mime:
-        logging.info('Unable to find mimetype of %s', filename)
+        logging.info('Unable to find mimetype of %s', name)
         return None
 
     if mime.startswith('application/vnd.oasis.opendocument'):
@@ -186,4 +169,4 @@ def create_class_file(name, backup, **kwargs):
         logging.info('Don\'t have stripper for %s format', mime)
         return None
 
-    return stripper_class(filename, parser, mime, backup, is_writable, **kwargs)
+    return stripper_class(name, mime, backup, is_writable, **kwargs)

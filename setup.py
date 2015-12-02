@@ -31,13 +31,13 @@ setup(
     name='MAT',
     version=__version__,
     description='Metadata Anonymisation Toolkit',
-    long_description='A Metadata Anonymisation Toolkit in Python, using python-hachoir',
+    long_description='A Metadata Anonymisation Toolkit in Python',
     author='jvoisin',
     author_email='julien.voisin@dustri.org',
     platforms='linux',
     license='GPLv2',
     url='https://mat.boum.org',
-    packages=['libmat', 'libmat.hachoir_editor', 'libmat.bencode'],
+    packages=['libmat', 'libmat.bencode'],
     scripts=['mat', 'mat-gui'],
     data_files=[
         ('share/applications', ['mat.desktop']),
@@ -55,5 +55,5 @@ setup(
         'build_icons': build_icons.build_icons,
         'clean': clean_i18n.clean_i18n,
     },
-    requires=['mutagen', 'gi', 'pdfrw', 'hachoir_core', 'hachoir_parser']
+    requires=['mutagen', 'gi', 'pdfrw']
 )

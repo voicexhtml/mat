@@ -7,8 +7,6 @@ import sys
 import argparse
 import os
 
-import hachoir_core
-
 from libmat import mat
 from libmat import archive
 
@@ -35,7 +33,7 @@ def parse():
     info.add_argument('-l', '--list', action='store_true',
                       help='list all supported fileformats')
     info.add_argument('-v', '--version', action='version',
-                      version='MAT %s - Hachoir %s' % (mat.__version__, hachoir_core.__version__))
+                      version='MAT %s' % mat.__version__)
 
     return parser.parse_args()
 

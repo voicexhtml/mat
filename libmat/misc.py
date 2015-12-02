@@ -11,8 +11,8 @@ class TorrentStripper(parser.GenericParser):
         of the bencode lib from Petru Paler
     """
 
-    def __init__(self, filename, parser, mime, backup, is_writable, **kwargs):
-        super(TorrentStripper, self).__init__(filename, parser, mime, backup, is_writable, **kwargs)
+    def __init__(self, filename, mime, backup, is_writable, **kwargs):
+        super(TorrentStripper, self).__init__(filename, mime, backup, is_writable, **kwargs)
         self.fields = frozenset(['announce', 'info', 'name', 'path', 'piece length', 'pieces',
                                  'length', 'files', 'announce-list', 'nodes', 'httpseeds', 'private', 'root hash'])
 

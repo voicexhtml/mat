@@ -2,8 +2,7 @@
 """
 
 import archive
-import audio
-import images
+import mutagenstripper
 import logging
 import mat
 import misc
@@ -15,7 +14,6 @@ STRIPPERS = {
     'application/x-bzip2': archive.Bzip2Stripper,
     'application/x-gzip': archive.GzipStripper,
     'application/zip': archive.ZipStripper,
-    'audio/mpeg': audio.MpegAudioStripper,
     'application/x-bittorrent': misc.TorrentStripper,
     'application/torrent': misc.TorrentStripper,
     'application/opendocument': office.OpenDocumentStripper,
@@ -52,11 +50,11 @@ if pdfSupport:
 # audio format support with mutagen-python
 try:
     import mutagen
-    STRIPPERS['audio/x-flac'] = audio.FlacStripper
-    STRIPPERS['audio/flac'] = audio.FlacStripper
-    STRIPPERS['audio/vorbis'] = audio.OggStripper
-    STRIPPERS['audio/ogg'] = audio.OggStripper
-    STRIPPERS['audio/mpeg'] = audio.MpegAudioStripper
+    STRIPPERS['audio/x-flac'] = mutagenstripper.FlacStripper
+    STRIPPERS['audio/flac'] = mutagenstripper.FlacStripper
+    STRIPPERS['audio/vorbis'] = mutagenstripper.OggStripper
+    STRIPPERS['audio/ogg'] = mutagenstripper.OggStripper
+    STRIPPERS['audio/mpeg'] = mutagenstripper.MpegAudioStripper
 except ImportError:
     logging.info('Unable to import python-mutagen: limited audio format support')
 
@@ -67,7 +65,5 @@ try:
     STRIPPERS['image/jpeg'] = exiftool.JpegStripper
     STRIPPERS['image/png'] = exiftool.PngStripper
     STRIPPERS['image/tiff'] = exiftool.TiffStripper
-except OSError:  # if exiftool is not installed, use hachoir instead
+except OSError:
     logging.info('Unable to find exiftool: limited images support')
-    STRIPPERS['image/jpeg'] = images.JpegStripper
-    STRIPPERS['image/png'] = images.PngStripper

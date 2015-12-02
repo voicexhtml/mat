@@ -5,7 +5,7 @@
         <mimetype>image/png</mimetype>
         <support>Full</support>
         <metadata>Textual metadata and date</metadata>
-        <method>Removal of harmful fields with hachoir.</method>
+        <method>Removal of harmful fields with exiftool.</method>
         <remaining>None</remaining>
     </format>
 
@@ -15,7 +15,7 @@
         <mimetype>image/jpeg</mimetype>
         <support>Partial</support>
         <metadata>Comments and exif/photoshop/adobe</metadata>
-        <method>Removal of harmful fields with hachoir.</method>
+        <method>Removal of harmful fields with exiftool.</method>
         <remaining>Canon Raw tags</remaining>
     </format>
 
@@ -75,7 +75,7 @@
         <mimetype>audio/mpeg</mimetype>
         <support>Full</support>
         <metadata>Id3</metadata>
-        <method>Removal of harmful fields with hachoir</method>
+        <method>Removal of harmful fields with exiftool</method>
         <remaining>None</remaining>
     </format>
 

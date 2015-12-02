@@ -16,6 +16,7 @@ addons:
             - gir1.2-poppler-0.18
             - python-pdfrw 
             - python-gi-cairo
+            - python-mutagen
 virtualenv:
     system_site_packages: true
 
@@ -25,12 +26,11 @@ install:
     - pip install --user --upgrade setuptools
     - pip install --user coveralls
     - pip install --user codecov
-    - pip install --user mutagen hachoir_core hachoir_parser
     - popd
     - python setup.py install
 
 script:
-    - coverage run --source=libmat --omit='*hachoir_editor*' setup.py test
+    - coverage run --source=libmat setup.py test
 
 after_success:
     - coveralls

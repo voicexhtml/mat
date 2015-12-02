@@ -110,8 +110,8 @@ class PdfStripper(parser.GenericParser):
     """ Represent a PDF file
     """
 
-    def __init__(self, filename, parser, mime, backup, is_writable, **kwargs):
-        super(PdfStripper, self).__init__(filename, parser, mime, backup, is_writable, **kwargs)
+    def __init__(self, filename, mime, backup, is_writable, **kwargs):
+        super(PdfStripper, self).__init__(filename, mime, backup, is_writable, **kwargs)
         self.uri = 'file://' + os.path.abspath(self.filename)
         self.password = None
         try:
