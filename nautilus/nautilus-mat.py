@@ -23,6 +23,7 @@ import libmat.strippers
 
 
 class MatExtension(GObject.GObject, Nautilus.MenuProvider):
+    """ A nautilus extension, acting as a frontend to MAT, to clean metadata."""
     def __init__(self):
         logging.debug("nautilus-mat: initialising")
 
@@ -57,6 +58,7 @@ class MatExtension(GObject.GObject, Nautilus.MenuProvider):
 
     @staticmethod
     def show_message(message, msg_type=Gtk.MessageType.INFO):
+        """ Helper function to show a message in a popup """
         dialog = Gtk.MessageDialog(parent=None,
                                    flags=Gtk.DialogFlags.MODAL,
                                    type=msg_type,
@@ -67,9 +69,11 @@ class MatExtension(GObject.GObject, Nautilus.MenuProvider):
         return ret
 
     def menu_activate_cb(self, menu, current_file):
+        """ Callback function, used to clean the file """
         if file.is_gone():
             return
 
+        # files url in nautilus are starting with 'file://', of length 7
         file_path = urllib.unquote(current_file.get_uri()[7:])
 
         class_file = libmat.mat.create_class_file(file_path,
@@ -78,8 +82,7 @@ class MatExtension(GObject.GObject, Nautilus.MenuProvider):
         if class_file:
             if class_file.is_clean():
                 self.show_message(_("%s is already clean") % file_path)
-            else:
-                if not class_file.remove_all():
-                    self.show_message(_("Unable to clean %s") % file_path, Gtk.MessageType.ERROR)
+            elif not class_file.remove_all():
+                self.show_message(_("Unable to clean %s") % file_path, Gtk.MessageType.ERROR)
         else:
             self.show_message(_("Unable to process %s") % file_path, Gtk.MessageType.ERROR)
