@@ -55,7 +55,7 @@ class TorrentStripper(parser.GenericParser):
         """
         d = dict()
         for i, j in list(dictionary.items()):
-            if not i in self.fields:
+            if i not in self.fields:
                 continue
             elif isinstance(j, dict):
                 d = dict(list(d.items()) + list(self.__get_meta_recursively(j).items()))

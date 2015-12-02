@@ -30,7 +30,7 @@ class GenericArchiveStripper(parser.GenericParser):
         """ Remove the files inside the temp dir,
             then remove the temp dir
         """
-        for root, dirs, files in os.walk(self.tempdir):
+        for root, _, files in os.walk(self.tempdir):
             for item in files:
                 path_file = os.path.join(root, item)
                 mat.secure_remove(path_file)
