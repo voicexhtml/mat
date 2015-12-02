@@ -54,8 +54,10 @@ class TorrentStripper(parser.GenericParser):
         """ Remove recursively all compromizing fields
         """
         d = dict()
-        for i, j in [i for i in list(dictionary.items()) if i in self.fields]:
-            if isinstance(j, dict):
+        for i, j in list(dictionary.items()):
+            if not i in self.fields:
+                continue
+            elif isinstance(j, dict):
                 d = dict(list(d.items()) + list(self.__get_meta_recursively(j).items()))
             else:
                 d[i] = j
@@ -67,7 +69,7 @@ class TorrentStripper(parser.GenericParser):
         with open(self.filename, 'r') as f:
             decoded = bencode.bdecode(f.read())
 
-        cleaned = {i: j for i, j in list(decoded.items()) if i in self.fields}
+        cleaned = self.__remove_all_recursively(decoded)
 
         with open(self.output, 'w') as f:  # encode the decoded torrent
             f.write(bencode.bencode(cleaned))  # and write it in self.output
