@@ -28,7 +28,7 @@ logging.basicConfig(filename=fname, level=LOGGING_LEVEL)
 import strippers  # this is loaded here because we need LOGGING_LEVEL
 
 
-def get_logo():
+def get_logo():  # pragma: no cover
     """ Return the path to the logo
     """
     if os.path.isfile(os.path.join(os.path.curdir, 'data/mat.png')):
@@ -39,7 +39,7 @@ def get_logo():
         return '/usr/local/share/pixmaps/mat.png'
 
 
-def get_datafile_path(filename):
+def get_datafile_path(filename):  # pragma: no cover
     """ Return the path to $filename
     :param string filename:
     """
@@ -50,7 +50,7 @@ def get_datafile_path(filename):
             return filepath
 
 
-def list_supported_formats():
+def list_supported_formats():  # pragma: no cover
     """ Return a list of all locally supported fileformat.
         It parses that FORMATS file, and removes locally
         non-supported formats.
@@ -70,7 +70,7 @@ def list_supported_formats():
     return localy_supported
 
 
-class XMLParser(xml.sax.handler.ContentHandler):
+class XMLParser(xml.sax.handler.ContentHandler):  # pragma: no cover
     """ Parse the supported format xml, and return a corresponding
         list of dict
     """
