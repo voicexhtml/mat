@@ -28,7 +28,10 @@ class MutagenStripper(parser.GenericParser):
         if self.backup:
             self.create_backup_copy()
         self.mfile.delete()
-        self.mfile.save()
+        try:  # mutagen will choke on files without a metadata block
+            self.mfile.save()
+        except ValueError:
+            pass
         return True
 
     def get_meta(self):
