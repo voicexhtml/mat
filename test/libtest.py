@@ -7,6 +7,7 @@
 
 import os
 import sys
+import stat
 import shutil
 import tarfile
 import tempfile
@@ -90,6 +91,17 @@ class TestFileAttributes(unittest.TestCase):
         open('empty_file', 'a').close()
         self.assertFalse(libmat.mat.create_class_file('empty_file', False, add2archive=True))
         os.remove('empty_file')
+
+    def test_not_writtable(self):
+        """ test MAT's behaviour on non-writable file"""
+        self.assertFalse(libmat.mat.create_class_file('not_writtable', False, add2archive=True))
+
+    def test_not_readable(self):
+        """ test MAT's behaviour on non-readable file"""
+        open('non_readable', 'a').close()
+        os.chmod('non_readable', 0 | stat.S_IWRITE)
+        self.assertFalse(libmat.mat.create_class_file('non_readable', False, add2archive=True))
+        os.remove('non_readable')
 
 
 class TestSecureRemove(unittest.TestCase):

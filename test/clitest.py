@@ -10,6 +10,7 @@ import unittest
 import subprocess
 import sys
 import tarfile
+import stat
 
 import test
 MAT_PATH = 'mat'
@@ -112,6 +113,14 @@ class TestFileAttributes(unittest.TestCase):
         proc = subprocess.Popen([MAT_PATH, 'empty_file'], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
         self.assertEqual(str(stdout).strip('\n'), '[-] Unable to process empty_file')
+
+    def test_not_readable(self):
+        """ test MAT's behaviour on non-writable file"""
+        open('non_readable', 'a').close()
+        os.chmod('non_readable', 0 & stat.S_IWRITE)
+        proc = subprocess.Popen([MAT_PATH, 'non_readable'], stdout=subprocess.PIPE)
+        stdout, _ = proc.communicate()
+        os.remove('non_readable')
 
 
 class TestUnsupported(test.MATTest):
