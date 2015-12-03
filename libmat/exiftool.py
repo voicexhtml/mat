@@ -31,7 +31,7 @@ class ExiftoolStripper(parser.GenericParser):
             # Also, '-CommonIFD0' is needed for .tiff files
             subprocess.call(['exiftool', '-all=', '-adobe=', '-exif:all=', '-Time:All=', '-m',
                              '-CommonIFD0=', '-overwrite_original', self.filename],
-                            stdout=open('/dev/null'))
+                            stdout=open('/dev/null'), stderr=open('/dev/null'))
             return True
         except OSError:
             return False
