@@ -167,7 +167,9 @@ class PdfStripper(parser.GenericParser):
             return False
 
         try:
-            import pdfrw  # For now, poppler cannot write meta, so we must use pdfrw
+            # For now, cairo cannot write meta, so we must use pdfrw
+            # See the realted thread: http://lists.cairographics.org/archives/cairo/2007-September/011466.html
+            import pdfrw
 
             logging.debug('Removing %s\'s superficial metadata', self.filename)
             trailer = pdfrw.PdfReader(self.output)
