@@ -330,6 +330,8 @@ non-anonymised) file to output archive'))
         for item in filelist:
             if os.path.splitext(item)[1] in parser.NOMETA:
                 store.append([os.path.basename(item), _('Harmless fileformat')])
+            elif not os.access(item, os.R_OK):
+                store.append([os.path.basename(item), _('Cant read file')])
             else:
                 store.append([os.path.basename(item), _('Fileformat not supported')])
 
