@@ -11,8 +11,8 @@ from libmat import mat
 from libmat import archive
 
 
-def parse():
-    """ Get, and parse options passed to the program
+def create_arg_parser():
+    """ Get options passed to the program
     """
     parser = argparse.ArgumentParser(description='Metadata anonymisation toolkit')
     parser.add_argument('files', nargs='*')
@@ -35,7 +35,7 @@ def parse():
     info.add_argument('-v', '--version', action='version',
                       version='MAT %s' % mat.__version__)
 
-    return parser.parse_args()
+    return parser
 
 
 def list_meta(class_file, filename, add2archive):
@@ -114,7 +114,13 @@ def list_supported():
 
 def main():
     """ Main function: get args and launch the appropriate function """
-    args = parse()
+    args = create_arg_parser()
+
+    if len(sys.argv) < 2:  # show help when the there is no argument provided
+        args.print_help()
+        sys.exit(2)
+
+    args = args.parse_args()
 
     # func receives the function corresponding to the options given as parameters
     if args.display:  # only print metadatas
