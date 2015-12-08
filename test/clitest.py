@@ -139,6 +139,29 @@ class TestUnsupported(test.MATTest):
                         '\n- libtest.py\n- test.py\n- clitest.py\n'
                         in str(stdout))
 
+class TestHelp(test.MATTest):
+    """ Test the different ways to trigger help """
+    def test_dash_h(self):
+        """ test help invocation with `-h` and `--help` """
+        proc = subprocess.Popen([MAT_PATH, '-h'], stdout=subprocess.PIPE)
+        stdout, _ = proc.communicate()
+        self.assertTrue('show this help message and exit' in stdout)
+
+        proc = subprocess.Popen([MAT_PATH, '--help'], stdout=subprocess.PIPE)
+        stdout, _ = proc.communicate()
+        self.assertTrue('show this help message and exit' in stdout)
+
+    def test_no_argument(self):
+        """ test help invocation when no argument is provided """
+        proc = subprocess.Popen([MAT_PATH], stdout=subprocess.PIPE)
+        stdout, _ = proc.communicate()
+        self.assertTrue('show this help message and exit' in stdout)
+
+    def test_wrong_argument(self):
+        """ Test MAT's behaviour on wrong argument """
+        proc = subprocess.Popen([MAT_PATH, '--obviously-wrong-argument'], stderr=subprocess.PIPE)
+        _, stderr = proc.communicate()
+        self.assertTrue(('usage: mat [-h]' and ' error: unrecognized arguments:') in stderr)
 
 def get_tests():
     """ Return every clitests"""
@@ -148,4 +171,5 @@ def get_tests():
     suite.addTest(unittest.makeSuite(TestisCleancli))
     suite.addTest(unittest.makeSuite(TestUnsupported))
     suite.addTest(unittest.makeSuite(TestFileAttributes))
+    suite.addTest(unittest.makeSuite(TestHelp))
     return suite
