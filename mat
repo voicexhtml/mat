@@ -22,7 +22,7 @@ def create_arg_parser():
                          help='add to output archive non-supported filetypes (Off by default)')
     options.add_argument('-b', '--backup', '-b', action='store_true',
                          help='keep a backup copy')
-    options.add_argument('-L', '--low-pdf-quality', '-L', action='store_true',
+    options.add_argument('-L', '--low-pdf-quality', action='store_true',
                          help='produces a lighter, but lower quality PDF')
 
     info = parser.add_argument_group('Information')
