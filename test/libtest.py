@@ -34,6 +34,15 @@ class TestRemovelib(test.MATTest):
             current_file = libmat.mat.create_class_file(dirty, False, add2archive=True)
             self.assertTrue(current_file.is_clean())
 
+    def test_remove_fileformat_specific_options(self):
+        """ test metadata removal with fileformat-specific options """
+        for _, dirty in self.file_list:  # can't be faster than that :/
+            if dirty.endswith('pdf'):
+                current_file = libmat.mat.create_class_file(dirty, False, add2archive=True, low_pdf_quality=True)
+                current_file.remove_all()
+                current_file = libmat.mat.create_class_file(dirty, False, add2archive=True, low_pdf_quality=True)
+                self.assertTrue(current_file.is_clean())
+
     def test_remove_empty(self):
         """Test removal with clean files"""
         for clean, _ in self.file_list:
