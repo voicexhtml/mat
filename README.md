@@ -27,19 +27,23 @@ See README.security
 DEPENDENCIES
 ============
  * python2.7 (at least)
- * python-pdfrw, gir-poppler and python-gi-cairo for full PDF support
- * python-gi for the GUI
- * shred (should be already installed)
 
 OPTIONALS DEPENDENCIES
 ======================
  * python-mutagen: for massive audio format support
  * exiftool: for image format support
+ * python-pdfrw, gir-poppler and python-gi-cairo for full PDF support
+ * python-gi for the GUI
+ * shred (should be already installed)
 
 USAGE
 =====
+
+For the command line:
+
     mat --help
-or
+
+or for the graphical interface:
 
     mat-gui
 
@@ -56,7 +60,7 @@ HOW TO IMPLEMENT NEW FORMATS
     - is_clean(self)
     - remove_all(self)
     - get_meta(self)
-5. Don't forget to call the do_backup() method when necessary
+5. Don't forget to call the do_backup() method if necessary
 
 HOW TO LAUNCH THE TESTSUITE
 ===========================
@@ -94,13 +98,12 @@ MA 02110-1301, USA.
 
 Copyright 2011-2015 Julien (jvoisin) Voisin <julien.voisin@dustri.org>
 
-
 THANKS
 ======
-Mat would not exist without :
+Mat would not exist without:
 
  * the Google Summer of Code,
  * the hachoir library,
- * people on #tails@oftc
+ * people on #tails@oftc and the Tails project
 
-Many thanks to them !
+Many thanks to them!
