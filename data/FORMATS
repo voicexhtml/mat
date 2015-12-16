@@ -1,5 +1,14 @@
 <xml>
     <format>
+        <name>Tagged Image File Format</name>
+        <extension>.tif, .tiff</extension>
+        <mimetype>image/tiff</mimetype>
+        <support>Full</support>
+        <metadata>Textual metadata and date</metadata>
+        <method>Removal of harmful fields with exiftool.</method>
+        <remaining>None</remaining>
+    </format>
+    <format>
         <name>Portable Network Graphics</name>
         <extension>.png</extension>
         <mimetype>image/png</mimetype>
