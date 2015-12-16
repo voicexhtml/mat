@@ -28,7 +28,7 @@ class GenericParser(object):
         self.backup = backup
         self.is_writable = is_writable
         self.filename = filename
-        self.basename = os.path.basename(filename)
+        self.basename = os.path.basename(filename).decode('utf8')
         self.output = tempfile.mkstemp()[1]
 
     def __del__(self):
