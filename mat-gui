@@ -169,7 +169,8 @@ class GUI(object):
                 metadataPopupListStore.append([i, j])
 
         popup_metadata = self.builder.get_object('MetadataPopup')
-        popup_metadata.set_title(_("%s's metadata") % self.liststore[row][0].file.basename)
+        title = self.liststore[row][0].file.basename
+        popup_metadata.set_title(_("%s's metadata") % title.decode('utf8'))
         popup_metadata.show_all()
         popup_metadata.run()
         popup_metadata.hide()
