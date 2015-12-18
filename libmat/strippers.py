@@ -27,19 +27,19 @@ pdfSupport = True
 try:
     from gi.repository import Poppler
 except ImportError:
-    logging.info('Unable to import Poppler: no PDF support')
+    logging.error('Unable to import Poppler: no PDF support')
     pdfSupport = False
 
 try:
     import cairo
 except ImportError:
-    logging.info('Unable to import python-cairo: no PDF support')
+    logging.error('Unable to import python-cairo: no PDF support')
     pdfSupport = False
 
 try:
     import pdfrw
 except ImportError:
-    logging.info('Unable to import python-pdfrw: no PDf support')
+    logging.error('Unable to import python-pdfrw: no PDf support')
     pdfSupport = False
 
 if pdfSupport:
@@ -56,7 +56,7 @@ try:
     STRIPPERS['audio/ogg'] = mutagenstripper.OggStripper
     STRIPPERS['audio/mpeg'] = mutagenstripper.MpegAudioStripper
 except ImportError:
-    logging.info('Unable to import python-mutagen: limited audio format support')
+    logging.error('Unable to import python-mutagen: limited audio format support')
 
 # exiftool
 try:
@@ -66,4 +66,4 @@ try:
     STRIPPERS['image/png'] = exiftool.PngStripper
     STRIPPERS['image/tiff'] = exiftool.TiffStripper
 except OSError:
-    logging.info('Unable to find exiftool: limited images support')
+    logging.error('Unable to find exiftool: limited images support')

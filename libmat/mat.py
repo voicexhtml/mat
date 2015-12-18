@@ -16,7 +16,7 @@ __version__ = '0.5.4'
 __author__ = 'jvoisin'
 
 # Silence
-LOGGING_LEVEL = logging.CRITICAL
+LOGGING_LEVEL = logging.ERROR
 fname = ''
 
 # Verbose

@@ -291,7 +291,7 @@ class TarStripper(GenericArchiveStripper):
                         elif isinstance(cfile, GenericArchiveStripper):
                             ret_list.append(item.name)
                 else:
-                    logging.error("%s's format is not supported or harmless", item.name)
+                    logging.info("%s's format is not supported or harmless", item.name)
                     if os.path.splitext(path)[1] not in parser.NOMETA:
                         if not list_unsupported:
                             return False
@@ -317,7 +317,7 @@ class TarStripper(GenericArchiveStripper):
                     if meta:
                         current_meta['file'] = str(meta)
                 else:
-                    logging.error("%s's format is not supported or harmless", item.name)
+                    logging.info("%s's format is not supported or harmless", item.name)
 
                 if not self.is_file_clean(item):  # if there is meta
                     current_meta['mtime'] = item.mtime
