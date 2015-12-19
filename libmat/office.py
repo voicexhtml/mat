@@ -11,6 +11,8 @@ import zipfile
 
 try:
     import cairo
+    import gi
+    gi.require_version('Poppler', '0.18')
     from gi.repository import Poppler
 except ImportError:
     logging.info('office.py loaded without PDF support')
