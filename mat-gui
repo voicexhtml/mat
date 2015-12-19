@@ -136,18 +136,18 @@ class GUI(object):
         chooser.set_default_response(0)
         chooser.set_select_multiple(True)
 
-        # filter that shows all files
-        all_filter = Gtk.FileFilter()
-        all_filter.set_name(_('All files'))
-        all_filter.add_pattern('*')
-        chooser.add_filter(all_filter)
-
         # filter that shows only supported formats
         supported_filter = Gtk.FileFilter()
         supported_filter.set_name(_('Supported files'))
         for i in strippers.STRIPPERS.keys():
             supported_filter.add_mime_type(i)
         chooser.add_filter(supported_filter)
+
+        # filter that shows all files
+        all_filter = Gtk.FileFilter()
+        all_filter.set_name(_('All files'))
+        all_filter.add_pattern('*')
+        chooser.add_filter(all_filter)
 
         if not chooser.run():  # Gtk.STOCK_OK
             filenames = chooser.get_filenames()
