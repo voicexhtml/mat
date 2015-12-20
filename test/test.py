@@ -29,6 +29,7 @@ FILE_LIST = zip(clean, dirty)
 try:  # PDF render processing
     import cairo
     import gi
+    gi.require_version('Poppler', '0.18')
     from gi.repository import Poppler
     import pdfrw
 except ImportError:

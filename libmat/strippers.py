@@ -25,6 +25,8 @@ logging.basicConfig(level=mat.LOGGING_LEVEL)
 # PDF support
 pdfSupport = True
 try:
+    import gi
+    gi.require_version('Poppler', '0.18')
     from gi.repository import Poppler
 except ImportError:
     logging.error('Unable to import Poppler: no PDF support')
