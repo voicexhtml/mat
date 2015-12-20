@@ -28,7 +28,7 @@ DEPENDENCIES
 ============
  * python2.7 (at least)
 
-OPTIONALS DEPENDENCIES
+OPTIONAL DEPENDENCIES
 ======================
  * python-mutagen: for massive audio format support
  * exiftool: for image format support

@@ -41,7 +41,7 @@ except ImportError:
 try:
     import pdfrw
 except ImportError:
-    logging.error('Unable to import python-pdfrw: no PDf support')
+    logging.error('Unable to import python-pdfrw: no PDF support')
     pdfSupport = False
 
 if pdfSupport:
