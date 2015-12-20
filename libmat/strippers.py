@@ -58,7 +58,7 @@ try:
     STRIPPERS['audio/ogg'] = mutagenstripper.OggStripper
     STRIPPERS['audio/mpeg'] = mutagenstripper.MpegAudioStripper
 except ImportError:
-    logging.error('Unable to import python-mutagen: limited audio format support')
+    logging.error('Unable to import python-mutagen: no audio format support')
 
 # exiftool
 try:
@@ -68,4 +68,4 @@ try:
     STRIPPERS['image/png'] = exiftool.PngStripper
     STRIPPERS['image/tiff'] = exiftool.TiffStripper
 except OSError:
-    logging.error('Unable to find exiftool: limited images support')
+    logging.error('Unable to find exiftool: no images support')
