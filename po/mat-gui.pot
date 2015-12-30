@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-16 15:03+0100\n"
+"POT-Creation-Date: 2015-12-30 17:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,119 +17,119 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mat-gui:64 mat-gui:415 mat-gui:438
+#: mat-gui.py:66 mat-gui.py:420 mat-gui.py:443
 msgid "Ready"
 msgstr ""
 
-#: mat-gui:133
+#: mat-gui.py:135
 msgid "Choose files"
 msgstr ""
 
-#: mat-gui:141
-msgid "All files"
-msgstr ""
-
-#: mat-gui:147
+#: mat-gui.py:143
 msgid "Supported files"
 msgstr ""
 
-#: mat-gui:164 mat-gui:359 mat-gui:410 mat-gui:434 mat-gui:436
+#: mat-gui.py:150
+msgid "All files"
+msgstr ""
+
+#: mat-gui.py:166 mat-gui.py:364 mat-gui.py:415 mat-gui.py:439 mat-gui.py:441
 #: data/mat.glade:480
 msgid "Clean"
 msgstr ""
 
-#: mat-gui:165
+#: mat-gui.py:167
 msgid "No metadata found"
 msgstr ""
 
-#: mat-gui:167 mat-gui:412
+#: mat-gui.py:169 mat-gui.py:417
 msgid "Dirty"
 msgstr ""
 
-#: mat-gui:172
+#: mat-gui.py:175
 #, python-format
 msgid "%s's metadata"
 msgstr ""
 
-#: mat-gui:183
+#: mat-gui.py:186
 msgid "Trash your meta, keep your data"
 msgstr ""
 
-#: mat-gui:188
+#: mat-gui.py:191
 msgid "Website"
 msgstr ""
 
-#: mat-gui:214
+#: mat-gui.py:217
 msgid "Preferences"
 msgstr ""
 
-#: mat-gui:227
+#: mat-gui.py:230
 msgid "Reduce PDF quality"
 msgstr ""
 
-#: mat-gui:230
+#: mat-gui.py:233
 msgid "Reduce the produced PDF size and quality"
 msgstr ""
 
-#: mat-gui:233
+#: mat-gui.py:236
 msgid "Add unsupported file to archives"
 msgstr ""
 
-#: mat-gui:236
+#: mat-gui.py:239
 msgid "Add non-supported (and so non-anonymised) file to output archive"
 msgstr ""
 
-#: mat-gui:275
+#: mat-gui.py:278
 msgid "Unknown"
 msgstr ""
 
-#: mat-gui:318
+#: mat-gui.py:323
 msgid "Not-supported"
 msgstr ""
 
-#: mat-gui:332
+#: mat-gui.py:337
 msgid "Harmless fileformat"
 msgstr ""
 
-#: mat-gui:334
+#: mat-gui.py:339
 msgid "Cant read file"
 msgstr ""
 
-#: mat-gui:336
+#: mat-gui.py:341
 msgid "Fileformat not supported"
 msgstr ""
 
-#: mat-gui:339
+#: mat-gui.py:344
 msgid "These files can not be processed:"
 msgstr ""
 
-#: mat-gui:344 mat-gui:373 data/mat.glade:519
+#: mat-gui.py:349 mat-gui.py:378 data/mat.glade:519
 msgid "Filename"
 msgstr ""
 
-#: mat-gui:346
+#: mat-gui.py:351
 msgid "Reason"
 msgstr ""
 
-#: mat-gui:358
+#: mat-gui.py:363
 msgid "Non-supported files in archive"
 msgstr ""
 
-#: mat-gui:372
+#: mat-gui.py:377
 msgid "Include"
 msgstr ""
 
-#: mat-gui:390
+#: mat-gui.py:395
 #, python-format
 msgid "MAT is not able to clean the following files, found in the %s archive"
 msgstr ""
 
-#: mat-gui:406
+#: mat-gui.py:411
 #, python-format
 msgid "Checking %s"
 msgstr ""
 
-#: mat-gui:421
+#: mat-gui.py:426
 #, python-format
 msgid "Cleaning %s"
 msgstr ""
