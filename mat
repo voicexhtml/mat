@@ -117,9 +117,9 @@ def main():
     argparser = create_arg_parser()
     args = argparser.parse_args()
 
-    #show help if: neiter list nor file argument given; no argument at
-    #all given or the list argument mixed with some other argument given
-    if (not args.list and not args.files) or (not len(sys.argv) > 1) or (args.list and len(sys.argv) > 2):
+    # show help if: neither list nor file argument given; no argument at
+    # all given or the list argument mixed with some other argument given
+    if not (args.list or args.files) or (not sys.argv) or (args.list and len(sys.argv) > 2):
         argparser.print_help()
         sys.exit(2)
 

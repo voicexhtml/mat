@@ -16,6 +16,7 @@ if os.path.exists('MANIFEST'):
 
 class PyTest(Command):
     user_options = []
+
     def initialize_options(self):
         pass
 

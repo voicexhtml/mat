@@ -24,6 +24,7 @@ import libmat.strippers
 
 class MatExtension(GObject.GObject, Nautilus.MenuProvider):
     """ A nautilus extension, acting as a frontend to MAT, to clean metadata."""
+
     def __init__(self):
         logging.debug("nautilus-mat: initialising")
 
@@ -58,7 +59,10 @@ class MatExtension(GObject.GObject, Nautilus.MenuProvider):
 
     @staticmethod
     def show_message(message, msg_type=Gtk.MessageType.INFO):
-        """ Helper function to show a message in a popup """
+        """ Helper function to show a message in a popup
+        :param msg_type: Type of the message to display
+        :param message: Message to display
+        """
         dialog = Gtk.MessageDialog(parent=None,
                                    flags=Gtk.DialogFlags.MODAL,
                                    type=msg_type,
@@ -69,7 +73,10 @@ class MatExtension(GObject.GObject, Nautilus.MenuProvider):
         return ret
 
     def menu_activate_cb(self, menu, current_file):
-        """ Callback function, used to clean the file """
+        """ Callback function, used to clean the file
+        :param current_file: Name of the selected file
+        :param menu: Menu id from which the callback was activated. Unused.
+        """
         if file.is_gone():
             return
 

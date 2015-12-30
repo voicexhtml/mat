@@ -136,9 +136,10 @@ class TestUnsupported(test.MATTest):
         tar.close()
         proc = subprocess.Popen(['mat', tarpath], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
-        self.assertTrue('It contains unsupported filetypes:' \
+        self.assertTrue('It contains unsupported filetypes:'
                         '\n- libtest.py\n- test.py\n- clitest.py\n'
                         in str(stdout))
+
 
 class TestHelp(test.MATTest):
     """ Test the different ways to trigger help """
@@ -163,6 +164,7 @@ class TestHelp(test.MATTest):
         proc = subprocess.Popen(['mat', '--obviously-wrong-argument'], stderr=subprocess.PIPE)
         _, stderr = proc.communicate()
         self.assertTrue(('usage: mat [-h]' and ' error: unrecognized arguments:') in stderr)
+
 
 def get_tests():
     """ Return every clitests"""

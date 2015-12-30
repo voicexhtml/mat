@@ -31,7 +31,7 @@ class CFile(GObject.Object):
     """
 
     def __init__(self, filename, **kwargs):
-        self.file = mat.create_class_file(filename, 0, **kwargs)
+        self.file = mat.create_class_file(filename, False, **kwargs)
 
 
 class GUI(object):
@@ -160,15 +160,15 @@ class GUI(object):
         """ Popup that display on double-click
             metadata from a file
         """
-        metadataPopupListStore = self.builder.get_object('MetadataPopupListStore')
-        metadataPopupListStore.clear()
+        metadatapopupliststore = self.builder.get_object('MetadataPopupListStore')
+        metadatapopupliststore.clear()
         if self.liststore[row][0].file.is_clean():
             self.liststore[row][2] = _('Clean')
-            metadataPopupListStore.append([_('No metadata found'), ''])
+            metadatapopupliststore.append([_('No metadata found'), ''])
         else:
             self.liststore[row][2] = _('Dirty')
             for i, j in self.liststore[row][0].file.get_meta().iteritems():
-                metadataPopupListStore.append([i, j])
+                metadatapopupliststore.append([i, j])
 
         popup_metadata = self.builder.get_object('MetadataPopup')
         title = self.liststore[row][0].file.basename
@@ -284,8 +284,8 @@ non-anonymised) file to output archive'))
         iterator = self.treeview.get_selection().get_selected_rows()[1]
         if not iterator:  # if nothing is selected : select everything
             iterator = range(len(self.liststore))
-        task = func(iterator)  # launch func() in an asynchronous way
-        GLib.idle_add(task.next)
+        sync_task = func(iterator)  # launch func() in an asynchronous way
+        GLib.idle_add(sync_task.next)
 
     def __invert(self, button, name):
         """ Invert a preference state """
@@ -295,7 +295,9 @@ non-anonymised) file to output archive'))
             self.add2archive = not self.add2archive
 
     def populate(self, filenames):
-        """ Append selected files by add_file to the self.liststore """
+        """ Append selected files by add_file to the self.liststore
+        :param filenames: selected files
+        """
         not_supported = []
         for filename in filenames:  # filenames : all selected files/folders
             if os.path.isdir(filename):  # if "filename" is a directory
@@ -343,10 +345,10 @@ non-anonymised) file to output archive'))
         vbox.pack_start(treeview, True, True, 0)
 
         # Create columns
-        rendererText = Gtk.CellRendererText()
-        column = Gtk.TreeViewColumn(_('Filename'), rendererText, text=0)
+        renderertext = Gtk.CellRendererText()
+        column = Gtk.TreeViewColumn(_('Filename'), renderertext, text=0)
         treeview.append_column(column)
-        column = Gtk.TreeViewColumn(_('Reason'), rendererText, text=1)
+        column = Gtk.TreeViewColumn(_('Reason'), renderertext, text=1)
         treeview.append_column(column)
 
         dialog.show_all()

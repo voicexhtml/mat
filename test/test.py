@@ -14,6 +14,7 @@ import glob
 import sys
 import tempfile
 import unittest
+import subprocess
 
 VERBOSITY = 15
 
@@ -27,6 +28,7 @@ FILE_LIST = zip(clean, dirty)
 try:  # PDF render processing
     import cairo
     import gi
+
     gi.require_version('Poppler', '0.18')
     from gi.repository import Poppler
     import pdfrw
@@ -42,8 +44,9 @@ except ImportError:
 
 try:  # exiftool
     subprocess.check_output(['exiftool', '-ver'])
-except:
+except OSError:
     FILE_LIST.remove(('clean é.tif', 'dirty é.tif'))
+
 
 class MATTest(unittest.TestCase):
     """
@@ -84,26 +87,28 @@ def run_all_tests():
     """
     import clitest
     import libtest
-    SUITE = unittest.TestSuite()
-    SUITE.addTests(clitest.get_tests())
-    SUITE.addTests(libtest.get_tests())
+    suite = unittest.TestSuite()
+    suite.addTests(clitest.get_tests())
+    suite.addTests(libtest.get_tests())
 
-    return unittest.TextTestRunner(verbosity=VERBOSITY).run(SUITE).wasSuccessful()
+    return unittest.TextTestRunner(verbosity=VERBOSITY).run(suite).wasSuccessful()
+
 
 def set_local():
-    ''' Monkey patch pathes to run the testsuite on the _local_
+    """ Monkey patch pathes to run the testsuite on the _local_
     version of MAT. See `run_all_tests` for more information about
     what pathes we're changing and why.
-    '''
+    """
     os.environ['PATH'] = '..:' + os.environ['PATH']
     sys.path.append('..')
+
 
 if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser(description='MAT testsuite')
     parser.add_argument('-s', '--system', action='store_true',
-            help='Test the system-wide version of mat')
+                        help='Test the system-wide version of mat')
 
     if parser.parse_args().system is False:
         set_local()

@@ -84,6 +84,8 @@ class XMLParser(xml.sax.handler.ContentHandler):  # pragma: no cover
 
     def startElement(self, name, attrs):
         """ Called when entering into xml tag
+        :param attrs: Attributes of the `nam` xml tag
+        :param name: Name of the xml tag
         """
         self.between = True
         self.key = name
@@ -91,6 +93,7 @@ class XMLParser(xml.sax.handler.ContentHandler):  # pragma: no cover
 
     def endElement(self, name):
         """ Called when exiting a xml tag
+        :param name: name of the element
         """
         if name == 'format':  # leaving a fileformat section
             self.list.append(self.dict.copy())
@@ -102,6 +105,7 @@ class XMLParser(xml.sax.handler.ContentHandler):  # pragma: no cover
 
     def characters(self, characters):
         """ Concatenate the content between opening and closing tags
+        :param characters: content of the tag
         """
         if self.between:
             self.content += characters

@@ -47,6 +47,11 @@ class GenericArchiveStripper(parser.GenericParser):
         """
         return self.is_clean(list_unsupported=True)
 
+    def remove_all(self):
+        """ Virtual method to remove all compromising fields
+        """
+        raise NotImplementedError
+
 
 class ZipStripper(GenericArchiveStripper):
     """ Represent a zip file
