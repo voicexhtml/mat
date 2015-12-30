@@ -1,3 +1,12 @@
+0.6 - 30dec2015
+    * The testsuite can now be run against the system-wide version of MAT
+    * Support for TIFF files
+    * Removal of the (unmaintained) hachoir library dependency
+    * More code documentation
+    * Torrent files are now cleaned in a deeper fashion
+    * Better support of weird command-line arguments
+    * Usual cleaup/misc fixes
+
 0.5.4 - 19aug2015
 	* Distance a bit MAT from hachoir
 	* Fix zip-related issues
