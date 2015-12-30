@@ -1,0 +1,188 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# George Salukvadze <giosal90@gmail.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: The Tor Project\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-16 15:03+0100\n"
+"PO-Revision-Date: 2015-12-17 09:29+0000\n"
+"Last-Translator: carolyn <carolyn@anhalt.org>\n"
+"Language-Team: Georgian (http://www.transifex.com/otf/torproject/language/ka/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ka\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: mat-gui:64 mat-gui:415 mat-gui:438
+msgid "Ready"
+msgstr "მზად"
+
+#: mat-gui:133
+msgid "Choose files"
+msgstr "ფაილების არჩევა"
+
+#: mat-gui:141
+msgid "All files"
+msgstr "ყველა ფაილი"
+
+#: mat-gui:147
+msgid "Supported files"
+msgstr "მხარდაჭერილი ფაილები"
+
+#: mat-gui:164 mat-gui:359 mat-gui:410 mat-gui:434 mat-gui:436
+#: data/mat.glade:480
+msgid "Clean"
+msgstr "სუფთა"
+
+#: mat-gui:165
+msgid "No metadata found"
+msgstr "მეტა-მონაცემები ვერ მოიძებნა"
+
+#: mat-gui:167 mat-gui:412
+msgid "Dirty"
+msgstr "ჭუჭყიანი"
+
+#: mat-gui:172
+#, python-format
+msgid "%s's metadata"
+msgstr "%s-ის მეტა-მონაცემები"
+
+#: mat-gui:183
+msgid "Trash your meta, keep your data"
+msgstr "გადააგდეთ თქვენი მეტა, შეინახეთ თქვენი მონაცემები"
+
+#: mat-gui:188
+msgid "Website"
+msgstr "ვებ-გვერდი"
+
+#: mat-gui:214
+msgid "Preferences"
+msgstr "პარამეტრები"
+
+#: mat-gui:227
+msgid "Reduce PDF quality"
+msgstr "PDF-ის ხარისხის შემცირება"
+
+#: mat-gui:230
+msgid "Reduce the produced PDF size and quality"
+msgstr "შექმნილი PDF-ის ზომის და ხარისხის შემცირება"
+
+#: mat-gui:233
+msgid "Add unsupported file to archives"
+msgstr "არა მხარდაჭერილი ფაილების დამატება არქივებში"
+
+#: mat-gui:236
+msgid "Add non-supported (and so non-anonymised) file to output archive"
+msgstr "გამომავალ არქივში არა-მხარდაჭერილი (და ასე-არა-ანონიმიზირებული) ფაილის დამატება"
+
+#: mat-gui:275
+msgid "Unknown"
+msgstr "უცნობი"
+
+#: mat-gui:318
+msgid "Not-supported"
+msgstr "არა მხარდაჭერილი"
+
+#: mat-gui:332
+msgid "Harmless fileformat"
+msgstr "არამავნე ფაილის ფორმატი"
+
+#: mat-gui:334
+msgid "Cant read file"
+msgstr ""
+
+#: mat-gui:336
+msgid "Fileformat not supported"
+msgstr "ფაილის ფორმატი არ არის მხარდაჭერილი"
+
+#: mat-gui:339
+msgid "These files can not be processed:"
+msgstr "ამ ფაილების დამუშავება ვერ ხერხდება"
+
+#: mat-gui:344 mat-gui:373 data/mat.glade:519
+msgid "Filename"
+msgstr "ფაილის სახელი"
+
+#: mat-gui:346
+msgid "Reason"
+msgstr "მიზეზი"
+
+#: mat-gui:358
+msgid "Non-supported files in archive"
+msgstr "არა-მხარდაჭერილი ფაილები არქივში"
+
+#: mat-gui:372
+msgid "Include"
+msgstr ""
+
+#: mat-gui:390
+#, python-format
+msgid "MAT is not able to clean the following files, found in the %s archive"
+msgstr ""
+
+#: mat-gui:406
+#, python-format
+msgid "Checking %s"
+msgstr "მიმდინარეობს %s-ის შემოწმება"
+
+#: mat-gui:421
+#, python-format
+msgid "Cleaning %s"
+msgstr "მიმდინარეობს %s-ის გასუფთავება"
+
+#: data/mat.glade:26 data/mat.glade:196
+msgid "Metadata"
+msgstr "მეტა-მონაცემები"
+
+#: data/mat.glade:85
+msgid "Name"
+msgstr "სახელი"
+
+#: data/mat.glade:99
+msgid "Content"
+msgstr "შიგთავსი"
+
+#: data/mat.glade:129
+msgid "Supported formats"
+msgstr "მხარდაჭერილი ფორმატები"
+
+#: data/mat.glade:185
+msgid "Support"
+msgstr "მხარდაჭერა"
+
+#: data/mat.glade:207
+msgid "Method"
+msgstr "მეთოდი"
+
+#: data/mat.glade:218
+msgid "Remaining"
+msgstr "დარჩენილი"
+
+#: data/mat.glade:247
+msgid "Fileformat"
+msgstr "ფაილის ფორმატი"
+
+#: data/mat.glade:326
+msgid "_File"
+msgstr "_ფაილი"
+
+#: data/mat.glade:375
+msgid "_Edit"
+msgstr "_რედაქტირება"
+
+#: data/mat.glade:421
+msgid "_Help"
+msgstr "_დახმარება"
+
+#: data/mat.glade:467
+msgid "Add"
+msgstr "დამატება"
+
+#: data/mat.glade:536
+msgid "State"
+msgstr "მდგომარეობა"

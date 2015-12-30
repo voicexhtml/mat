@@ -9,177 +9,181 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Tor Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-31 04:53+0100\n"
-"PO-Revision-Date: 2015-02-23 08:18+0000\n"
-"Last-Translator: runasand <runa.sandvik@gmail.com>\n"
-"Language-Team: Thai (http://www.transifex.com/projects/p/torproject/language/th/)\n"
+"POT-Creation-Date: 2015-12-16 15:03+0100\n"
+"PO-Revision-Date: 2015-12-17 09:29+0000\n"
+"Last-Translator: carolyn <carolyn@anhalt.org>\n"
+"Language-Team: Thai (http://www.transifex.com/otf/torproject/language/th/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: th\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: mat-gui:62 mat-gui:407 mat-gui:430
+#: mat-gui:64 mat-gui:415 mat-gui:438
 msgid "Ready"
 msgstr "พร้อม"
 
-#: mat-gui:129
+#: mat-gui:133
 msgid "Choose files"
 msgstr "เลือกแฟ้ม"
 
-#: mat-gui:137
+#: mat-gui:141
 msgid "All files"
 msgstr "ทุกแฟ้ม"
 
-#: mat-gui:143
+#: mat-gui:147
 msgid "Supported files"
 msgstr "แฟ้มที่รองรับ"
 
-#: mat-gui:160 mat-gui:353 mat-gui:402 mat-gui:426 mat-gui:428
-#: data/mat.glade:172
+#: mat-gui:164 mat-gui:359 mat-gui:410 mat-gui:434 mat-gui:436
+#: data/mat.glade:480
 msgid "Clean"
 msgstr "สะอาด"
 
-#: mat-gui:161
+#: mat-gui:165
 msgid "No metadata found"
 msgstr "ไม่พบเมทาดาทา"
 
-#: mat-gui:163 mat-gui:404
+#: mat-gui:167 mat-gui:412
 msgid "Dirty"
 msgstr "สกปรก"
 
-#: mat-gui:168
+#: mat-gui:172
 #, python-format
 msgid "%s's metadata"
 msgstr "เมทาดาทาของ %s"
 
-#: mat-gui:179
+#: mat-gui:183
 msgid "Trash your meta, keep your data"
 msgstr "ทิ้งเมทาดาทา เก็บไว้เฉพาะข้อมูล"
 
-#: mat-gui:184
+#: mat-gui:188
 msgid "Website"
 msgstr "เว็บไซต์"
 
-#: mat-gui:210
+#: mat-gui:214
 msgid "Preferences"
 msgstr "ปรับแต่ง"
 
-#: mat-gui:223
+#: mat-gui:227
 msgid "Reduce PDF quality"
 msgstr "ลดคุณภาพ PDF"
 
-#: mat-gui:226
+#: mat-gui:230
 msgid "Reduce the produced PDF size and quality"
 msgstr "ลดขนาดและคุณภาพของ PDF ที่สร้าง"
 
-#: mat-gui:229
+#: mat-gui:233
 msgid "Add unsupported file to archives"
 msgstr "เพิ่มแฟ้มที่ไม่รองรับลงคลังแฟ้ม"
 
-#: mat-gui:232
+#: mat-gui:236
 msgid "Add non-supported (and so non-anonymised) file to output archive"
 msgstr "เพิ่มแฟ้มที่ไม่รองรับ (และดังนั้นจึงไม่ได้ปิดชื่อ) ลงไปในคลังเก็บเอาต์พุต"
 
-#: mat-gui:271
+#: mat-gui:275
 msgid "Unknown"
 msgstr "ไม่ทราบ"
 
-#: mat-gui:314
+#: mat-gui:318
 msgid "Not-supported"
 msgstr "ไม่รองรับ"
 
-#: mat-gui:328
+#: mat-gui:332
 msgid "Harmless fileformat"
 msgstr "ประเภทของแฟ้มที่ไม่อันตราย"
 
-#: mat-gui:330
+#: mat-gui:334
+msgid "Cant read file"
+msgstr ""
+
+#: mat-gui:336
 msgid "Fileformat not supported"
 msgstr "ประเภทของแฟ้มที่ไม่รองรับ"
 
-#: mat-gui:333
+#: mat-gui:339
 msgid "These files can not be processed:"
 msgstr "ไม่สามารถแปรรูปแฟ้มดังต่อไปนี้:"
 
-#: mat-gui:338 mat-gui:367 data/mat.glade:211
+#: mat-gui:344 mat-gui:373 data/mat.glade:519
 msgid "Filename"
 msgstr "ชื่อแฟ้ม"
 
-#: mat-gui:340
+#: mat-gui:346
 msgid "Reason"
 msgstr "เหตุผล"
 
-#: mat-gui:352
+#: mat-gui:358
 msgid "Non-supported files in archive"
 msgstr "ไฟล์ที่ไม่รองรับในคลังเก็บ:"
 
-#: mat-gui:366
+#: mat-gui:372
 msgid "Include"
 msgstr "รวมเข้า"
 
-#: mat-gui:382
+#: mat-gui:390
 #, python-format
 msgid "MAT is not able to clean the following files, found in the %s archive"
 msgstr "MAT ไม่สามารถล้างไฟล์ดังนี้ในคลัง %s"
 
-#: mat-gui:398
+#: mat-gui:406
 #, python-format
 msgid "Checking %s"
 msgstr "กำลังตรวจสอบ %s"
 
-#: mat-gui:413
+#: mat-gui:421
 #, python-format
 msgid "Cleaning %s"
 msgstr "กำลังล้าง %s"
 
-#: data/mat.glade:33
-msgid "_File"
-msgstr "_แฟ้ม"
-
-#: data/mat.glade:82
-msgid "_Edit"
-msgstr "_แก้ไข"
-
-#: data/mat.glade:115
-msgid "_Help"
-msgstr "_ช่วยเหลือ"
-
-#: data/mat.glade:159
-msgid "Add"
-msgstr "เพิ่ม"
-
-#: data/mat.glade:228
-msgid "State"
-msgstr "สถานะ"
-
-#: data/mat.glade:274 data/mat.glade:417
+#: data/mat.glade:26 data/mat.glade:196
 msgid "Metadata"
 msgstr "เมทาดาทา"
 
-#: data/mat.glade:306
+#: data/mat.glade:85
 msgid "Name"
 msgstr "ชื่อ"
 
-#: data/mat.glade:320
+#: data/mat.glade:99
 msgid "Content"
 msgstr "เนื้อหา"
 
-#: data/mat.glade:374
+#: data/mat.glade:129
 msgid "Supported formats"
 msgstr "รูปแบบที่รองรับ"
 
-#: data/mat.glade:406
+#: data/mat.glade:185
 msgid "Support"
 msgstr "สนับสนุน"
 
-#: data/mat.glade:428
+#: data/mat.glade:207
 msgid "Method"
 msgstr "วิธี"
 
-#: data/mat.glade:439
+#: data/mat.glade:218
 msgid "Remaining"
 msgstr "เหลืออยู่"
 
-#: data/mat.glade:468
+#: data/mat.glade:247
 msgid "Fileformat"
 msgstr "รูปแบบแฟ้ม"
+
+#: data/mat.glade:326
+msgid "_File"
+msgstr "_แฟ้ม"
+
+#: data/mat.glade:375
+msgid "_Edit"
+msgstr "_แก้ไข"
+
+#: data/mat.glade:421
+msgid "_Help"
+msgstr "_ช่วยเหลือ"
+
+#: data/mat.glade:467
+msgid "Add"
+msgstr "เพิ่ม"
+
+#: data/mat.glade:536
+msgid "State"
+msgstr "สถานะ"

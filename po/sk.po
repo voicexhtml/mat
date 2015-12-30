@@ -9,177 +9,181 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Tor Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-31 04:53+0100\n"
-"PO-Revision-Date: 2015-02-23 08:18+0000\n"
-"Last-Translator: runasand <runa.sandvik@gmail.com>\n"
-"Language-Team: Slovak (http://www.transifex.com/projects/p/torproject/language/sk/)\n"
+"POT-Creation-Date: 2015-12-16 15:03+0100\n"
+"PO-Revision-Date: 2015-12-17 09:29+0000\n"
+"Last-Translator: carolyn <carolyn@anhalt.org>\n"
+"Language-Team: Slovak (http://www.transifex.com/otf/torproject/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: mat-gui:62 mat-gui:407 mat-gui:430
+#: mat-gui:64 mat-gui:415 mat-gui:438
 msgid "Ready"
 msgstr "Pripravený"
 
-#: mat-gui:129
+#: mat-gui:133
 msgid "Choose files"
 msgstr "Zvoľ súbory"
 
-#: mat-gui:137
+#: mat-gui:141
 msgid "All files"
 msgstr "Všetky súbory"
 
-#: mat-gui:143
+#: mat-gui:147
 msgid "Supported files"
 msgstr "Podporované súbory"
 
-#: mat-gui:160 mat-gui:353 mat-gui:402 mat-gui:426 mat-gui:428
-#: data/mat.glade:172
+#: mat-gui:164 mat-gui:359 mat-gui:410 mat-gui:434 mat-gui:436
+#: data/mat.glade:480
 msgid "Clean"
 msgstr "Vyčistiť"
 
-#: mat-gui:161
+#: mat-gui:165
 msgid "No metadata found"
 msgstr "Žiadne metadáta nenájdené"
 
-#: mat-gui:163 mat-gui:404
+#: mat-gui:167 mat-gui:412
 msgid "Dirty"
 msgstr "Špinavý"
 
-#: mat-gui:168
+#: mat-gui:172
 #, python-format
 msgid "%s's metadata"
 msgstr "%s's metadáta"
 
-#: mat-gui:179
+#: mat-gui:183
 msgid "Trash your meta, keep your data"
 msgstr "Vyhoď meta, ponechaj dáta"
 
-#: mat-gui:184
+#: mat-gui:188
 msgid "Website"
 msgstr "Stránka"
 
-#: mat-gui:210
+#: mat-gui:214
 msgid "Preferences"
 msgstr "Predvoľby"
 
-#: mat-gui:223
+#: mat-gui:227
 msgid "Reduce PDF quality"
 msgstr "Znížiť kvalitu PDF"
 
-#: mat-gui:226
+#: mat-gui:230
 msgid "Reduce the produced PDF size and quality"
 msgstr "Zredukovať veľkosť a kvalitu PDF"
 
-#: mat-gui:229
+#: mat-gui:233
 msgid "Add unsupported file to archives"
 msgstr "Vložiť nepodporovaný súbor do archívov"
 
-#: mat-gui:232
+#: mat-gui:236
 msgid "Add non-supported (and so non-anonymised) file to output archive"
 msgstr "Vlož nepodporovaný (a tiež ne-anonymizovaný) súbor do výstupného archívu"
 
-#: mat-gui:271
+#: mat-gui:275
 msgid "Unknown"
 msgstr "Neznáme"
 
-#: mat-gui:314
+#: mat-gui:318
 msgid "Not-supported"
 msgstr "Nepodporované"
 
-#: mat-gui:328
+#: mat-gui:332
 msgid "Harmless fileformat"
 msgstr "Neškodný formát súboru"
 
-#: mat-gui:330
+#: mat-gui:334
+msgid "Cant read file"
+msgstr ""
+
+#: mat-gui:336
 msgid "Fileformat not supported"
 msgstr "Formát súboru nie je podporovaný"
 
-#: mat-gui:333
+#: mat-gui:339
 msgid "These files can not be processed:"
 msgstr "Tieto súbory nemôžu byť spracované:"
 
-#: mat-gui:338 mat-gui:367 data/mat.glade:211
+#: mat-gui:344 mat-gui:373 data/mat.glade:519
 msgid "Filename"
 msgstr "Názov súboru"
 
-#: mat-gui:340
+#: mat-gui:346
 msgid "Reason"
 msgstr "Dôvod"
 
-#: mat-gui:352
+#: mat-gui:358
 msgid "Non-supported files in archive"
 msgstr "Nepodporované súbory v archíve"
 
-#: mat-gui:366
+#: mat-gui:372
 msgid "Include"
 msgstr "Zahrnúť"
 
-#: mat-gui:382
+#: mat-gui:390
 #, python-format
 msgid "MAT is not able to clean the following files, found in the %s archive"
 msgstr "MAT nie je schopný vyčistiť nasledujúce súbory, nájdené v archíve %s"
 
-#: mat-gui:398
+#: mat-gui:406
 #, python-format
 msgid "Checking %s"
 msgstr "Kontrolujem %s"
 
-#: mat-gui:413
+#: mat-gui:421
 #, python-format
 msgid "Cleaning %s"
 msgstr "Čistím %s"
 
-#: data/mat.glade:33
-msgid "_File"
-msgstr "_File"
-
-#: data/mat.glade:82
-msgid "_Edit"
-msgstr "_Edit"
-
-#: data/mat.glade:115
-msgid "_Help"
-msgstr "_Help"
-
-#: data/mat.glade:159
-msgid "Add"
-msgstr "Pridať"
-
-#: data/mat.glade:228
-msgid "State"
-msgstr "Stav"
-
-#: data/mat.glade:274 data/mat.glade:417
+#: data/mat.glade:26 data/mat.glade:196
 msgid "Metadata"
 msgstr "Metadáta"
 
-#: data/mat.glade:306
+#: data/mat.glade:85
 msgid "Name"
 msgstr "Meno"
 
-#: data/mat.glade:320
+#: data/mat.glade:99
 msgid "Content"
 msgstr "Obsah"
 
-#: data/mat.glade:374
+#: data/mat.glade:129
 msgid "Supported formats"
 msgstr "Podporované formáty"
 
-#: data/mat.glade:406
+#: data/mat.glade:185
 msgid "Support"
 msgstr "Podpora"
 
-#: data/mat.glade:428
+#: data/mat.glade:207
 msgid "Method"
 msgstr "Metóda"
 
-#: data/mat.glade:439
+#: data/mat.glade:218
 msgid "Remaining"
 msgstr "Zostáva"
 
-#: data/mat.glade:468
+#: data/mat.glade:247
 msgid "Fileformat"
 msgstr "Formát súboru"
+
+#: data/mat.glade:326
+msgid "_File"
+msgstr "_File"
+
+#: data/mat.glade:375
+msgid "_Edit"
+msgstr "_Edit"
+
+#: data/mat.glade:421
+msgid "_Help"
+msgstr "_Help"
+
+#: data/mat.glade:467
+msgid "Add"
+msgstr "Pridať"
+
+#: data/mat.glade:536
+msgid "State"
+msgstr "Stav"

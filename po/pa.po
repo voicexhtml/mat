@@ -1,0 +1,188 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# A S Alam <apreet.alam@gmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: The Tor Project\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-16 15:03+0100\n"
+"PO-Revision-Date: 2015-12-17 09:29+0000\n"
+"Last-Translator: carolyn <carolyn@anhalt.org>\n"
+"Language-Team: Panjabi (Punjabi) (http://www.transifex.com/otf/torproject/language/pa/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pa\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: mat-gui:64 mat-gui:415 mat-gui:438
+msgid "Ready"
+msgstr "ਤਿਆਰ"
+
+#: mat-gui:133
+msgid "Choose files"
+msgstr "ਫਾਇਲਾਂ ਚੁਣੋ"
+
+#: mat-gui:141
+msgid "All files"
+msgstr "ਸਭ ਫਾਇਲਾਂ"
+
+#: mat-gui:147
+msgid "Supported files"
+msgstr "ਸਹਾਇਕ ਫਾਇਲਾਂ"
+
+#: mat-gui:164 mat-gui:359 mat-gui:410 mat-gui:434 mat-gui:436
+#: data/mat.glade:480
+msgid "Clean"
+msgstr "ਸਾਫ਼"
+
+#: mat-gui:165
+msgid "No metadata found"
+msgstr "ਕੋਈ ਮੇਟਾਡਾਟਾ ਨਹੀਂ ਲੱਭਿਆ"
+
+#: mat-gui:167 mat-gui:412
+msgid "Dirty"
+msgstr "ਡਰਟੀ"
+
+#: mat-gui:172
+#, python-format
+msgid "%s's metadata"
+msgstr "%s ਦਾ ਮੇਟਾਡਾਟਾ"
+
+#: mat-gui:183
+msgid "Trash your meta, keep your data"
+msgstr "ਆਪਣਾ ਮੇਟਾ ਰੱਦੀ ਵਿੱਚ ਭੇਜੋ, ਆਪਣਾ ਡਾਟਾ ਰੱਖੋ"
+
+#: mat-gui:188
+msgid "Website"
+msgstr "ਵੈੱਬਸਾਈਟ"
+
+#: mat-gui:214
+msgid "Preferences"
+msgstr "ਮੇਰੀ ਪਸੰਦ"
+
+#: mat-gui:227
+msgid "Reduce PDF quality"
+msgstr "PDF ਕੁਆਲਟੀ ਘਟਾਓ"
+
+#: mat-gui:230
+msgid "Reduce the produced PDF size and quality"
+msgstr "ਤਿਆਰ ਕੀਤੇ PDF ਆਕਾਰ ਅਤੇ ਕੁਆਲਟੀ ਘਟਾਓ"
+
+#: mat-gui:233
+msgid "Add unsupported file to archives"
+msgstr "ਗ਼ੈਰ-ਸਹਾਇਕ ਫਾਇਲ ਨੂੰ ਅਕਾਇਵ ਵਿੱਚ ਜੋੜੋ"
+
+#: mat-gui:236
+msgid "Add non-supported (and so non-anonymised) file to output archive"
+msgstr ""
+
+#: mat-gui:275
+msgid "Unknown"
+msgstr "ਅਣਜਾਣ"
+
+#: mat-gui:318
+msgid "Not-supported"
+msgstr "ਗ਼ੈਰ-ਸਹਾਇਕ"
+
+#: mat-gui:332
+msgid "Harmless fileformat"
+msgstr ""
+
+#: mat-gui:334
+msgid "Cant read file"
+msgstr ""
+
+#: mat-gui:336
+msgid "Fileformat not supported"
+msgstr "ਫਾਇਲ-ਫਾਰਮੈਟ ਸਹਾਇਕ ਨਹੀਂ ਹੈ"
+
+#: mat-gui:339
+msgid "These files can not be processed:"
+msgstr "ਇਹ ਫਾਈਲਾਂ ਉੱਤੇ ਕਾਰਵਾਈ ਨਹੀਂ ਹੋ ਸਕਦੀ ਹੈ:"
+
+#: mat-gui:344 mat-gui:373 data/mat.glade:519
+msgid "Filename"
+msgstr "ਫਾਇਲਨਾਂ"
+
+#: mat-gui:346
+msgid "Reason"
+msgstr "ਕਾਰਨ"
+
+#: mat-gui:358
+msgid "Non-supported files in archive"
+msgstr "ਅਕਾਇਵ ਵਿੱਚ ਗ਼ੈਰ-ਸਹਾਇਕ ਫਾਇਲਾਂ"
+
+#: mat-gui:372
+msgid "Include"
+msgstr "ਸ਼ਾਮਿਲ"
+
+#: mat-gui:390
+#, python-format
+msgid "MAT is not able to clean the following files, found in the %s archive"
+msgstr ""
+
+#: mat-gui:406
+#, python-format
+msgid "Checking %s"
+msgstr "%s ਜਾਂਚ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
+
+#: mat-gui:421
+#, python-format
+msgid "Cleaning %s"
+msgstr "%s ਸਾਫ਼ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+
+#: data/mat.glade:26 data/mat.glade:196
+msgid "Metadata"
+msgstr "ਮੇਟਾਡਾਟਾ"
+
+#: data/mat.glade:85
+msgid "Name"
+msgstr "ਨਾਂ"
+
+#: data/mat.glade:99
+msgid "Content"
+msgstr "ਸਮਗਰੀ"
+
+#: data/mat.glade:129
+msgid "Supported formats"
+msgstr "ਸਹਾਇਕ ਫਾਰਮੈਟ"
+
+#: data/mat.glade:185
+msgid "Support"
+msgstr "ਸਹਾਇਤਾ"
+
+#: data/mat.glade:207
+msgid "Method"
+msgstr "ਢੰਗ"
+
+#: data/mat.glade:218
+msgid "Remaining"
+msgstr "ਬਾਕੀ"
+
+#: data/mat.glade:247
+msgid "Fileformat"
+msgstr "ਫਾਈਲ-ਫਾਰਮੇਟ"
+
+#: data/mat.glade:326
+msgid "_File"
+msgstr "ਫਾਈਲ(_F)"
+
+#: data/mat.glade:375
+msgid "_Edit"
+msgstr "ਸੋਧ(_E)"
+
+#: data/mat.glade:421
+msgid "_Help"
+msgstr "ਮਦਦ(_H)"
+
+#: data/mat.glade:467
+msgid "Add"
+msgstr "ਸ਼ਾਮਿਲ"
+
+#: data/mat.glade:536
+msgid "State"
+msgstr "ਸਥਿਤੀ"

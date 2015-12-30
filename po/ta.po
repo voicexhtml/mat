@@ -1,0 +1,188 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Khaleel Jageer <jskcse4@gmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: The Tor Project\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-16 15:03+0100\n"
+"PO-Revision-Date: 2015-12-17 09:29+0000\n"
+"Last-Translator: carolyn <carolyn@anhalt.org>\n"
+"Language-Team: Tamil (http://www.transifex.com/otf/torproject/language/ta/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ta\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: mat-gui:64 mat-gui:415 mat-gui:438
+msgid "Ready"
+msgstr "தயார்"
+
+#: mat-gui:133
+msgid "Choose files"
+msgstr "கோப்புகளை தேர்வுசெய்"
+
+#: mat-gui:141
+msgid "All files"
+msgstr "அனைத்து கோப்புகள்"
+
+#: mat-gui:147
+msgid "Supported files"
+msgstr "ஆதரவு கோப்புகள்"
+
+#: mat-gui:164 mat-gui:359 mat-gui:410 mat-gui:434 mat-gui:436
+#: data/mat.glade:480
+msgid "Clean"
+msgstr "துடை"
+
+#: mat-gui:165
+msgid "No metadata found"
+msgstr "மெட்டாடேட்டா எதுவும் கிடைக்கவில்லை"
+
+#: mat-gui:167 mat-gui:412
+msgid "Dirty"
+msgstr "அழுக்கான"
+
+#: mat-gui:172
+#, python-format
+msgid "%s's metadata"
+msgstr "%s இன் மெட்டாடேட்டா"
+
+#: mat-gui:183
+msgid "Trash your meta, keep your data"
+msgstr ""
+
+#: mat-gui:188
+msgid "Website"
+msgstr "வலைத்தளம்"
+
+#: mat-gui:214
+msgid "Preferences"
+msgstr "முன்னுரிமை"
+
+#: mat-gui:227
+msgid "Reduce PDF quality"
+msgstr "PDF தரத்தை குறைக்க"
+
+#: mat-gui:230
+msgid "Reduce the produced PDF size and quality"
+msgstr "தயாரிக்கப்பட்ட PDF அளவு மற்றும் தரத்தை குறைக்க"
+
+#: mat-gui:233
+msgid "Add unsupported file to archives"
+msgstr "ஆவண காப்பகங்களில் ஆதரவற்ற கோப்பினை சேர்"
+
+#: mat-gui:236
+msgid "Add non-supported (and so non-anonymised) file to output archive"
+msgstr "வெளியீடு காப்பகத்தில் ஆதரவல்லாத (மற்றும் non- anonymised) கோப்பினை சேர்"
+
+#: mat-gui:275
+msgid "Unknown"
+msgstr "தெரியாத"
+
+#: mat-gui:318
+msgid "Not-supported"
+msgstr "ஆதரவற்ற"
+
+#: mat-gui:332
+msgid "Harmless fileformat"
+msgstr ""
+
+#: mat-gui:334
+msgid "Cant read file"
+msgstr ""
+
+#: mat-gui:336
+msgid "Fileformat not supported"
+msgstr ""
+
+#: mat-gui:339
+msgid "These files can not be processed:"
+msgstr ""
+
+#: mat-gui:344 mat-gui:373 data/mat.glade:519
+msgid "Filename"
+msgstr "கோப்பின் பெயர்"
+
+#: mat-gui:346
+msgid "Reason"
+msgstr ""
+
+#: mat-gui:358
+msgid "Non-supported files in archive"
+msgstr ""
+
+#: mat-gui:372
+msgid "Include"
+msgstr ""
+
+#: mat-gui:390
+#, python-format
+msgid "MAT is not able to clean the following files, found in the %s archive"
+msgstr ""
+
+#: mat-gui:406
+#, python-format
+msgid "Checking %s"
+msgstr "%s சரிபார்க்கிறது"
+
+#: mat-gui:421
+#, python-format
+msgid "Cleaning %s"
+msgstr "%s சுத்தம் செய்கிறது"
+
+#: data/mat.glade:26 data/mat.glade:196
+msgid "Metadata"
+msgstr "மெட்டாடேட்டா"
+
+#: data/mat.glade:85
+msgid "Name"
+msgstr "Name"
+
+#: data/mat.glade:99
+msgid "Content"
+msgstr "உள்ளடக்கம்"
+
+#: data/mat.glade:129
+msgid "Supported formats"
+msgstr "ஆதரவு வடிவங்கள்"
+
+#: data/mat.glade:185
+msgid "Support"
+msgstr "ஆதரவு"
+
+#: data/mat.glade:207
+msgid "Method"
+msgstr "செய்முறை"
+
+#: data/mat.glade:218
+msgid "Remaining"
+msgstr "எஞ்சியுள்ள"
+
+#: data/mat.glade:247
+msgid "Fileformat"
+msgstr "கோப்புவடிவம்"
+
+#: data/mat.glade:326
+msgid "_File"
+msgstr "_கோப்பு"
+
+#: data/mat.glade:375
+msgid "_Edit"
+msgstr "_பதிப்பி"
+
+#: data/mat.glade:421
+msgid "_Help"
+msgstr "_உதவி"
+
+#: data/mat.glade:467
+msgid "Add"
+msgstr "சேர்"
+
+#: data/mat.glade:536
+msgid "State"
+msgstr "நிலை"
