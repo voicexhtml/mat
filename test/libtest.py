@@ -14,11 +14,6 @@ import tempfile
 import unittest
 
 import test
-if test.IS_LOCAL is True:
-    # Are we testing the _local_ version of MAT?
-    sys.path.insert(0, '..')
-# else it will be in the path
-
 import libmat
 
 

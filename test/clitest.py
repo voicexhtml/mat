@@ -13,13 +13,6 @@ import tarfile
 import stat
 
 import test
-MAT_PATH = 'mat'
-if test.IS_LOCAL is True:
-    # Are we testing the _local_ version of MAT?
-    sys.path.insert(0, '..')
-    MAT_PATH = '../mat'
-# else it will be in the path
-
 from libmat import mat
 
 
@@ -31,7 +24,7 @@ class TestRemovecli(test.MATTest):
     def test_remove(self):
         """make sure that the cli remove all compromizing meta"""
         for _, dirty in self.file_list:
-            subprocess.call([MAT_PATH, '--add2archive', dirty])
+            subprocess.call(['mat', '--add2archive', dirty])
             current_file = mat.create_class_file(dirty, False, add2archive=True, low_pdf_quality=True)
             self.assertTrue(current_file.is_clean())
 
@@ -39,14 +32,14 @@ class TestRemovecli(test.MATTest):
         """ test metadata removal with fileformat-specific options """
         for _, dirty in self.file_list:  # can't be faster than that :/
             if dirty.endswith('pdf'):
-                subprocess.call([MAT_PATH, '--low-pdf-quality', dirty])
+                subprocess.call(['mat', '--low-pdf-quality', dirty])
                 current_file = mat.create_class_file(dirty, False, low_pdf_quality=True)
                 self.assertTrue(current_file.is_clean())
 
     def test_remove_empty(self):
         """Test removal with clean files\n"""
         for clean, _ in self.file_list:
-            subprocess.call([MAT_PATH, '--add2archive', clean])
+            subprocess.call(['mat', '--add2archive', clean])
             current_file = mat.create_class_file(clean, False, add2archive=True, low_pdf_quality=True)
             self.assertTrue(current_file.is_clean())
 
@@ -59,7 +52,7 @@ class TestListcli(test.MATTest):
     def test_list_clean(self):
         """check if get_meta returns meta"""
         for clean, _ in self.file_list:
-            proc = subprocess.Popen([MAT_PATH, '-d', clean],
+            proc = subprocess.Popen(['mat', '-d', clean],
                                     stdout=subprocess.PIPE)
             stdout, _ = proc.communicate()
             self.assertEqual(str(stdout).strip('\n'), "[+] File %s \
@@ -68,7 +61,7 @@ class TestListcli(test.MATTest):
     def test_list_dirty(self):
         """check if get_meta returns all the expected meta"""
         for _, dirty in self.file_list:
-            proc = subprocess.Popen([MAT_PATH, '-d', dirty],
+            proc = subprocess.Popen(['mat', '-d', dirty],
                                     stdout=subprocess.PIPE)
             stdout, _ = proc.communicate()
             self.assertNotEqual(str(stdout), "[+] File %s :\n No\
@@ -83,7 +76,7 @@ class TestisCleancli(test.MATTest):
     def test_clean(self):
         """test is_clean on clean files"""
         for clean, _ in self.file_list:
-            proc = subprocess.Popen([MAT_PATH, '-c', clean],
+            proc = subprocess.Popen(['mat', '-c', clean],
                                     stdout=subprocess.PIPE)
             stdout, _ = proc.communicate()
             self.assertEqual(str(stdout).strip('\n'), '[+] %s is clean' % clean)
@@ -91,7 +84,7 @@ class TestisCleancli(test.MATTest):
     def test_dirty(self):
         """test is_clean on dirty files"""
         for _, dirty in self.file_list:
-            proc = subprocess.Popen([MAT_PATH, '-c', dirty],
+            proc = subprocess.Popen(['mat', '-c', dirty],
                                     stdout=subprocess.PIPE)
             stdout, _ = proc.communicate()
             self.assertEqual(str(stdout).strip('\n'), '[+] %s is not clean' % dirty)
@@ -104,21 +97,21 @@ class TestFileAttributes(unittest.TestCase):
 
     def test_not_writtable(self):
         """ test MAT's behaviour on non-writable file"""
-        proc = subprocess.Popen([MAT_PATH, 'not_writtable'],
+        proc = subprocess.Popen(['mat', 'not_writtable'],
                                 stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
         self.assertEqual(str(stdout).strip('\n'), '[-] Unable to process not_writtable')
 
     def test_not_exist(self):
         """ test MAT's behaviour on non-existent file"""
-        proc = subprocess.Popen([MAT_PATH, 'ilikecookies'],
+        proc = subprocess.Popen(['mat', 'ilikecookies'],
                                 stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
         self.assertEqual(str(stdout).strip('\n'), '[-] Unable to process ilikecookies')
 
     def test_empty(self):
         """ test MAT's behaviour on empty file"""
-        proc = subprocess.Popen([MAT_PATH, 'empty_file'], stdout=subprocess.PIPE)
+        proc = subprocess.Popen(['mat', 'empty_file'], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
         self.assertEqual(str(stdout).strip('\n'), '[-] Unable to process empty_file')
 
@@ -126,7 +119,7 @@ class TestFileAttributes(unittest.TestCase):
         """ test MAT's behaviour on non-writable file"""
         open('non_readable', 'a').close()
         os.chmod('non_readable', 0 & stat.S_IWRITE)
-        proc = subprocess.Popen([MAT_PATH, 'non_readable'], stdout=subprocess.PIPE)
+        proc = subprocess.Popen(['mat', 'non_readable'], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
         os.remove('non_readable')
 
@@ -141,7 +134,7 @@ class TestUnsupported(test.MATTest):
         for f in ('libtest.py', 'test.py', 'clitest.py'):
             tar.add(f, f)
         tar.close()
-        proc = subprocess.Popen([MAT_PATH, tarpath], stdout=subprocess.PIPE)
+        proc = subprocess.Popen(['mat', tarpath], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
         self.assertTrue('It contains unsupported filetypes:' \
                         '\n- libtest.py\n- test.py\n- clitest.py\n'
@@ -151,23 +144,23 @@ class TestHelp(test.MATTest):
     """ Test the different ways to trigger help """
     def test_dash_h(self):
         """ test help invocation with `-h` and `--help` """
-        proc = subprocess.Popen([MAT_PATH, '-h'], stdout=subprocess.PIPE)
+        proc = subprocess.Popen(['mat', '-h'], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
         self.assertTrue('show this help message and exit' in stdout)
 
-        proc = subprocess.Popen([MAT_PATH, '--help'], stdout=subprocess.PIPE)
+        proc = subprocess.Popen(['mat', '--help'], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
         self.assertTrue('show this help message and exit' in stdout)
 
     def test_no_argument(self):
         """ test help invocation when no argument is provided """
-        proc = subprocess.Popen([MAT_PATH], stdout=subprocess.PIPE)
+        proc = subprocess.Popen(['mat'], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
         self.assertTrue('show this help message and exit' in stdout)
 
     def test_wrong_argument(self):
         """ Test MAT's behaviour on wrong argument """
-        proc = subprocess.Popen([MAT_PATH, '--obviously-wrong-argument'], stderr=subprocess.PIPE)
+        proc = subprocess.Popen(['mat', '--obviously-wrong-argument'], stderr=subprocess.PIPE)
         _, stderr = proc.communicate()
         self.assertTrue(('usage: mat [-h]' and ' error: unrecognized arguments:') in stderr)
 

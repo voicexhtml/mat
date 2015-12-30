@@ -25,6 +25,7 @@ class PyTest(Command):
     def run(self):
         os.chdir('test')
         import test
+        test.test.set_local()
         test.test.run_all_tests()
 
 setup(

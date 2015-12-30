@@ -15,8 +15,6 @@ import sys
 import tempfile
 import unittest
 
-IS_LOCAL = True
-
 VERBOSITY = 15
 
 clean = glob.glob('clean*')
@@ -80,10 +78,9 @@ def run_all_tests():
     """
     This method will run all tests, both for cli and lib.
     The imports of clitest and libtest are done here because
-    of dependencie on the IS_LOCAL variable.
-
-    If set to true, the tests will be done on the _local_ instance
-    of MAT, else, on the _system-wide_ one.
+    we're modifying the PATH (technically, it's two path:
+    the one used to spawn the `mat` process, and the one for Python import)
+    in the main function.
     """
     import clitest
     import libtest
@@ -93,6 +90,14 @@ def run_all_tests():
 
     return unittest.TextTestRunner(verbosity=VERBOSITY).run(SUITE).wasSuccessful()
 
+def set_local():
+    ''' Monkey patch pathes to run the testsuite on the _local_
+    version of MAT. See `run_all_tests` for more information about
+    what pathes we're changing and why.
+    '''
+    os.environ['PATH'] = '..:' + os.environ['PATH']
+    sys.path.append('..')
+
 if __name__ == '__main__':
     import argparse
 
@@ -100,7 +105,7 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--system', action='store_true',
             help='Test the system-wide version of mat')
 
-    if parser.parse_args().system is True:
-        IS_LOCAL = False
+    if parser.parse_args().system is False:
+        set_local()
 
     sys.exit(run_all_tests() is False)

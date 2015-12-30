@@ -1,2 +1,1 @@
-import clitest
-import libtest
+import test
