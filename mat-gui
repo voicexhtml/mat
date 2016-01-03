@@ -161,7 +161,7 @@ class GUI(object):
         """ Popup that display on double-click
             metadata from a file
         """
-        metadataPopupListStore = self.builder.get_object('metadataPopupListStore')
+        metadataPopupListStore = self.builder.get_object('MetadataPopupListStore')
         metadataPopupListStore.clear()
         if self.liststore[row][0].file.is_clean():
             self.liststore[row][2] = _('Clean')
