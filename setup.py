@@ -5,7 +5,7 @@ import os
 from distutils.core import setup, Command
 from DistUtilsExtra.command import *
 
-__version__ = '0.6'
+__version__ = '0.6.1'
 
 # Remove MANIFEST file, since distutils
 # doesn't properly update it when

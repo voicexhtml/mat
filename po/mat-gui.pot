@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-30 17:28+0100\n"
+"POT-Creation-Date: 2016-01-03 20:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,171 +17,171 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mat-gui.py:66 mat-gui.py:420 mat-gui.py:443
+#: mat-gui:66 mat-gui:422 mat-gui:445
 msgid "Ready"
 msgstr ""
 
-#: mat-gui.py:135
+#: mat-gui:136
 msgid "Choose files"
 msgstr ""
 
-#: mat-gui.py:143
+#: mat-gui:144
 msgid "Supported files"
 msgstr ""
 
-#: mat-gui.py:150
+#: mat-gui:151
 msgid "All files"
 msgstr ""
 
-#: mat-gui.py:166 mat-gui.py:364 mat-gui.py:415 mat-gui.py:439 mat-gui.py:441
-#: data/mat.glade:480
+#: mat-gui:167 mat-gui:366 mat-gui:417 mat-gui:441 mat-gui:443
+#: data/mat.glade:200
 msgid "Clean"
 msgstr ""
 
-#: mat-gui.py:167
+#: mat-gui:168
 msgid "No metadata found"
 msgstr ""
 
-#: mat-gui.py:169 mat-gui.py:417
+#: mat-gui:170 mat-gui:419
 msgid "Dirty"
 msgstr ""
 
-#: mat-gui.py:175
+#: mat-gui:176
 #, python-format
 msgid "%s's metadata"
 msgstr ""
 
-#: mat-gui.py:186
+#: mat-gui:187
 msgid "Trash your meta, keep your data"
 msgstr ""
 
-#: mat-gui.py:191
+#: mat-gui:192
 msgid "Website"
 msgstr ""
 
-#: mat-gui.py:217
+#: mat-gui:219
 msgid "Preferences"
 msgstr ""
 
-#: mat-gui.py:230
+#: mat-gui:232
 msgid "Reduce PDF quality"
 msgstr ""
 
-#: mat-gui.py:233
+#: mat-gui:235
 msgid "Reduce the produced PDF size and quality"
 msgstr ""
 
-#: mat-gui.py:236
+#: mat-gui:238
 msgid "Add unsupported file to archives"
 msgstr ""
 
-#: mat-gui.py:239
+#: mat-gui:241
 msgid "Add non-supported (and so non-anonymised) file to output archive"
 msgstr ""
 
-#: mat-gui.py:278
+#: mat-gui:280
 msgid "Unknown"
 msgstr ""
 
-#: mat-gui.py:323
+#: mat-gui:325
 msgid "Not-supported"
 msgstr ""
 
-#: mat-gui.py:337
+#: mat-gui:339
 msgid "Harmless fileformat"
 msgstr ""
 
-#: mat-gui.py:339
+#: mat-gui:341
 msgid "Cant read file"
 msgstr ""
 
-#: mat-gui.py:341
+#: mat-gui:343
 msgid "Fileformat not supported"
 msgstr ""
 
-#: mat-gui.py:344
+#: mat-gui:346
 msgid "These files can not be processed:"
 msgstr ""
 
-#: mat-gui.py:349 mat-gui.py:378 data/mat.glade:519
+#: mat-gui:351 mat-gui:380 data/mat.glade:239
 msgid "Filename"
 msgstr ""
 
-#: mat-gui.py:351
+#: mat-gui:353
 msgid "Reason"
 msgstr ""
 
-#: mat-gui.py:363
+#: mat-gui:365
 msgid "Non-supported files in archive"
 msgstr ""
 
-#: mat-gui.py:377
+#: mat-gui:379
 msgid "Include"
 msgstr ""
 
-#: mat-gui.py:395
+#: mat-gui:397
 #, python-format
 msgid "MAT is not able to clean the following files, found in the %s archive"
 msgstr ""
 
-#: mat-gui.py:411
+#: mat-gui:413
 #, python-format
 msgid "Checking %s"
 msgstr ""
 
-#: mat-gui.py:426
+#: mat-gui:428
 #, python-format
 msgid "Cleaning %s"
 msgstr ""
 
-#: data/mat.glade:26 data/mat.glade:196
-msgid "Metadata"
-msgstr ""
-
-#: data/mat.glade:85
-msgid "Name"
-msgstr ""
-
-#: data/mat.glade:99
-msgid "Content"
-msgstr ""
-
-#: data/mat.glade:129
-msgid "Supported formats"
-msgstr ""
-
-#: data/mat.glade:185
-msgid "Support"
-msgstr ""
-
-#: data/mat.glade:207
-msgid "Method"
-msgstr ""
-
-#: data/mat.glade:218
-msgid "Remaining"
-msgstr ""
-
-#: data/mat.glade:247
-msgid "Fileformat"
-msgstr ""
-
-#: data/mat.glade:326
+#: data/mat.glade:46
 msgid "_File"
 msgstr ""
 
-#: data/mat.glade:375
+#: data/mat.glade:95
 msgid "_Edit"
 msgstr ""
 
-#: data/mat.glade:421
+#: data/mat.glade:141
 msgid "_Help"
 msgstr ""
 
-#: data/mat.glade:467
+#: data/mat.glade:187
 msgid "Add"
 msgstr ""
 
-#: data/mat.glade:536
+#: data/mat.glade:256
 msgid "State"
+msgstr ""
+
+#: data/mat.glade:294 data/mat.glade:467
+msgid "Metadata"
+msgstr ""
+
+#: data/mat.glade:354
+msgid "Name"
+msgstr ""
+
+#: data/mat.glade:368
+msgid "Content"
+msgstr ""
+
+#: data/mat.glade:398
+msgid "Supported formats"
+msgstr ""
+
+#: data/mat.glade:456
+msgid "Support"
+msgstr ""
+
+#: data/mat.glade:478
+msgid "Method"
+msgstr ""
+
+#: data/mat.glade:489
+msgid "Remaining"
+msgstr ""
+
+#: data/mat.glade:518
+msgid "Fileformat"
 msgstr ""

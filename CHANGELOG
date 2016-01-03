@@ -1,3 +1,8 @@
+0.6.1 - 3jan2016
+    * Fix a segfault when trying to see the supported formats in the GUI
+    * Fix the "show metadata" popup
+    * Fix typos
+
 0.6 - 30dec2015
     * The testsuite can now be run against the system-wide version of MAT
     * Support for TIFF files
