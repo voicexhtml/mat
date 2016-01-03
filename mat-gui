@@ -371,7 +371,7 @@ non-anonymised) file to output archive'))
         sc.add_with_viewport(vbox)
 
         dialog.get_content_area().pack_start(sc, True, True, 0)
-        store = Gtk.ListStore(bool, str)
+        store = Gtk.ListStore(GObject.TYPE_BOOLEAN, GObject.TYPE_STRING)
         for i in files_list:  # store.extend is not supported, wtf?!
             store.append([0, os.path.basename(i)])
 
