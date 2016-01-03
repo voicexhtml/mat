@@ -8,6 +8,7 @@
         <method>Removal of harmful fields with exiftool.</method>
         <remaining>None</remaining>
     </format>
+
     <format>
         <name>Portable Network Graphics</name>
         <extension>.png</extension>

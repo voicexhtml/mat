@@ -80,10 +80,11 @@ class GUI(object):
             xml_parser.parse(xmlfile)
 
         supported_cbox = self.builder.get_object('supported_cbox')
-        store = Gtk.ListStore(int, str)
+        store = Gtk.ListStore(GObject.TYPE_INT, GObject.TYPE_STRING)
         for i, j in enumerate(self.supported_dict.list):
             store.append([i, j['name']])
         supported_cbox.set_model(store)
+        supported_cbox.set_entry_text_column(1)
         supported_cbox.set_active(0)
 
         self.builder.get_object('supported_metadata').set_buffer(Gtk.TextBuffer())
@@ -160,15 +161,15 @@ class GUI(object):
         """ Popup that display on double-click
             metadata from a file
         """
-        metadatapopupliststore = self.builder.get_object('MetadataPopupListStore')
-        metadatapopupliststore.clear()
+        metadataPopupListStore = self.builder.get_object('metadataPopupListStore')
+        metadataPopupListStore.clear()
         if self.liststore[row][0].file.is_clean():
             self.liststore[row][2] = _('Clean')
-            metadatapopupliststore.append([_('No metadata found'), ''])
+            metadataPopupListStore.append([_('No metadata found'), ''])
         else:
             self.liststore[row][2] = _('Dirty')
             for i, j in self.liststore[row][0].file.get_meta().iteritems():
-                metadatapopupliststore.append([i, j])
+                metadataPopupListStore.append([i, j])
 
         popup_metadata = self.builder.get_object('MetadataPopup')
         title = self.liststore[row][0].file.basename
@@ -190,6 +191,7 @@ class GUI(object):
         w.set_website('https://mat.boum.org')
         w.set_website_label(_('Website'))
         w.set_position(Gtk.WindowPosition.CENTER)
+        w.set_transient_for(self.window)
         w.run()
         w.destroy()
 
@@ -345,10 +347,10 @@ non-anonymised) file to output archive'))
         vbox.pack_start(treeview, True, True, 0)
 
         # Create columns
-        renderertext = Gtk.CellRendererText()
-        column = Gtk.TreeViewColumn(_('Filename'), renderertext, text=0)
+        rendererText = Gtk.CellRendererText()
+        column = Gtk.TreeViewColumn(_('Filename'), rendererText, text=0)
         treeview.append_column(column)
-        column = Gtk.TreeViewColumn(_('Reason'), renderertext, text=1)
+        column = Gtk.TreeViewColumn(_('Reason'), rendererText, text=1)
         treeview.append_column(column)
 
         dialog.show_all()

@@ -17,13 +17,7 @@ __author__ = 'jvoisin'
 
 # Silence
 LOGGING_LEVEL = logging.ERROR
-fname = ''
-
-# Verbose
-# LOGGING_LEVEL = logging.DEBUG
-# logname = 'report.log'
-
-logging.basicConfig(filename=fname, level=LOGGING_LEVEL)
+logging.basicConfig(filename='', level=LOGGING_LEVEL)
 
 import strippers  # this is loaded here because we need LOGGING_LEVEL
 
