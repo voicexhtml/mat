@@ -95,9 +95,9 @@ def run_all_tests():
 
 
 def set_local():
-    """ Monkey patch pathes to run the testsuite on the _local_
+    """ Monkey patch paths to run the testsuite on the _local_
     version of MAT. See `run_all_tests` for more information about
-    what pathes we're changing and why.
+    what paths we're changing and why.
     """
     os.environ['PATH'] = '..:' + os.environ['PATH']
     sys.path.append('..')

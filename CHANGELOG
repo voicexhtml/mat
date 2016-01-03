@@ -5,7 +5,7 @@
     * More code documentation
     * Torrent files are now cleaned in a deeper fashion
     * Better support of weird command-line arguments
-    * Usual cleaup/misc fixes
+    * Usual cleanup/misc fixes
 
 0.5.4 - 19aug2015
 	* Distance a bit MAT from hachoir
