@@ -134,9 +134,9 @@ def bencode(string):
 def bdecode(string):
     """decode $string"""
     try:
-        result, lenght = DECODE_FUNC[string[0]](string, 0)
+        result, length = DECODE_FUNC[string[0]](string, 0)
     except (IndexError, KeyError, ValueError):
         raise BTFailure('Not a valid bencoded string')
-    if lenght != len(string):
+    if length != len(string):
         raise BTFailure('Invalid bencoded value (data after valid prefix)')
     return result

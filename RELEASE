@@ -1,6 +1,6 @@
 check if year in the copyright notice in README.md needs an update.
 
-mark "Fix commited" tickes as "resolved" in the bugtracker.
+mark "Fix committed" tickets as "resolved" in the bugtracker.
 
 update localisations using
     xgettext -k_ -kN_ --from-code utf-8 -o ./po/mat-gui.pot mat-gui.py ./data/mat.glade

@@ -12,8 +12,8 @@ NOMETA = frozenset((
     '.bmp',   # "raw" image
     '.rdf',   # text
     '.txt',   # plain text
-    '.xml',   # formated text (XML)
-    '.rels',  # openXML formated text
+    '.xml',   # formatted text (XML)
+    '.rels',  # openXML formatted text
 ))
 
 FIELD = object()

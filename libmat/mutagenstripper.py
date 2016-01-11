@@ -16,7 +16,7 @@ class MutagenStripper(parser.GenericParser):
         self._create_mfile()
 
     def _create_mfile(self):
-        """ This method must be overrriden to instanciate the `mfile` attribute."""
+        """ This method must be overridden to instantiate the `mfile` attribute."""
         raise NotImplementedError
 
     def is_clean(self):
