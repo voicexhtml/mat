@@ -235,11 +235,11 @@ class GUI(object):
         pdf_quality.set_tooltip_text(_('Reduce the produced PDF size and quality'))
         table.attach(pdf_quality, 0, 1, 0, 1)
 
-        add2archive = Gtk.CheckButton(_('Add unsupported file to archives'), False)
-        add2archive.set_active(self.add2archive)
+        add2archive = Gtk.CheckButton(_('Remove unsupported file from archives'), False)
+        add2archive.set_active(not self.add2archive)
         add2archive.connect('toggled', self.__invert, 'add2archive')
-        add2archive.set_tooltip_text(_('Add non-supported (and so \
-non-anonymised) file to output archive'))
+        add2archive.set_tooltip_text(_('Remove non-supported (and so \
+non-anonymised) file from output archive'))
         table.attach(add2archive, 0, 1, 1, 2)
 
         hbox.show_all()
