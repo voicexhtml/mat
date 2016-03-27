@@ -52,7 +52,7 @@ def list_meta(class_file, filename, add2archive):
         print ('Harmful metadata found:')
         meta = class_file.get_meta()
         if meta:
-            for key, value in class_file.get_meta().iteritems():
+            for key, value in class_file.get_meta().items():
                 print('\t%s: %s' % (key, value))
     return 0
 

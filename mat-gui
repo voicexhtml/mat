@@ -13,7 +13,11 @@ import logging
 import os
 import sys
 import xml.sax
-import urllib2
+
+try:
+    from  urllib2 import unquote
+except ImportError:  # python3
+    from urllib.parse import unquote
 
 from libmat import mat
 from libmat import strippers
@@ -168,7 +172,7 @@ class GUI(object):
             metadataPopupListStore.append([_('No metadata found'), ''])
         else:
             self.liststore[row][2] = _('Dirty')
-            for i, j in self.liststore[row][0].file.get_meta().iteritems():
+            for i, j in self.liststore[row][0].file.get_meta().items():
                 metadataPopupListStore.append([i, j])
 
         popup_metadata = self.builder.get_object('MetadataPopup')
@@ -260,7 +264,7 @@ non-anonymised) file from output archive'))
             """ Since the dragged urls are ugly,
                 we need to process them
             """
-            url = urllib2.unquote(url)  # unquote url
+            url = unquote(url)  # unquote url
             url = url.decode('utf-8')  # decode in utf-8
             if url.startswith('file:\\\\\\'):  # windows
                 return url[8:]  # 8 is len('file:///')
