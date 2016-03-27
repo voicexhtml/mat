@@ -9,8 +9,7 @@ import tarfile
 import tempfile
 import zipfile
 
-import mat
-import parser
+from libmat import parser
 
 # Zip files do not support dates older than 01/01/1980
 ZIP_EPOCH = (1980, 1, 1, 0, 0, 0)
@@ -19,6 +18,9 @@ ZIP_EPOCH = (1980, 1, 1, 0, 0, 0)
 class GenericArchiveStripper(parser.GenericParser):
     """ Represent a generic archive
     """
+
+    def get_meta(self):
+        raise NotImplementedError
 
     def __init__(self, filename, mime, backup, is_writable, **kwargs):
         super(GenericArchiveStripper, self).__init__(filename, mime, backup, is_writable, **kwargs)
@@ -32,8 +34,9 @@ class GenericArchiveStripper(parser.GenericParser):
         """
         for root, _, files in os.walk(self.tempdir):
             for item in files:
+                from libmat.mat import secure_remove
                 path_file = os.path.join(root, item)
-                mat.secure_remove(path_file)
+                secure_remove(path_file)
         shutil.rmtree(self.tempdir)
 
     def is_clean(self, list_unsupported=False):
@@ -90,7 +93,8 @@ class ZipStripper(GenericArchiveStripper):
                 logging.debug('%s from %s has compromising zipinfo', item.filename, self.filename)
                 return False
             if os.path.isfile(path):
-                cfile = mat.create_class_file(path, False, add2archive=self.add2archive)
+                from libmat.mat import create_class_file
+                cfile = create_class_file(path, False, add2archive=self.add2archive)
                 if cfile is not None:
                     if not cfile.is_clean():
                         logging.debug('%s from %s has metadata', item.filename, self.filename)
@@ -122,7 +126,8 @@ class ZipStripper(GenericArchiveStripper):
             zipin.extract(item, self.tempdir)
             path = os.path.join(self.tempdir, item.filename)
             if os.path.isfile(path):
-                cfile = mat.create_class_file(path, False, add2archive=self.add2archive)
+                from libmat.mat import create_class_file
+                cfile = create_class_file(path, False, add2archive=self.add2archive)
                 if cfile is not None:
                     cfile_meta = cfile.get_meta()
                     if cfile_meta != {}:
@@ -172,7 +177,8 @@ class ZipStripper(GenericArchiveStripper):
             ending = any((True for f in ending_blacklist if item.filename.endswith(f)))
 
             if os.path.isfile(path) and not beginning and not ending:
-                cfile = mat.create_class_file(path, False, add2archive=self.add2archive)
+                from libmat.mat import create_class_file
+                cfile = create_class_file(path, False, add2archive=self.add2archive)
                 if cfile is not None:
                     # Handle read-only files inside archive
                     old_stat = os.stat(path).st_mode
@@ -231,7 +237,8 @@ class TarStripper(GenericArchiveStripper):
             tarin.extract(item, self.tempdir)
             if item.isfile():
                 path = os.path.join(self.tempdir, item.name)
-                cfile = mat.create_class_file(path, False, add2archive=self.add2archive)
+                from libmat.mat import create_class_file
+                cfile = create_class_file(path, False, add2archive=self.add2archive)
                 if cfile is not None:
                     # Handle read-only files inside archive
                     old_stat = os.stat(path).st_mode
@@ -286,7 +293,8 @@ class TarStripper(GenericArchiveStripper):
             tarin.extract(item, self.tempdir)
             path = os.path.join(self.tempdir, item.name)
             if item.isfile():
-                cfile = mat.create_class_file(path, False, add2archive=self.add2archive)
+                from libmat.mat import create_class_file
+                cfile = create_class_file(path, False, add2archive=self.add2archive)
                 if cfile is not None:
                     if not cfile.is_clean():
                         logging.debug('%s from %s has metadata', item.name.decode("utf8"), self.filename)
@@ -316,7 +324,8 @@ class TarStripper(GenericArchiveStripper):
             if item.isfile():
                 tarin.extract(item, self.tempdir)
                 path = os.path.join(self.tempdir, item.name)
-                class_file = mat.create_class_file(path, False, add2archive=self.add2archive)
+                from libmat.mat import create_class_file
+                class_file = create_class_file(path, False, add2archive=self.add2archive)
                 if class_file is not None:
                     meta = class_file.get_meta()
                     if meta:

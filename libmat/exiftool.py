@@ -2,7 +2,7 @@
 """
 
 import subprocess
-import parser
+from libmat import parser
 
 
 class ExiftoolStripper(parser.GenericParser):

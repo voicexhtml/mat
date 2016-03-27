@@ -17,8 +17,8 @@ try:
 except ImportError:
     logging.info('office.py loaded without PDF support')
 
-import parser
-import archive
+from libmat import parser
+from libmat import archive
 
 
 class OpenDocumentStripper(archive.TerminalZipStripper):

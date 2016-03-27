@@ -6,8 +6,6 @@ import shutil
 import tempfile
 
 
-import mat
-
 NOMETA = frozenset((
     '.bmp',   # "raw" image
     '.rdf',   # text
@@ -35,7 +33,15 @@ class GenericParser(object):
         """ Remove tempfile if it was not used
         """
         if os.path.exists(self.output):
-            mat.secure_remove(self.output)
+            from libmat.mat import secure_remove
+            secure_remove(self.output)
+
+    def get_meta(self):
+        """ Return a key-value representation of the file's metadata.
+
+        :ret dict key-value representation of the file's metadata.
+        """
+        raise NotImplementedError
 
     def is_clean(self):
         """
@@ -62,5 +68,6 @@ class GenericParser(object):
         if self.backup:
             shutil.move(self.filename, os.path.join(self.filename, '.bak'))
         else:
-            mat.secure_remove(self.filename)
+            from libmat.mat import secure_remove
+            secure_remove(self.filename)
         shutil.move(self.output, self.filename)

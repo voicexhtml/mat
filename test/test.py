@@ -23,7 +23,7 @@ clean.sort()
 dirty = glob.glob('dirty*')
 dirty.sort()
 
-FILE_LIST = zip(clean, dirty)
+FILE_LIST = list(zip(clean, dirty))
 
 try:  # PDF render processing
     import cairo

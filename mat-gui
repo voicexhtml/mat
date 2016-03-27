@@ -451,7 +451,10 @@ non-anonymised) file from output archive'))
 
 
 if __name__ == '__main__':
-    gettext.install('MAT', unicode=True)
+    try:
+        gettext.install('MAT', unicode=True)
+    except TypeError:  # python 3
+        gettext.install('MAT')
 
     gui = GUI()
 

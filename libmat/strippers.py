@@ -1,26 +1,24 @@
 """ Manage which fileformat can be processed
 """
 
-import archive
-import mutagenstripper
+from libmat.archive import TarStripper, Bzip2Stripper, GzipStripper, ZipStripper
+from libmat import mutagenstripper, misc, office
+from libmat.mat import LOGGING_LEVEL
 import logging
-import mat
-import misc
-import office
 import subprocess
 
 STRIPPERS = {
-    'application/x-tar': archive.TarStripper,
-    'application/x-bzip2': archive.Bzip2Stripper,
-    'application/x-gzip': archive.GzipStripper,
-    'application/zip': archive.ZipStripper,
+    'application/x-tar': TarStripper,
+    'application/x-bzip2': Bzip2Stripper,
+    'application/x-gzip': GzipStripper,
+    'application/zip': ZipStripper,
     'application/x-bittorrent': misc.TorrentStripper,
     'application/torrent': misc.TorrentStripper,
     'application/opendocument': office.OpenDocumentStripper,
     'application/officeopenxml': office.OpenXmlStripper,
 }
 
-logging.basicConfig(level=mat.LOGGING_LEVEL)
+logging.basicConfig(level=LOGGING_LEVEL)
 
 # PDF support
 pdfSupport = True
@@ -63,7 +61,7 @@ except ImportError:
 # exiftool
 try:
     subprocess.check_output(['exiftool', '-ver'])
-    import exiftool
+    from libmat import exiftool
     STRIPPERS['image/jpeg'] = exiftool.JpegStripper
     STRIPPERS['image/png'] = exiftool.PngStripper
     STRIPPERS['image/tiff'] = exiftool.TiffStripper

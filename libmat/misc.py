@@ -1,9 +1,9 @@
 """ Care about misc formats
 """
 
-import parser
+from libmat import parser
 
-from bencode import bencode
+from libmat.bencode import bencode
 
 
 class TorrentStripper(parser.GenericParser):

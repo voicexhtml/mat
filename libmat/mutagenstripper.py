@@ -1,8 +1,9 @@
 """ Take care of mutagen-supported formats (audio)
 """
 
-import parser
+from libmat import parser
 
+import mutagen
 from mutagen.flac import FLAC
 from mutagen.oggvorbis import OggVorbis
 from mutagen.mp3 import MP3

@@ -19,7 +19,7 @@ __author__ = 'jvoisin'
 LOGGING_LEVEL = logging.ERROR
 logging.basicConfig(filename='', level=LOGGING_LEVEL)
 
-import strippers  # this is loaded here because we need LOGGING_LEVEL
+from libmat import strippers  # this is loaded here because we need LOGGING_LEVEL
 
 
 def get_logo():  # pragma: no cover

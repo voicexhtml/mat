@@ -113,15 +113,13 @@ DECODE_FUNC['l'] = decode_list
 DECODE_FUNC['d'] = decode_dict
 DECODE_FUNC['i'] = decode_int
 
-ENCODE_FUNC = {}
-ENCODE_FUNC[Bencached] = lambda x, r: r.append(x.bencoded)
-ENCODE_FUNC[int] = encode_int
-ENCODE_FUNC[int] = encode_int
-ENCODE_FUNC[bytes] = lambda x, r: r.extend((str(len(x)), ':', x))
-ENCODE_FUNC[list] = encode_list
-ENCODE_FUNC[tuple] = encode_list
-ENCODE_FUNC[dict] = encode_dict
-ENCODE_FUNC[bool] = encode_bool
+ENCODE_FUNC = {
+    Bencached: lambda x, r: r.append(x.bencoded),
+    int: encode_int,
+    bytes: lambda x, r: r.extend((str(len(x)), ':', x)),
+    list: encode_list, tuple: encode_list,
+    dict: encode_dict, bool: encode_bool
+}
 
 
 def bencode(string):
