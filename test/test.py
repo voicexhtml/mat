@@ -85,11 +85,11 @@ def run_all_tests():
     the one used to spawn the `mat` process, and the one for Python import)
     in the main function.
     """
-    import clitest
-    import libtest
+    import test_cli
+    import test_lib
     suite = unittest.TestSuite()
-    suite.addTests(clitest.get_tests())
-    suite.addTests(libtest.get_tests())
+    suite.addTests(test_cli.get_tests())
+    suite.addTests(test_lib.get_tests())
 
     return unittest.TextTestRunner(verbosity=VERBOSITY).run(suite).wasSuccessful()
 

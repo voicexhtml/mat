@@ -131,13 +131,13 @@ class TestUnsupported(test.MATTest):
         """
         tarpath = os.path.join(self.tmpdir, "test.tar.bz2")
         tar = tarfile.open(tarpath, "w")
-        for f in ('libtest.py', 'test.py', 'clitest.py'):
+        for f in ('test_lib.py', 'test.py', 'test_cli.py'):
             tar.add(f, f)
         tar.close()
         proc = subprocess.Popen(['mat', tarpath], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
         self.assertTrue('It contains unsupported filetypes:'
-                        '\n- libtest.py\n- test.py\n- clitest.py\n'
+                        '\n- test_lib.py\n- test.py\n- test_cli.py\n'
                         in str(stdout))
 
 
