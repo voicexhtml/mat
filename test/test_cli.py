@@ -55,8 +55,7 @@ class TestListcli(test.MATTest):
             proc = subprocess.Popen(['mat', '-d', clean],
                                     stdout=subprocess.PIPE)
             stdout, _ = proc.communicate()
-            self.assertEqual(str(stdout).strip('\n'), "[+] File %s \
-:\nNo harmful metadata found" % clean)
+            self.assertIn('No harmful metadata found', str(stdout))
 
     def test_list_dirty(self):
         """check if get_meta returns all the expected meta"""
@@ -64,8 +63,7 @@ class TestListcli(test.MATTest):
             proc = subprocess.Popen(['mat', '-d', dirty],
                                     stdout=subprocess.PIPE)
             stdout, _ = proc.communicate()
-            self.assertNotEqual(str(stdout), "[+] File %s :\n No\
-harmul metadata found" % dirty)
+            self.assertNotIn('No harmful metadata found', str(stdout))
 
 
 class TestisCleancli(test.MATTest):
@@ -79,7 +77,7 @@ class TestisCleancli(test.MATTest):
             proc = subprocess.Popen(['mat', '-c', clean],
                                     stdout=subprocess.PIPE)
             stdout, _ = proc.communicate()
-            self.assertEqual(str(stdout).strip('\n'), '[+] %s is clean' % clean)
+            self.assertIn('is clean', str(stdout))
 
     def test_dirty(self):
         """test is_clean on dirty files"""
@@ -87,7 +85,7 @@ class TestisCleancli(test.MATTest):
             proc = subprocess.Popen(['mat', '-c', dirty],
                                     stdout=subprocess.PIPE)
             stdout, _ = proc.communicate()
-            self.assertEqual(str(stdout).strip('\n'), '[+] %s is not clean' % dirty)
+            self.assertIn('is not clean', str(stdout))
 
 
 class TestFileAttributes(unittest.TestCase):
@@ -100,20 +98,20 @@ class TestFileAttributes(unittest.TestCase):
         proc = subprocess.Popen(['mat', 'not_writtable'],
                                 stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
-        self.assertEqual(str(stdout).strip('\n'), '[-] Unable to process not_writtable')
+        self.assertIn('[-] Unable to process not_writtable', str(stdout))
 
     def test_not_exist(self):
         """ test MAT's behaviour on non-existent file"""
         proc = subprocess.Popen(['mat', 'ilikecookies'],
                                 stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
-        self.assertEqual(str(stdout).strip('\n'), '[-] Unable to process ilikecookies')
+        self.assertIn('[-] Unable to process ilikecookies', str(stdout))
 
     def test_empty(self):
         """ test MAT's behaviour on empty file"""
         proc = subprocess.Popen(['mat', 'empty_file'], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
-        self.assertEqual(str(stdout).strip('\n'), '[-] Unable to process empty_file')
+        self.assertIn('[-] Unable to process empty_file', str(stdout) )
 
     def test_not_readable(self):
         """ test MAT's behaviour on non-writable file"""
@@ -147,23 +145,23 @@ class TestHelp(test.MATTest):
         """ test help invocation with `-h` and `--help` """
         proc = subprocess.Popen(['mat', '-h'], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
-        self.assertTrue('show this help message and exit' in stdout)
+        self.assertIn('show this help message and exit', str(stdout))
 
         proc = subprocess.Popen(['mat', '--help'], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
-        self.assertTrue('show this help message and exit' in stdout)
+        self.assertIn('show this help message and exit', str(stdout))
 
     def test_no_argument(self):
         """ test help invocation when no argument is provided """
         proc = subprocess.Popen(['mat'], stdout=subprocess.PIPE)
         stdout, _ = proc.communicate()
-        self.assertTrue('show this help message and exit' in stdout)
+        self.assertIn('show this help message and exit', str(stdout))
 
     def test_wrong_argument(self):
         """ Test MAT's behaviour on wrong argument """
         proc = subprocess.Popen(['mat', '--obviously-wrong-argument'], stderr=subprocess.PIPE)
         _, stderr = proc.communicate()
-        self.assertTrue(('usage: mat [-h]' and ' error: unrecognized arguments:') in stderr)
+        self.assertIn(('usage: mat [-h]' and ' error: unrecognized arguments:'), str(stderr))
 
 
 def get_tests():

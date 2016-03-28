@@ -194,9 +194,9 @@ class ZipStripper(GenericArchiveStripper):
                 zinfo = zipfile.ZipInfo(item.filename, date_time=ZIP_EPOCH)
                 zinfo.compress_type = zipfile.ZIP_DEFLATED
                 zinfo.create_system = 3  # Linux
-                zinfo.comment = ''
+                zinfo.comment = b''
                 with open(path, 'r') as f:
-                    zipout.writestr(zinfo, f.read())
+                    zipout.writestr(zinfo, str(f.read()))
                 # os.utime(path, (ZIP_EPOCH_SECONDS, ZIP_EPOCH_SECONDS))
                 # zipout.write(path, item.filename)
         zipin.close()
