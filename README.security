@@ -95,9 +95,13 @@ Requirements
     file should be added to the anonymised archive that is
     produced.
 
-    - The MAT *must* not add metadata, since its purpose is to
+    - The MAT *must not* add metadata, since its purpose is to
     anonymise files: every added items of metadata decreases
     anonymity.
 
-    - The MAT *should* handle unknown/hidden metadata fields,
+    - The MAT *should not* handle unknown/hidden metadata fields,
     like proprietary extensions of open formats.
+
+    - The MAT *should* try to remove embedded metadata,
+    but offers no guaranties about them. For example,
+    embedded objects in PDF documents may not be completely cleaned.
