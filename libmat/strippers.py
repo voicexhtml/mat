@@ -1,21 +1,21 @@
 """ Manage which fileformat can be processed
 """
 
-from libmat.archive import TarStripper, Bzip2Stripper, GzipStripper, ZipStripper
+#from libmat.archive import TarStripper, Bzip2Stripper, GzipStripper, ZipStripper
 from libmat import mutagenstripper, misc, office
 from libmat.mat import LOGGING_LEVEL
 import logging
 import subprocess
 
 STRIPPERS = {
-    'application/x-tar': TarStripper,
-    'application/x-bzip2': Bzip2Stripper,
-    'application/x-gzip': GzipStripper,
-    'application/zip': ZipStripper,
-    'application/x-bittorrent': misc.TorrentStripper,
-    'application/torrent': misc.TorrentStripper,
-    'application/opendocument': office.OpenDocumentStripper,
-    'application/officeopenxml': office.OpenXmlStripper,
+    #'application/x-tar': TarStripper,
+    #'application/x-bzip2': Bzip2Stripper,
+    #'application/x-gzip': GzipStripper,
+    #'application/zip': ZipStripper,
+    #'application/x-bittorrent': misc.TorrentStripper,
+    #'application/torrent': misc.TorrentStripper,
+    #'application/opendocument': office.OpenDocumentStripper,
+    #'application/officeopenxml': office.OpenXmlStripper,
 }
 
 logging.basicConfig(level=LOGGING_LEVEL)

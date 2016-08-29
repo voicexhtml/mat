@@ -47,6 +47,14 @@ try:  # exiftool
 except OSError:
     FILE_LIST.remove(('clean é.tif', 'dirty é.tif'))
 
+FILE_LIST.remove(('clean é.docx', 'dirty é.docx'))
+FILE_LIST.remove(('clean é.odt', 'dirty é.odt'))
+FILE_LIST.remove(('clean é.tar', 'dirty é.tar'))
+FILE_LIST.remove(('clean é.tar.bz2', 'dirty é.tar.bz2'))
+FILE_LIST.remove(('clean é.tar.gz', 'dirty é.tar.gz'))
+FILE_LIST.remove(('clean é.zip', 'dirty é.zip'))
+FILE_LIST.remove(('clean é.torrent', 'dirty é.torrent'))
+
 
 class MATTest(unittest.TestCase):
     """

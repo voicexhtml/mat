@@ -47,9 +47,10 @@ class ExiftoolStripper(parser.GenericParser):
             field name : value
             field name : value
         """
-        output = str(subprocess.Popen(['exiftool', self.filename],
-                                  stdout=subprocess.PIPE).communicate()[0])
+        output = subprocess.Popen(['exiftool', self.filename],
+                                  stdout=subprocess.PIPE).communicate()[0]
         meta = {}
+        output = output.decode('utf-8')
         for i in output.split('\n')[:-1]:  # chop last char ('\n')
             key = i.split(':')[0].strip()
             if key not in self.allowed:

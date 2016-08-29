@@ -8,7 +8,7 @@ import argparse
 import os
 
 from libmat import mat
-from libmat import archive
+#from libmat import archive
 
 
 def create_arg_parser():
@@ -83,8 +83,9 @@ def clean_meta(class_file, filename, add2archive):
         return 1
     print('[*] Cleaning %s' % filename)
     if not add2archive:
-        is_archive = isinstance(class_file, archive.GenericArchiveStripper)
-        is_terminal = isinstance(class_file, archive.TerminalZipStripper)
+        #is_archive = isinstance(class_file, archive.GenericArchiveStripper)
+        #is_terminal = isinstance(class_file, archive.TerminalZipStripper)
+        is_archive = is_terminal = True
         if is_archive and not is_terminal:
             unsupported_list = class_file.list_unsupported()
             if type(unsupported_list) == list and unsupported_list:
