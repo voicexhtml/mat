@@ -22,7 +22,7 @@ except ImportError:  # python3
 from libmat import mat
 from libmat import strippers
 from libmat import parser
-from libmat import archive
+#from libmat import archive
 
 logging.basicConfig(level=mat.LOGGING_LEVEL)
 
@@ -432,8 +432,9 @@ non-anonymised) file from output archive'))
             msg = _('Cleaning %s') % self.liststore[line][1].decode('utf-8', 'replace')
             logging.info(msg)
             self.statusbar.push(0, msg)
-            is_archive = isinstance(self.liststore[line][0].file, archive.GenericArchiveStripper)
-            is_terminal = isinstance(self.liststore[line][0].file, archive.TerminalZipStripper)
+            #is_archive = isinstance(self.liststore[line][0].file, archive.GenericArchiveStripper)
+            #is_terminal = isinstance(self.liststore[line][0].file, archive.TerminalZipStripper)
+            is_archive = is_terminal = True
             list_to_add = []
             if is_archive and not is_terminal:
                 unsupported_list = self.liststore[line][0].file.list_unsupported()
